@@ -1,0 +1,7 @@
+##忽略文件,此为统计插件生成的
+.VSCodeCounter
+##忽略依赖包
+node_modules/
+##忽略Vue打包文件,以及插件文件
+dist/
+plugins/
