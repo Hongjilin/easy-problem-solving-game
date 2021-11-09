@@ -22,57 +22,12 @@ module.exports=class users_mod extends require('./model'){
         })
     }
 
-    /**
-     * 根据id登录
-     * @param id
-     * @param password
-     * @param type
-     * @constructor
-     */
-    static LoginUserByid(id,password,type){
-        type=Number(type)
-        return new Promise((resolve ,reject)=>{
-            let sql="select * from user where binary id='"+id+"' and password='"+password+"' and type= "+type
-            console.log(sql)
-            this.query(sql).then(result=>{
-                resolve(result)
-            }).catch(err=>{
-                reject('登录失败')
-            })
-        })
-}
-    /**
-     * 根据用户类型进行用户信息获取(分页获取总数量与数据)
-     * @param type
-     * @param currPage
-     * @param pageNum
-     */
-    static  getUsersByTypePageMod(type,currPage,pageNum){
-        pageNum=Number(pageNum);
-        currPage=Number(currPage);
-        currPage=Number(currPage*pageNum)
-        return new Promise((resolve , reject)=>{
-            let sql = 'select * from user where type = '+ type+' order by modifytime desc LIMIT ?,?'
-            this.query(sql,this.formatParams(currPage,pageNum)).then(result=>{
-                resolve(result)
-            }).catch(err=>{
-                reject(err)
-            })
-        })
+    static readXlsxMod(lists){
+      console.log(lists)
     }
-    /**
-     * 获取所有用户信息
-     */
-    static  getAllUserX(){
-        return new Promise((resolve , reject)=>{
-            let sql = 'select * from user '
-            this.query(sql).then(result=>{
-                resolve(result)
-            }).catch(err=>{
-                reject(err)
-            })
-        })
-    }
+
+
+
 
     /**
      * 将redis数据未重复的进行插入

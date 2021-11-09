@@ -26,63 +26,17 @@ module.exports=class users_dao extends  require('../model/users_mod'){
         }
           resp.status(500).send("用户名或者账号输入错误")
     }
-
     /**
-     * 根据token解析成用户信息
-     * @param req
-     * @param resp
+     * 读取并写入用户信息
+     * @param {*} req 
+     * @param {*} resp 
      */
-    static async getUserDataByToken(req,resp){
-        let result=await jwtUtil.verifysync(req.query.token,global.globalKey)
-        resp.send(result)
+    static async readXlsx(req,resp){
+      const { lists } = req?.body;
+      let res= await  this.readXlsxMod(lists)
+      resp.send(res)
     }
-
-    /**
-     * 根据用户类型进行用户信息获取(分页获取总数量与数据)
-     * @param req
-     * @param resp
-     */
-    static async getUsersByTypePage(req,resp){
-        // console.log(req.query)
-        let query=req.query;
-        let data = await this.getUsersByTypePageMod(query.type,query.currPage,query.pageNum)
-        let total=await this.getUsersByTypePageTotal(query.type)
-        resp.send({data,total:total[0].count})
-    }
-    /**
-     * 用户删除(同时清空该用户阅读记录
-     * @param req
-     * @param resp
-     */
-    static async delUserdata(req,resp){
-            let results= await this.delUserdataMod(req.query.u_id)
-            results+=await  this.delRead(req.query.u_id)
-          resp.send(results)
-    }
-    /**
-     * 更改用户信息
-     * @param req
-     * @param resp
-     */
-    static async upUserdata(req,resp){
-        let body= req.body
-        let u_id=body.u_id
-        let username=body.username
-        let sex=body.sex
-        let address=body.address
-        let type=body.type
-            let results= await this.upUserdataMod(u_id,username,sex,address,type)
-          resp.send(results)
-    }
-
-    /**
-     * 将redis的xlsx数据写入数据库
-     * @param req
-     * @param resp
-     * @returns {Promise<void>}
-     */
-
-
+     
     /**
      * **************************************修改个人信息**************************************
      */

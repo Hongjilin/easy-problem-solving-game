@@ -15,7 +15,8 @@
     "v-charts": "^1.19.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "xlsx": "^0.17.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

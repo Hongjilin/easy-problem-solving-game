@@ -43,10 +43,7 @@ export default {
         console.log(res,"resresresres")
 
           }
-
-
     },
-
 
       open3(v) {
           this.$message({

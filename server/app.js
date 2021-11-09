@@ -7,6 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var scoreCard = require('./routes/scorecard');
+var uploadRouter = require('./routes/upload');
+
 // var adminRouter = require('./routes/admin');
 // var uploadRouter = require('./routes/upload');
 // var studentRouter = require('./routes/student');
@@ -55,6 +57,7 @@ function jwtAlert(resp){
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/scorecard', scoreCard);
+app.use('/upload', uploadRouter);
 // app.use('/admin', adminRouter);
 // app.use('/upload', uploadRouter);
 // app.use('/students',studentRouter);
