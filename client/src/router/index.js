@@ -6,11 +6,13 @@ Vue.use(VueRouter)
 const routes = [
     {path:'*',redirect:'/'},
     {path:'/',name: 'Login',component: () => import('@/components/Login.vue')},
-    {path:'/upload',name: 'upload',component: () => import('@/components/uploadXlsx.vue')},
-    // {path:'/admin',component:() => import('@/components/menu/Admin.vue'),
-    //     children:[
-    //         {path:'student', component:() => import('@/components/main/studentAdmin.vue')},
-    //       ]},
+    {path:'/layout',name: 'layout',component: () => import('@/components/admin/layout/index.vue')},
+    {path:'/radarmap',name: 'radarmap',component: () => import('@/components/admin/radarmap/index.vue')},
+    {path:'/admin',component:() => import('@/components/admin/layout/index.vue'),
+        children:[
+            {path:'userControl', component:() => import('@/components/admin/register/teacherAdmin.vue')},
+            {path:'radarmap',name: 'radarmap',component: () => import('@/components/admin/radarmap/index.vue')},
+          ]},
 ]
 
 const router = new VueRouter({

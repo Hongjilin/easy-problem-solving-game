@@ -12,6 +12,14 @@ router.get('/', function (req, res, next) {
 router.get('/rankingList', function (req, res) {
   scorecard.rankingList(req, res)
 });
+router.get('/getUserPoints', function (req, res) {
+  scorecard.getUserPoints(req, res)
+});
+router.get('/getAveragePoints', function (req, res) {
+  scorecard.getAveragePoints(req, res)
+});
+
+
 router.get('/getTopScore', function (req, res) {
   scorecard.getTopScore(req, res)
 });

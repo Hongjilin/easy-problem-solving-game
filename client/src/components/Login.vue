@@ -38,7 +38,8 @@ export default {
           }else{
            const res =  await this.$Http.post('/users/login',{
               id:1701130050,
-              password: 123456
+              password: 123456,
+              type:1
             })
         console.log(res,"resresresres")
 

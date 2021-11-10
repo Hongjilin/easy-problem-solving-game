@@ -11,7 +11,9 @@ module.exports=class users_dao extends  require('../model/users_mod'){
      */
     static  async Login(req,resp){
         let body= req.body
-        let res= await  this.LoginUser(body.id,body.password,body.type)
+        //如果不传入type,则默认为学生
+        const { id, password, type = 1 } = body
+        let res= await  this.LoginUser(id, password, type)
         // let loginData= await  this.LoginUserByid(body.username,body.password,body.type)
         //如果获取到了登录用户信息则登陆成功
         if (res?.length!=0){
@@ -34,6 +36,19 @@ module.exports=class users_dao extends  require('../model/users_mod'){
     static async readXlsx(req,resp){
       const { lists } = req?.body;
       let res= await  this.readXlsxMod(lists)
+      resp.send(res)
+    }
+
+
+
+    static async getUserInfo(req,resp){
+      const { uid } = req?.query;
+      let res= await  this.getUserInfoMod(uid)
+      resp.send(res)
+    }
+    static async getUsersInfoByType(req,resp){
+      const { page_number, current_page, userType } = req?.query;
+      let res= await  this.getUsersInfoByTypeMod(page_number, current_page, userType)
       resp.send(res)
     }
      

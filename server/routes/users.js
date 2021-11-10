@@ -18,14 +18,18 @@ String.prototype.IsPicture = function () {
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-
   res.send('users进入路由根目录');
 
 });
 router.post('/login', function (req, res) {
   user.Login(req, res)
 });
-
+router.get('/getUserInfo', function (req, res, next) {
+  user.getUserInfo(req, res)
+});
+router.get('/getUsersInfoByType', function (req, res, next) {
+  user.getUsersInfoByType(req, res)
+});
 
 
 /**

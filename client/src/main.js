@@ -8,12 +8,15 @@ import store from './store'
 import ElementUi , { Message }from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VCharts from 'v-charts'
+import echarts from "echarts";
 import 'v-charts/lib/pie.common'
 import { Http } from './utils/index';
-Vue.use(VCharts)
-Vue.use(ElementUi)
 
-// Vue.prototype.basePath="http://localhost:3000";
+Vue.use(VCharts)
+
+Vue.use(ElementUi)
+//将echarts挂在实例上
+Vue.prototype.$echarts = echarts;
 
 //直接将HTTP函数挂在vue实例上,方便调用
 Vue.prototype.$Http = Http
