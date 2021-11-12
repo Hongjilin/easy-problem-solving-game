@@ -1,34 +1,8 @@
-
 <template>
   <div>
     <el-row>
       <el-col :span="24">
-        <el-card>
-          <el-select v-model="value" placeholder="请选择查询字段" style="width: 15%">
-            <el-option label="工号" value="id"></el-option>
-            <el-option label="姓名" value="username"></el-option>
-            <el-option label="籍贯" value="address"></el-option>
-            <el-option label="班级" value="classes"></el-option>
-          </el-select>
-          <el-input
-            placeholder="请输入内容"
-            prefix-icon="el-icon-search"
-            v-model="input"
-            style="width:20%"
-          ></el-input>
-          <el-button type="primary" size="small" style="margin-left:10px" @click="select">搜索</el-button>
-          <el-button type="primary" size="small" style="margin-left:10px" @click="clearvalue">重置</el-button>
-          <el-button
-            type="primary"
-            size="small"
-            style="float:right"
-            v-show="!show"
-            color="#F56C6C"
-            @click="show = !show"
-          >
-            <i class="el-icon-upload el-icon--left"></i>上传
-          </el-button>
-        </el-card>
+        <SuperHeader @getTableData="getTableData($event)"/>
 
         <transition name="el-zoom-in-top">
           <el-row>
@@ -56,41 +30,8 @@
           </el-row>
         </transition>
 
-        <el-card style="margin-top:20px;margin-bottom: 5rem">
-          <el-table :data="tableData" border style="width: 100%">
-            <el-table-column prop="id" sortable label="工号"></el-table-column>
-            <el-table-column prop="username" label="姓名"></el-table-column>
-            <el-table-column prop="sex" label="性别"></el-table-column>
-            <el-table-column prop="address" label="籍贯"></el-table-column>
-            <el-table-column prop="classes" label="班级"></el-table-column>
-            <el-table-column label="类型">教师</el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <el-button
-                  style="padding: 3px 0"
-                  type="text"
-                  @click="open(scope.$index, scope.row)"
-                >删除</el-button>
-                <el-button
-                  style="padding: 3px 0"
-                  type="text"
-                  @click="cshow(scope.$index, scope.row)"
-                >编辑</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <div class="block" style="text-align:center;margin-top:20px">
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[10, 20, 30, 40,50]"
-              :page-size="10"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="UserSize"
-            ></el-pagination>
-          </div>
-        </el-card>
+          <SuperTable :testData="tableData"/>
+       
       </el-col>
     </el-row>
   </div>
@@ -98,49 +39,71 @@
 
 <script>
 import { readExcel } from "@/utils";
+import SuperTable from "./table";
+import SuperHeader from "./header";
 export default {
+  /**
+   * 1 表格数据应该再父组件中调用,传给子组件
+   * 2 搜索后将更新表格数据
+   */
+  components: { SuperTable,SuperHeader },
   data() {
     return {
-      imgpath: this.basePath + "/upload/upload",
-      show: false,
       upload_file: "",
       lists: [],
 
-      form: {
-        name: "",
-        sex: "",
-        address: "",
-        type: ""
-      },
-      value: "姓名",
+      value: "学号",
       show1: false,
       show: false,
       input: "",
       type1: "",
       UserSize: 0,
       currentPage: 1,
-      tableData: [],
+      tableData: ["sss"],
       pageSize: 10,
       pageNo: 1,
       user: ""
     };
   },
-  created() {},
+  
   methods: {
-    //成功提示
-    open2(v) {
-      this.$message({
-        message: v,
-        type: "success"
-      });
+
+ getTableData(data){
+   console.log("123123123",data)
+   this.tableData=data;
+   console.log( this.tableData," this.tableData this.tableData this.tableData")
+ },
+
+    
+  /**
+     * 分页搜索用户信息
+     * */
+    select() {
+      if (!this.input) this.open3("请输入要搜索的关键字!!!!!!");
+      else {
+        console.log("搜索");
+        // this.$axiosjwt({
+        //   url: "/admin/getUsersByTypeAndChar",
+        //   method: "get",
+        //   data: {
+        //     type: 2,
+        //     inputText: this.input,
+        //     CharType: this.value,
+        //     pageNum: this.pageSize,
+        //     currPage: this.pageNo - 1
+        //   },
+        //   success: result => {
+        //     this.tableData = result.data;
+        //     this.tableTotal = result.total;
+        //   }
+        // });
+      }
     },
-    //警告提示
-    open3(v) {
-      this.$message({
-        message: v,
-        type: "warning"
-      });
-    },
+
+
+
+
+
     /**
      * 文件读取成功后的回调
      */
@@ -157,62 +120,28 @@ export default {
       this.lists = lists;
     },
 
-    /**
-     * 导入文件操作
-     */
-    importxlsx() {
-      if (this.$refs.upload.uploadFiles.length == 0)
-        this.open3("请选择要导入的文件");
-      else {
-        this.$confirm("将文件导入,是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-          .then(() => {
-            this.$axiosjwt({
-              url: "/users/setXlsxData",
-              method: "post",
-              success: result => {
-                this.$message({
-                  type: "success",
-                  message: result
-                });
-              }
-            });
-          })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "文件导入已经取消"
-            });
-          });
-        // this.get(this.pageSize, this.pageNo);
-      }
+  
+    //清除
+    clearvalue() {
+      this.get(this.pageSize, this.pageNo);
+      this.input = "";
+      this.value = "";
     },
-    /**
-     * 弹窗操作(ui框架调用)
-     * */
-    open(index, row) {
-      this.$confirm("此操作将继续, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
+    //成功提示
+    open2(v) {
+      this.$message({
+        message: v,
+        type: "success"
+      });
+    },
+    //警告提示
+    open3(v) {
+      this.$message({
+        message: v,
         type: "warning"
-      })
-        .then(() => {
-          this.del(index, row);
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    }
+      });
+    },
+
   }
 };
 </script>

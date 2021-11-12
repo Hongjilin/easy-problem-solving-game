@@ -24,34 +24,80 @@ module.exports = class users_mod extends require('./model') {
 
 
 
-
+  /**
+   * 获取某用户信息
+   * @param {*} uid 
+   */
   static getUserInfoMod(uid) {
     return new Promise((resolve, reject) => {
       // let sql="select * from user where binary id='"+id+"' and password='"+password+"' and type= "
-      // let sql=`SELECT avg(array) as array,avg(keyboard) as keyboard, avg(methodcall) as methodcall,avg(io_stream) as io_stream,avg(rw_object) as rw_object,avg(conversion) as conversion FROM io_points;`
-      // console.log(sql)
-      // this.query(sql).then(result=>{
-      //     resolve(result)
-      // }).catch(err=>{
-      //    reject('登录失败')
-      // })
-
+      let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed io_elapsed,c.thread_score,c.elapsed thread_elapsed from user a,io_scorecard b,thread_scorecard c where a.id = b.uid and a.id = c.uid  and a.id = ' + uid
+      console.log(sql)
+      this.query(sql).then(result => {
+        resolve(result)
+      }).catch(err => {
+        reject('查无此人信息')
+      })
     })
   }
+  /**
+   * 根据类型分页查询所有用户信息
+   * @param {*} page_number 
+   * @param {*} current_page 
+   * @param {*} userType 
+   */
   static getUsersInfoByTypeMod(page_number, current_page, userType) {
-    page_number=Number(page_number);
-    current_page=Number(current_page);
-    const currentNumber=Number(page_number*current_page)
-        return new Promise((resolve , reject)=>{
-            // let sql = 'select * from user where type = '+ type+' order by modifytime desc LIMIT ?,?'
-            let sql = ''
-            this.query(sql,this.formatParams(currPage,pageNum)).then(result=>{
-                resolve(result)
-            }).catch(err=>{
-                reject(err)
-            })
-        })
+    page_number = Number(page_number);
+    current_page = Number(current_page);
+    const currentNumber = Number(page_number * current_page)
+    return new Promise((resolve, reject) => {
+      // let sql = 'select * from user where type = '+ type+' order by modifytime desc LIMIT ?,?'
+      let sql = `select a.id,a.username,a.type,b.io_score,b.elapsed io_elapsed,c.thread_score,c.elapsed thread_elapsed from user a,io_scorecard b,thread_scorecard c where a.id = b.uid and a.id = c.uid LIMIT ${currentNumber},${page_number}`
+      this.query(sql).then(result => {
+        resolve(result)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
+  static getUsersTotalMod(userType) {
+    return new Promise((resolve, reject) => {
+      let sql = 'select count(1) as count from user where type = ' + userType
+      this.query(sql, '', false).then(result => {
+        resolve(result)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  }
+
+
+
+  /**
+   *修改用户信息
+   * @param u_id
+   * @param oldpassword
+   * @param newpassword
+   */
+  static editUserMod(uid, username, password) {
+    console.log(uid, username, password)
+    let sql=''
+    //根据传入参数不同,拼接不同sql
+    if (!username && !password || !uid) return ;
+    if (username && !password) sql='update `user` set username = "'+ username + '"'
+    if (password && !username) sql='update `user` set password = "'+ password + '"'
+    if (password && username)  sql='update `user` set password = "'+ password +'", username = "' +  username + '"'
+    sql+=' where id = '+ uid
+    console.log(sql)
+    return new Promise((resolve, reject) => {
+      this.query(sql).then(result => {
+        resolve(result)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  }
+
 
 
 
@@ -59,8 +105,10 @@ module.exports = class users_mod extends require('./model') {
 
   static readXlsxMod(lists) {
     console.log(lists, "谢谢谢谢")
-    if (lists ?.length < 0) {
-      resp.send({msg:'正确的用户数据为空'});
+    if (lists.length < 0) {
+      resp.send({
+        msg: '正确的用户数据为空'
+      });
       return;
     };
 
@@ -151,22 +199,6 @@ module.exports = class users_mod extends require('./model') {
     })
   }
 
-  /**
-   *修改个人密码
-   * @param u_id
-   * @param oldpassword
-   * @param newpassword
-   */
-  static upPwdMod(u_id, oldpassword, newpassword) {
-    return new Promise((resolve, reject) => {
-      let sql = 'update `user` set password = ? where password = ? and id = ?'
-      this.query(sql, this.formatParams(newpassword, oldpassword, u_id)).then(result => {
-        resolve(result)
-      }).catch(err => {
-        reject(err)
-      })
-    })
-  }
 
   /**
    * 修改个人头像

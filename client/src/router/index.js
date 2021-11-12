@@ -10,7 +10,7 @@ const routes = [
     {path:'/radarmap',name: 'radarmap',component: () => import('@/components/admin/radarmap/index.vue')},
     {path:'/admin',component:() => import('@/components/admin/layout/index.vue'),
         children:[
-            {path:'userControl', component:() => import('@/components/admin/register/teacherAdmin.vue')},
+            {path:'userControl', component:() => import('@/components/admin/register/index.vue')},
             {path:'radarmap',name: 'radarmap',component: () => import('@/components/admin/radarmap/index.vue')},
           ]},
 ]

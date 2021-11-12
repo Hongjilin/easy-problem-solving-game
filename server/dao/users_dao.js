@@ -16,7 +16,7 @@ module.exports=class users_dao extends  require('../model/users_mod'){
         let res= await  this.LoginUser(id, password, type)
         // let loginData= await  this.LoginUserByid(body.username,body.password,body.type)
         //如果获取到了登录用户信息则登陆成功
-        if (res?.length!=0){
+        if(res.length!=0){
           let data = res[0];
             let jwt_token= jwtUtil.sign({
                 id:data.id,
@@ -34,23 +34,49 @@ module.exports=class users_dao extends  require('../model/users_mod'){
      * @param {*} resp 
      */
     static async readXlsx(req,resp){
-      const { lists } = req?.body;
+      const { lists } = req.body;
       let res= await  this.readXlsxMod(lists)
       resp.send(res)
     }
 
 
-
+    /**
+     * 获取某用户信息
+     * @param {*} req 
+     * @param {*} resp 
+     */
     static async getUserInfo(req,resp){
-      const { uid } = req?.query;
+      const { uid } = req.query;
       let res= await  this.getUserInfoMod(uid)
       resp.send(res)
     }
+    /**
+     * 根据类型查询所有用户信息、总条数
+     * @param {*} req 
+     * @param {*} resp 
+     */
     static async getUsersInfoByType(req,resp){
-      const { page_number, current_page, userType } = req?.query;
+      const { page_number, current_page, userType = 1} = req.query;
       let res= await  this.getUsersInfoByTypeMod(page_number, current_page, userType)
+      let totals = await  this.getUsersTotalMod(userType)
+      res.total = totals[0].count
       resp.send(res)
     }
+
+  /**
+     * 修改用户信息
+     * @param req
+     * @param resp
+     * @returns {Promise<void>}
+     */
+    static  async editUser(req,resp){
+     const {uid, username, password}=req.body;
+      let res = await this.editUserMod(uid, username, password)
+      if(!res) { resp.send({msg:'无任何修改',code:400});return }
+      const { data : {affectedRows} ,code} = res
+      resp.send({affectedRows,code})
+  }
+
      
     /**
      * **************************************修改个人信息**************************************

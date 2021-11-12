@@ -12,7 +12,7 @@ module.exports=class ScorecardDao extends  require('../model/scorecard_mod'){
      */
     static  async rankingList(req,resp){
       //如果不传入数量限制,默认查询100条数据
-        let { number = 100, type= GAMETYPE.IO } = req?.query
+        let { number = 100, type= GAMETYPE.IO } = req.query
         let res = await this.rankingListByIOMod(number,type) 
         resp.send({data:res})
     }
@@ -23,7 +23,7 @@ module.exports=class ScorecardDao extends  require('../model/scorecard_mod'){
      * @param {*} resp 
      */
     static  async getUserPoints(req,resp){
-        let { uid, type = GAMETYPE.IO} = req?.query
+        let { uid, type = GAMETYPE.IO} = req.query
         let res= await  this.getUserPointsMod(uid,type)
         resp.send({data:res})
     }
@@ -33,7 +33,7 @@ module.exports=class ScorecardDao extends  require('../model/scorecard_mod'){
      * @param {*} resp 
      */
     static  async getAveragePoints(req,resp){
-        let { type = GAMETYPE.IO} = req?.query
+        let { type = GAMETYPE.IO} = req.query
         let res= await  this.getAveragePointsMod(type)
         resp.send({data:res})
     }
@@ -43,7 +43,7 @@ module.exports=class ScorecardDao extends  require('../model/scorecard_mod'){
      * @param {*} resp 
      */
     static  async setTopScore(req,resp){
-        let { uid , type , score } = req?.body
+        let { uid , type , score } = req.body
         let res= await  this.setTopScoreMod(uid , type , score)
         resp.send({data:res})
     }

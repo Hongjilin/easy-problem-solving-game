@@ -31,13 +31,15 @@ router.get('/getUsersInfoByType', function (req, res, next) {
   user.getUsersInfoByType(req, res)
 });
 
+router.post('/editUser', function (req, res) {
+  user.editUser(req, res)
+})
 
 /**
  * ******************修改个人信息************************
  */
-router.post('/upPwd', function (req, res) {
-  user.upPwd(req, res)
-})
+
+
 router.post('/upicon', async function (req, res) {
   let head_imgUrl = await fileUp.upload(req)
   req.head_imgUrl = head_imgUrl

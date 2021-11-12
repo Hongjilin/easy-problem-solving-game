@@ -16,9 +16,10 @@ module.exports = class Model {
   /**
    * 通用的查询方法
    * @param sql 要执行的sql语句
-   * @param params  给sql语句的占位符进行赋值的参数数组
+   * @param params  给sql语句的占位符进行赋值的参数数组,可以不传或者用空字符串占位
+   * @param isCode  是否插入 code 状态,默认为true 插入
    */
-  static query(sql, params) {
+  static query(sql, params,isCode = true) {
     return new Promise((resolve, reject) => {
       pool.getConnection(function (err, connection) {
         if (err) {
@@ -29,13 +30,17 @@ module.exports = class Model {
           connection.query(sql, params, (err, results) => {
             if (err) {
               console.error(err)
-              reject(err)
+              let error = isCode ?{
+                msg : err,
+                code : 500
+              } : err;
+              reject(error)
             } else {
-              results.code = 200;
-              let res = {
+              //当请求成功时,返回200给前端做判断
+              let res =isCode ? {
                 data: results,
                 code: 200
-              }
+              }:results
               resolve(res)
             }
             //结束会话,释放连接
