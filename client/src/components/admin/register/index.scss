@@ -9,22 +9,33 @@
   width: 80px;
   *zoom: 1;
 }
+.header-box{
+  position: relative;
+
+  .upload-button{
+    position: absolute;
+    right: 20PX;
+    top: 50%;
+    transform: translateY(-50%);
+
+  }
+}
 .containerbtn {
   width: 100%;
   display: flex;
   justify-content: center;
 
   div {
-    &:last-child {
+    &:first-child {
       border: none;
       background-color: #409eff;
       @include upLoadButton;
-      margin-left: 15px;
-
     }
 
-    &:first-child {
+    &:last-child {
       @include upLoadButton;
+      margin-left: 15px;
+
       border: 0.5px solid #eee;
     }
   }
