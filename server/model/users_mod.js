@@ -46,13 +46,14 @@ module.exports = class users_mod extends require('./model') {
    * @param {*} current_page 
    * @param {*} userType 
    */
-  static getUsersInfoByTypeMod(page_number, current_page, userType) {
+  static getUsersInfoByTypeMod(page_number, current_page, type, value) {
     page_number = Number(page_number);
     current_page = Number(current_page);
-    const currentNumber = Number(page_number * current_page)
+    current_page = (current_page==0) ? 0 : page_number * (Number(current_page)-1)
+    let sql = `select a.id,a.username,a.type,b.io_score,b.elapsed,c.thread_score,c.elapsed thelapsed from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN thread_scorecard c on a.id = c.uid`
+    if( type && value ) sql+=` where a.${type}  like '%${value}%'`
+    sql+=` LIMIT ${current_page},${page_number}`
     return new Promise((resolve, reject) => {
-      // let sql = 'select * from user where type = '+ type+' order by modifytime desc LIMIT ?,?'
-      let sql = `select a.id,a.username,a.type,b.io_score,b.elapsed io_elapsed,c.thread_score,c.elapsed thread_elapsed from user a,io_scorecard b,thread_scorecard c where a.id = b.uid and a.id = c.uid LIMIT ${currentNumber},${page_number}`
       this.query(sql).then(result => {
         resolve(result)
       }).catch(err => {
@@ -60,9 +61,10 @@ module.exports = class users_mod extends require('./model') {
       })
     })
   }
-  static getUsersTotalMod(userType) {
+  static getUsersTotalMod(type, value) {
     return new Promise((resolve, reject) => {
-      let sql = 'select count(1) as count from user where type = ' + userType
+      let sql = 'select count(1) as count from user '
+      if( type && value ) sql+=` where ${type} like '%${value}%'`
       this.query(sql, '', false).then(result => {
         resolve(result)
       }).catch(err => {
@@ -105,13 +107,23 @@ module.exports = class users_mod extends require('./model') {
 
   static readXlsxMod(lists) {
     console.log(lists, "谢谢谢谢")
-    if (lists.length < 0) {
-      resp.send({
-        msg: '正确的用户数据为空'
-      });
+    if (lists.length <= 0) {
+      resp.send({msg: '正确的用户数据为空',code:400});
       return;
     };
-
+   lists.map(async (item)=>{
+   console.log(item,"xxxxxxxxxxxxxxxx")
+   const {id,username,password,type} = item;
+    let  sql= `INSERT INTO user(id,username,password,type)  VALUES(${id}, '${username}', '${password}', ${type});`
+    return await new Promise((resolve, reject) => {
+      this.query(sql).then(result => {
+        resolve(result)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  })
+  return {code:200,msg:'导入完成'}
 
   }
 

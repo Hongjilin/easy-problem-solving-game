@@ -56,9 +56,9 @@ module.exports=class users_dao extends  require('../model/users_mod'){
      * @param {*} resp 
      */
     static async getUsersInfoByType(req,resp){
-      const { page_number, current_page, userType = 1} = req.query;
-      let res= await  this.getUsersInfoByTypeMod(page_number, current_page, userType)
-      let totals = await  this.getUsersTotalMod(userType)
+      const { page_number, current_page, type, value} = req.query;
+      let res= await  this.getUsersInfoByTypeMod(page_number, current_page, type, value)
+      let totals = await  this.getUsersTotalMod(type, value)
       res.total = totals[0].count
       resp.send(res)
     }
