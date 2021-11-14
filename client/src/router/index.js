@@ -7,11 +7,11 @@ const routes = [
     {path:'*',redirect:'/'},
     {path:'/',name: 'Login',component: () => import('@/components/Login.vue')},
     {path:'/layout',name: 'layout',component: () => import('@/components/admin/layout/index.vue')},
-    {path:'/radarmap',name: 'radarmap',component: () => import('@/components/admin/radarmap/index.vue')},
+    // {path:'/radarmap',name: 'radarmap',component: () => import('@/components/admin/radarmap/index.vue')},
     {path:'/admin',component:() => import('@/components/admin/layout/index.vue'),
         children:[
-            {path:'userControl', component:() => import('@/components/admin/register/index.vue')},
-            {path:'radarmap',name: 'radarmap',component: () => import('@/components/admin/radarmap/index.vue')},
+            {path:'userControl', component:() => import('@/components/admin/userControl/index.vue')},
+            {path:'radarmap',name: 'radarmap',component: () => import('@/components/admin/statistics/IOStatisics/index.vue')},
           ]},
 ]
 

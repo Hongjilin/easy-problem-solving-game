@@ -3,7 +3,7 @@
   <el-aside  style="background-color: rgb(238, 241, 246)">
     <el-menu :default-openeds="['1','2']">
       <el-submenu index="1">
-        <template slot="title"><i class="el-icon-message"></i>用户管理</template>
+        <template slot="title"><i class="el-icon-s-custom"></i>用户管理</template>
         <el-menu-item-group>
           <!-- <template slot="title">分组一</template> -->
           <el-menu-item index="1-1"> <router-link tag="a" to="/admin/userControl" class="nav-link">用户管理</router-link></el-menu-item>
@@ -11,11 +11,11 @@
 
       </el-submenu>
       <el-submenu index="2">
-        <template slot="title"><i class="el-icon-menu"></i>数据统计</template>
+        <template slot="title"><i class="el-icon-data-line"></i>数据统计</template>
         <el-menu-item-group>
           <!-- <template slot="title">分组一</template> -->
-          <el-menu-item index="2-1"> <router-link tag="a" to="/admin/radarmap" class="nav-link">雷达图</router-link></el-menu-item>
-          <el-menu-item index="2-2">折线图</el-menu-item>
+          <el-menu-item index="2-1"> <router-link tag="a" to="/admin/radarmap" class="nav-link">IO流知识点数据统计</router-link></el-menu-item>
+          <el-menu-item index="2-2">线程通信知识点统计</el-menu-item>
         </el-menu-item-group>
 
   
@@ -56,6 +56,11 @@
   
   .el-aside {
     color: #333;
+  }
+  .nav-link{
+    color: #606266;
+    text-decoration:none;
+
   }
 </style>
 
