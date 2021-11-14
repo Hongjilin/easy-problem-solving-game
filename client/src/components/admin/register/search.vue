@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-select v-model="selectLabel" placeholder="请选择查询字段" style="width: 15%">
+    
+    <el-select class="search-select" v-model="selectLabel" placeholder="请选择查询字段" >
       <el-option label="学号" value="id"></el-option>
       <el-option label="姓名" value="username"></el-option>
       <!-- <el-option label="籍贯" value="address"></el-option> -->
@@ -12,6 +13,12 @@
       v-model="searchValue"
       style="width:20%"
     ></el-input>
+    <el-select class="search-typeselect" v-model="selectType" placeholder="选择用户类型" >
+      <el-option label="学生" value="1"></el-option>
+      <el-option label="老师" value="2"></el-option>
+      <!-- <el-option label="籍贯" value="address"></el-option> -->
+      <!-- <el-option label="班级" value="classes"></el-option> -->
+    </el-select>
     <el-button type="primary" size="small" style="margin-left:10px" @click="spuerSearch">搜索</el-button>
     <el-button type="primary" size="small" style="margin-left:10px" @click="spuerClearvalue">重置</el-button>
   </div>
@@ -30,7 +37,8 @@ export default {
   data() {
     return {
       selectLabel: "id",
-      searchValue: ""
+      searchValue: "",
+      selectType : '',
     };
   },
   created() {},
@@ -42,6 +50,7 @@ export default {
       const params = {
         value: this.searchValue,
         type: this.selectLabel,
+        userType: this.selectType,
         page_number: 10,
         current_page: 0
       };
@@ -51,6 +60,7 @@ export default {
     spuerClearvalue() {
       this.searchValue='';
       this.selectLabel = 'id';
+      this.selectType = '';
       const params = {
         page_number: 10,
         current_page: 0
@@ -74,3 +84,8 @@ export default {
   }
 };
 </script>
+
+
+<style scoped lang="scss">
+@import "./index.scss";
+</style>

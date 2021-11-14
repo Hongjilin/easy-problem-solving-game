@@ -80,6 +80,7 @@ export default {
       pageSize: 10,
       searchVlue: "",
       selectLabel: "",
+      selectType: "",
 
       show1: false,
       show: false,
@@ -125,28 +126,27 @@ export default {
         currentPage = this.currentPage,
         pageSize = this.pageSize,
         value = this.searchValue,
-        type = this.selectLabel
+        type = this.selectLabel,
+        userType =  this.selectType
         // pageNo = this.pageNo,
       } = config;
       this.currentPage = currentPage;
       this.pageSize = pageSize;
       this.searchValue = value;
       this.selectLabel = type;
-    this.search(isHomePage)
+      this.selectType = userType;
+     this.search(isHomePage)
     },
 
     /**
      * 派发给子组件的搜索
      */
     async search( isHomePage = false) {
-      // if (!this.searchValue ) this.warnAlter("请输入要搜索的关键字");
-       //是否初始化翻页到第一页
-      //  if (isHomePage) this.currentPage = 0;
-      // else {
         const res = await this.$Http.get("/users/getUsersInfoByType", {
           params: {
             value: this.searchValue ,
             type:this.selectLabel,
+            userType:this.selectType,
             page_number: this.pageSize,
             current_page:this.currentPage 
           }
@@ -168,8 +168,9 @@ export default {
       });
       if (res?.code == 200) this.getTableData(res);
       this.currentPage = 0;
-      this.searchValue= '';
-      this.selectLabel=''
+      this.searchValue = '';
+      this.selectLabel = '';
+      this.selectType = ''
     },
     /**
      * 分页获取用户信息
@@ -179,12 +180,11 @@ export default {
      *  this.tableData列表 数据
      *   this.tableTotal
      */
-    async getUsersInfoByType(current_page, page_number, userType = 1) {
+    async getUsersInfoByType(current_page, page_number) {
       const res = await this.$Http.get("/users/getUsersInfoByType", {
         params: {
           page_number,
           current_page,
-          userType
         }
       });
       if (res.code == 200) {

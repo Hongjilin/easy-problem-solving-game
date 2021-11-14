@@ -38,13 +38,16 @@
         ></el-pagination>
       </div>
     </el-card>
+    <!--  用户详情部分组件   -->
     <el-card style="margin-top:20px" v-else-if="editShow==true">
-      <el-page-header @back="goBack" content="修改用户信息"></el-page-header>
+      <el-page-header @back="goBack" :content="user.type != 2 ? '编辑学生信息' : '编辑教师信息'"></el-page-header>
       <br />
       <el-form ref="form" v-model="form" label-width="80px" style="width:50%">
-        <el-form-item :label = "user.type != 2 ? '学号:' : '职工号'">
+        <el-form-item :label = "user.type != 2 ? '学号:' : '职工号:'">
           {{user.id}}
-          <!-- <el-input v-model="form.name" style="width:200px" :placeholder="user.id"></el-input> -->
+        </el-form-item>
+        <el-form-item label = "用户类型:">
+          {{user.type != 2 ? '学生' : '教师'}}
         </el-form-item>
         <el-form-item label="姓名:">
           <el-input v-model="form.name" style="width:200px" :placeholder="user.username"></el-input>
