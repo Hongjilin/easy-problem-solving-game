@@ -46,12 +46,17 @@ module.exports = class users_mod extends require('./model') {
    * @param {*} current_page 
    * @param {*} userType 
    */
-  static getUsersInfoByTypeMod(page_number, current_page, type, value) {
+  static getUsersInfoByTypeMod(page_number, current_page, type, value, userType) {
     page_number = Number(page_number);
     current_page = Number(current_page);
     current_page = (current_page==0) ? 0 : page_number * (Number(current_page)-1)
     let sql = `select a.id,a.username,a.type,b.io_score,b.elapsed,c.thread_score,c.elapsed thelapsed from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN thread_scorecard c on a.id = c.uid`
-    if( type && value ) sql+=` where a.${type}  like '%${value}%'`
+    
+    if( type && value && userType ) sql+=` where a.${type}  like '%${value}%' and type = ${userType}`
+    else if( type && value && !userType ) sql+=` where a.${type}  like '%${value}%'`
+    else if(userType) sql+=` where  type = ${userType}`
+
+
     sql+=` LIMIT ${current_page},${page_number}`
     return new Promise((resolve, reject) => {
       this.query(sql).then(result => {
@@ -61,10 +66,12 @@ module.exports = class users_mod extends require('./model') {
       })
     })
   }
-  static getUsersTotalMod(type, value) {
+  static getUsersTotalMod(type, value, userType) {
     return new Promise((resolve, reject) => {
       let sql = 'select count(1) as count from user '
-      if( type && value ) sql+=` where ${type} like '%${value}%'`
+      if( type && value && userType ) sql+=` where a.${type}  like '%${value}%' and type = ${userType}`
+      else if( type && value && !userType ) sql+=` where ${type} like '%${value}%'`
+      else if(userType) sql+=` where  type = ${userType}`
       this.query(sql, '', false).then(result => {
         resolve(result)
       }).catch(err => {
