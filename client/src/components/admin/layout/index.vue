@@ -47,6 +47,7 @@
   .container{
     padding: none;
     height: 100vh;
+    overflow-y: scroll;
   }
   .el-header {
     background-color: #B3C0D1;

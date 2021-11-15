@@ -25,8 +25,22 @@ module.exports=class ScorecardDao extends  require('../model/scorecard_mod'){
     static  async getUserPoints(req,resp){
         let { uid, type = GAMETYPE.IO} = req.query
         let res= await  this.getUserPointsMod(uid,type)
-        resp.send({data:res})
+        resp.send(res)
     }
+    /**
+     * 获取知识点得分情况
+     * @param {*} req 
+     * @param {*} resp 
+     */
+    static  async getAllPoints(req,resp){
+        let {  type = GAMETYPE.IO ,page_number, current_page, value,userType  } = req.query
+        let res= await  this.getAllPointsMod(type,value, page_number, current_page)
+        let totals = await  this.getAllPointsTotalMod(type, value, userType)
+        res.total = totals[0].count
+        resp.send(res)
+    }
+
+    
     /**
      * 获取某游戏平均得分
      * @param {*} req 
@@ -35,7 +49,7 @@ module.exports=class ScorecardDao extends  require('../model/scorecard_mod'){
     static  async getAveragePoints(req,resp){
         let { type = GAMETYPE.IO} = req.query
         let res= await  this.getAveragePointsMod(type)
-        resp.send({data:res})
+        resp.send(res)
     }
     /**
      * 写入某用户成绩

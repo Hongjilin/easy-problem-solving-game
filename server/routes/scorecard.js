@@ -15,6 +15,9 @@ router.get('/rankingList', function (req, res) {
 router.get('/getUserPoints', function (req, res) {
   scorecard.getUserPoints(req, res)
 });
+router.get('/getAllPoints', function (req, res) {
+  scorecard.getAllPoints(req, res)
+});
 router.get('/getAveragePoints', function (req, res) {
   scorecard.getAveragePoints(req, res)
 });
