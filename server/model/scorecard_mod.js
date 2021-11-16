@@ -111,4 +111,64 @@ module.exports = class ScorecardMod extends require('./model') {
       })
     })
   }
+  static setIOPointsMod(body) {
+    const { uid, points = {} } = body
+    const {   
+      array = 0,
+      keyboard = 0,
+      methodcall = 0,
+      io_stream = 0,
+      rw_object = 0,
+      conversion = 0,
+      scoring_details = '{}'
+    } = points
+    let  sql= `INSERT INTO io_scorecard(uid,array,keyboard,methodcall,io_stream,rw_object,conversion,scoring_details)  VALUES(${uid}, '${array}', '${keyboard}', ${methodcall}, ${io_stream}, ${rw_object}, ${conversion}, ${scoring_details});`
+    return new Promise((resolve, reject) => {
+      console.log('sql2',sql)
+      this.query(sql).then(result => {
+        resolve('修改成绩成功')
+      }).catch(err => {
+          //插入失败的情况,尝试更新
+          return new Promise((resolve, reject) => {
+            let sql = `update a set (uid,array,keyboard,methodcall,io_stream,rw_object,conversion,scoring_details) =(${uid}, '${array}', '${keyboard}', ${methodcall}, ${io_stream}, ${rw_object}, ${conversion}, ${scoring_details}) `
+            this.query(sql).then(result => {
+              resolve('修改成绩成功')
+            }).catch(err => {
+              reject("修改成绩失败")
+            })
+          })
+      })
+    })
+  }
+
+
+
+
+  /**
+   * 写入某用户成绩
+   * @param {*} uid 
+   * @param {*} type 
+   * @param {*} score 
+   */
+  static setIOScorecardMod(body) {
+    const { uid, username, io_score,elapsed } = body
+    let  sql= `INSERT INTO io_scorecard(id,username,io_score,elapsed)  VALUES(${uid}, '${username}', '${io_score}', ${elapsed});`
+    return new Promise((resolve, reject) => {
+      // let sql = `update scorecard set ${type} = ${score} where  uid = ${uid}`'
+      console.log('sql1',sql)
+      this.query(sql).then(result => {
+        resolve('修改成绩成功')
+      }).catch(err => {
+        //插入失败的情况,尝试更新
+        return new Promise((resolve, reject) => {
+          let sql = `update a set (id,username,io_score,elapsed) =(${uid}, '${username}', '${io_score}', ${elapsed}) `
+          this.query(sql).then(result => {
+            resolve('修改成绩成功')
+          }).catch(err => {
+            reject("修改成绩失败")
+          })
+        })
+      })
+    })
+  }
 }

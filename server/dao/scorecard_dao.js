@@ -61,5 +61,16 @@ module.exports=class ScorecardDao extends  require('../model/scorecard_mod'){
         let res= await  this.setTopScoreMod(uid , type , score)
         resp.send({data:res})
     }
+    /**
+     * 写入某用户成绩IO成绩
+     * @param {*} req 
+     * @param {*} resp 
+     */
+    static  async setIOScorecard(req,resp){
+   
+        let res1= await  this.setIOScorecardMod(req.body)
+        let res2= await  this.setIOPointsMod(req.body)
+        resp.send({data:res})
+    }
 
 }

@@ -29,5 +29,11 @@ router.get('/getTopScore', function (req, res) {
 router.post('/setTopScore', function (req, res) {
   scorecard.setTopScore(req, res)
 });
+router.post('/setIOScorecard', function (req, res) {
+  scorecard.setIOScorecard(req, res)
+});
+router.post('/setThreadScorecard', function (req, res) {
+  scorecard.setThreadScorecard(req, res)
+});
 
 module.exports = router;
