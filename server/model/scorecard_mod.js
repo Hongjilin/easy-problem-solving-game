@@ -111,7 +111,12 @@ module.exports = class ScorecardMod extends require('./model') {
       })
     })
   }
-  static isIOByTable(uid,table) {
+  /**
+   * 搜索是否存在该用户
+   * @param {*} uid 
+   * @param {*} table 
+   */
+  static isCountByTable(uid,table) {
     return new Promise((resolve, reject) => {
       let sql = `select count(1) as count  from ${table} where uid = ${uid}`
       this.query(sql,'',false).then(result => {
@@ -122,6 +127,12 @@ module.exports = class ScorecardMod extends require('./model') {
     })
   }
 
+    /** start
+   * 写入某用户成绩
+   * @param {*} uid 
+   * @param {*} type 
+   * @param {*} score 
+   */
   static async setIOPointsMod(body) {
     const { uid, points = {} } = body
     const {   
@@ -133,7 +144,7 @@ module.exports = class ScorecardMod extends require('./model') {
       conversion = 0,
       scoring_details = '{}'
     } = points
-   const res = await  this.isIOByTable(uid,'io_points')
+   const res = await  this.isCountByTable(uid,'io_points')
     const { count}  = res[0]
     let  sql= (count==0)?`INSERT INTO io_points(uid,array,keyboard,methodcall,io_stream,rw_object,conversion,scoring_details) VALUES('${uid}', ${array},${keyboard}, ${methodcall}, ${io_stream}, ${rw_object}, ${conversion}, '${scoring_details}');`
       :`update io_points set array=${array},keyboard=${keyboard},methodcall=${methodcall},io_stream=${io_stream},rw_object=${rw_object},conversion=${conversion},scoring_details='${scoring_details}' where uid='${uid}'`
@@ -146,19 +157,9 @@ module.exports = class ScorecardMod extends require('./model') {
       })
     })
   }
-
-
-
-
-  /**
-   * 写入某用户成绩
-   * @param {*} uid 
-   * @param {*} type 
-   * @param {*} score 
-   */
   static  async setIOScorecardMod(body) {
     const { uid, username, io_score,elapsed } = body
-    const res = await  this.isIOByTable(uid,'io_points')
+    const res = await  this.isCountByTable(uid,'io_points')
     const { count}  = res[0]
     let  sql= (count == 0)?`INSERT INTO io_scorecard(uid,username,io_score,elapsed)  VALUES('${uid}', '${username}', ${io_score}, ${elapsed});`
     :`update io_scorecard set username='${username}',io_score=${io_score},elapsed=${elapsed} where uid='${uid}'`
@@ -169,17 +170,54 @@ module.exports = class ScorecardMod extends require('./model') {
         resolve(result)
       }).catch(err => {
         reject(err)
-        //插入失败的情况,尝试更新
-        // return new Promise((resolve, reject) => {
-        //   // let sql = `update io_scorecard set (uid,username,io_score,elapsed) =('${uid}','${username}', ${io_score}, ${elapsed}) `
-        //   let sql = `update io_scorecard set username='${username}',io_score=${io_score},elapsed=${elapsed} where uid='${uid}'`
-        //   this.query(sql).then(result => {
-        //     resolve('修改成绩成功')
-        //   }).catch(err => {
-        //     reject("修改成绩失败")
-        //   })
-        // })
+      })
+    })
+  }
+
+     /** start
+   * 写入某用户线程成绩
+   * @param {*} uid 
+   * @param {*} type 
+   * @param {*} score 
+   */
+  static async setThreadPointsMod(body) {
+    const { uid, points = {} } = body
+    const {   
+      thread   = 0,
+      async = 0,
+      judgment = 0,
+      change_state = 0,
+      scoring_details = '{}'
+    } = points
+   const res = await  this.isCountByTable(uid,'thread_points')
+    const { count}  = res[0]
+    let  sql= (count==0)?`INSERT INTO thread_points(uid,thread,async,judgment,change_state,scoring_details) VALUES('${uid}', ${thread},${async}, ${judgment}, ${change_state},'${scoring_details}')`
+      :`update thread_points set thread=${thread},async=${async},judgment=${judgment},change_state=${change_state},scoring_details='${scoring_details}' where uid='${uid}'`
+    return new Promise((resolve, reject) => {
+      console.log('sql2',sql)
+      this.query(sql).then(result => {
+        resolve(result)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  }
+  static  async setThreadScorecardMod(body) {
+    const { uid, username, io_score,elapsed } = body
+    const res = await  this.isCountByTable(uid,'thread_points')
+    const { count}  = res[0]
+    let  sql= (count == 0)?`INSERT INTO thread_scorecard(uid,username,thread_score,elapsed)  VALUES('${uid}', '${username}', ${io_score}, ${elapsed});`
+    :`update thread_scorecard set username='${username}',thread_score=${io_score},elapsed=${elapsed} where uid='${uid}'`
+    return new Promise((resolve, reject) => {
+      // let sql = `update scorecard set ${type} = ${score} where  uid = ${uid}`'
+      console.log('sql1',sql)
+      this.query(sql).then(result => {
+        resolve(result)
+      }).catch(err => {
+        reject(err)
       })
     })
   }
 }
+/***************** s ****************** */
+

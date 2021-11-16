@@ -74,5 +74,13 @@ module.exports=class ScorecardDao extends  require('../model/scorecard_mod'){
         else data={code:500,msg:'成绩存入失败'}
         resp.send(data)
     }
+    static  async setThreadScorecard(req,resp){
+        let res1= await  this.setThreadScorecardMod(req.body)
+        let res2= await  this.setThreadPointsMod(req.body)
+        let data = {}
+        if(res1.code == 200 && res2.code == 200) data={code:200,msg:'成绩存入成功'}
+        else data={code:500,msg:'成绩存入失败'}
+        resp.send(data)
+    }
 
 }
