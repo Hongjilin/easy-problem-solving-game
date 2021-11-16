@@ -67,10 +67,12 @@ module.exports=class ScorecardDao extends  require('../model/scorecard_mod'){
      * @param {*} resp 
      */
     static  async setIOScorecard(req,resp){
-   
         let res1= await  this.setIOScorecardMod(req.body)
         let res2= await  this.setIOPointsMod(req.body)
-        resp.send({data:res})
+        let data = {}
+        if(res1.code == 200 && res2.code == 200) data={code:200,msg:'成绩存入成功'}
+        else data={code:500,msg:'成绩存入失败'}
+        resp.send(data)
     }
 
 }

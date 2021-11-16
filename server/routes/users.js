@@ -34,6 +34,9 @@ router.get('/getUsersInfoByType', function (req, res, next) {
 router.post('/editUser', function (req, res) {
   user.editUser(req, res)
 })
+router.post('/editPWD', function (req, res) {
+  user.editPWD(req, res)
+})
 
 /**
  * ******************修改个人信息************************
