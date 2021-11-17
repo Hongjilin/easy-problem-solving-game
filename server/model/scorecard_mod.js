@@ -45,12 +45,14 @@ module.exports = class ScorecardMod extends require('./model') {
    * 获取用户某游戏类型各知识点得分
    * @param {} type 
    */
-  static getAllPointsMod( type, value,page_number, current_page ) {
+  static getAllPointsMod( {type, value,page_number, current_page,gameType} ) {
     page_number = Number(page_number);
     current_page = Number(current_page);
     current_page = (current_page==0) ? 0 : page_number * (Number(current_page)-1)
-    let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed,c.array,c.keyboard,c.methodcall,c.io_stream,c.rw_object,c.conversion,c.scoring_details thelapsed from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN io_points c on a.id = c.uid'
-    sql+=` where b.io_score!='' `
+    let sql = ''
+    if(gameType == GAMETYPE.IO){sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed,c.array,c.keyboard,c.methodcall,c.io_stream,c.rw_object,c.conversion,c.scoring_details thelapsed from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN io_points c on a.id = c.uid  where b.io_score!=""'}
+    else {sql = 'select a.id,a.username,a.type,b.thread_score,b.elapsed,c.thread,c.async,c.judgment,c.change_state,c.scoring_details thelapsed from (user a LEFT JOIN thread_scorecard b on a.id = b.uid) LEFT JOIN thread_points c on a.id = c.uid  where b.thread_score!=""'}
+    
     if( type && value ) sql+=` and a.${type}  like '%${value}%' `
     sql+=` LIMIT ${current_page},${page_number}`
     
@@ -64,9 +66,13 @@ module.exports = class ScorecardMod extends require('./model') {
       })
     })
   }
-  static getAllPointsTotalMod(type, value, userType) {
-    let sql = 'select count(1) as count  from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN io_points c on a.id = c.uid'
-    sql+=` where b.io_score!='' `
+  static getAllPointsTotalMod(type, value, gameType) {
+    let sql='';
+    if(gameType == GAMETYPE.IO){sql = 'select count(1) as count  from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN io_points c on a.id = c.uid where b.io_score!="" '}
+    else {sql = 'select count(1) as count  from (user a LEFT JOIN thread_scorecard b on a.id = b.uid) LEFT JOIN thread_points c on a.id = c.uid where b.thread_score!="" '}
+    
+    // let sql = 'select count(1) as count  from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN io_points c on a.id = c.uid'
+    // sql+=` where b.io_score!='' `
     if( type && value ) sql+=` and a.${type}  like '%${value}%' `
     
     return new Promise((resolve, reject) => {

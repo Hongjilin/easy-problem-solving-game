@@ -19,6 +19,7 @@ const routes = [
         children:[
             {path:'userControl', component:() => import('@/components/admin/userControl/index.vue')},
             {path:'radarmap',name: 'radarmap',component: () => import('@/components/admin/statistics/IOStatisics/index.vue')},
+            {path:'thread',name: 'thread',component: () => import('@/components/admin/statistics/ThreadStatisics/index.vue')},
           ]},
 
     { path: '/', name: 'Login', component: () =>

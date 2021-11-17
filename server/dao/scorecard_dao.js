@@ -33,9 +33,9 @@ module.exports=class ScorecardDao extends  require('../model/scorecard_mod'){
      * @param {*} resp 
      */
     static  async getAllPoints(req,resp){
-        let {  type = GAMETYPE.IO ,page_number, current_page, value,userType  } = req.query
-        let res= await  this.getAllPointsMod(type,value, page_number, current_page)
-        let totals = await  this.getAllPointsTotalMod(type, value, userType)
+        let {  type  ,page_number, current_page, value ,gameType = GAMETYPE.IO} = req.query
+        let res= await  this.getAllPointsMod({type,value, page_number, current_page,gameType})
+        let totals = await  this.getAllPointsTotalMod(type, value, gameType)
         res.total = totals[0].count
         resp.send(res)
     }
