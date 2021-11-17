@@ -1,19 +1,16 @@
-# background-managment
+# 学习游戏平台前端部分
 
-## Project setup
+## 安装依赖
 ```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
+yarn 
 ```
 
-### Compiles and minifies for production
+## 启动项目
 ```
-yarn build
+yarn dev
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 修改API接口
+
+>修改`constConfig.js`文件中接口路径即可,不用重启服务
+
