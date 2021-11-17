@@ -8,14 +8,11 @@
 </template>
 
 <script>
-
 const maxPoints = {
-  array: 10,
-  keyboard: 30,
-  methodcall: 10,
-  io_stream: 20,
-  rw_object: 20,
-  conversion: 10
+  thread: 20,
+  async: 10,
+  judgment: 30,
+  change_state: 40
 };
 export default {
   props: {
@@ -40,10 +37,8 @@ export default {
       deep: true
     }
   },
-
   methods: {
     renderEcharts() {
-      // this.getAveragePoints();
       // 基于准备好的容器(这里的容器是id为chart1的div)，初始化echarts实例
       var chart1 = this.$echarts.init(document.getElementById("chart1"));
 
@@ -52,7 +47,7 @@ export default {
         backgroundColor: "rgba(204,204,204,0.1 )", // 背景色，默认无背景	rgba(51,255,255,0.7)
 
         title: {
-          text: "IO游戏各知识点平均得分情况",
+          text: "线程通信游戏各知识点平均得分情况",
           // link: 'https://blog.csdn.net/gray_key',
           target: "blank",
           top: "5%",
@@ -143,29 +138,21 @@ export default {
             indicator: [
               {
                 // 雷达图的指示器，用来指定雷达图中的多个变量（维度）,跟data中 value 对应
-                name: "数组", // 指示器名称
-                max: maxPoints.array // 指示器的最大值，可选，建议设置
+                name: "线程相关", // 指示器名称
+                max: maxPoints.thread // 指示器的最大值，可选，建议设置
                 //color: '#fff'                           // 标签特定的颜色。
               },
               {
-                name: "键盘输入",
-                max: maxPoints.keyboard
+                name: "同步",
+                max: maxPoints.async
               },
               {
-                name: "方法的调用",
-                max: maxPoints.methodcall
+                name: "逻辑判断",
+                max: maxPoints.judgment
               },
               {
-                name: "输入输出流",
-                max: maxPoints.io_stream
-              },
-              {
-                name: "读写对象",
-                max: maxPoints.rw_object
-              },
-              {
-                name: "对象类型转换",
-                max: maxPoints.conversion
+                name: "更改线程状态",
+                max: maxPoints.change_state
               }
             ]
           }
@@ -195,7 +182,7 @@ export default {
               {
                 // 雷达图的数据是多变量（维度）的
                 name: "失分情况", // 数据项名称
-                value: [2, 10, 6, 5, 6, 8], // 其中的value项数组是具体的数据，每个值跟 radar.indicator 一一对应。
+                value: this.pointsof, // 其中的value项数组是具体的数据，每个值跟 radar.indicator 一一对应。
                 symbol: "circle", // 单个数据标记的图形。
                 symbolSize: 5, // 单个数据标记的大小，可以设置成诸如 10 这样单一的数字，也可以用数组分开表示宽和高，例如 [20, 10] 表示标记宽为20，高为10。
                 label: {

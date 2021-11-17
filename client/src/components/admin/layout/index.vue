@@ -15,7 +15,7 @@
         <el-menu-item-group>
           <!-- <template slot="title">分组一</template> -->
           <el-menu-item index="2-1"> <router-link tag="a" to="/admin/radarmap" class="nav-link">IO流知识点数据统计</router-link></el-menu-item>
-          <el-menu-item index="2-2">线程通信知识点统计</el-menu-item>
+          <el-menu-item index="2-2"><router-link tag="a" to="/admin/thread" class="nav-link">线程通信知识点数据统计</router-link></el-menu-item>
         </el-menu-item-group>
 
   

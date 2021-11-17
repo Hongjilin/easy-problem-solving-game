@@ -12,18 +12,17 @@
   2. 配置总分,可以切换
 */
 import RadarMap from "./radarMap";
-import SuperTable from "./io-table/index.vue";
+import SuperTable from "./thread-table/index.vue";
 const GAMETYPE = {
   IO: "io_score",
   THREAD: "thread_score"
 };
+
 const maxPoints = {
-  array: 10,
-  keyboard: 30,
-  methodcall: 10,
-  io_stream: 20,
-  rw_object: 20,
-  conversion: 10
+  thread: 20,
+  async: 10,
+  judgment: 30,
+  change_state: 40
 };
 export default {
   components: { RadarMap, SuperTable },
@@ -40,35 +39,25 @@ export default {
     async getAveragePoints() {
       const res = await this.$Http.get("/scorecard/getAveragePoints", {
         params: {
-          type: GAMETYPE.IO
+          type: GAMETYPE.THREAD
         }
       });
       if (res?.code == 200) {
         const {
-          array = 0,
-          keyboard = 0,
-          methodcall = 0,
-          io_stream = 0,
-          rw_object = 0,
-          conversion = 0
+          thread = 0,
+          async = 0,
+          judgment = 0,
+          change_state = 0
         } = res?.data?.[0];
-        this.scores = [
-          array,
-          keyboard,
-          methodcall,
-          io_stream,
-          rw_object,
-          conversion
-        ];
+        this.scores = [thread, async, judgment, change_state];
         this.pointsof = [
-          maxPoints.array - array,
-          maxPoints.keyboard - keyboard,
-          maxPoints.methodcall - methodcall,
-          maxPoints.io_stream - io_stream,
-          maxPoints.rw_object - rw_object,
-          maxPoints.conversion - conversion
+          maxPoints.thread - thread,
+          maxPoints.async - async,
+          maxPoints.judgment - judgment,
+          maxPoints.change_state - change_state
         ];
       }
+      console.log(res, Array.from(this.scores), "resresresres");
     }
   }
 };
