@@ -20,7 +20,19 @@
     transform: translateY(-50%);
 
   }
+  .export-class{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 100px;
+    right: 150PX;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
+
 //导入按钮样式
 .containerbtn {
   width: 100%;

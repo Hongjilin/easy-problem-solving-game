@@ -9,7 +9,8 @@
             @clearvalue="clearvalue($event)"
             @setTableConfig="setTableConfig($event)"
           />
-
+          <div>  <ExportToExcel class="export-class"/></div>
+     
           <el-button
             type="primary"
             size="small"
@@ -66,12 +67,13 @@
 import { readExcel } from "@/utils";
 import SuperTable from "./table";
 import Search from "./search";
+import ExportToExcel from "./export-to-excel";
 export default {
   /**
    * 1 表格数据应该再父组件中调用,传给子组件
    * 2 搜索后将更新表格数据
    */
-  components: { SuperTable, Search },
+  components: { SuperTable, Search, ExportToExcel },
   data() {
     return {
       upload_file: "",
@@ -113,21 +115,21 @@ export default {
       this.tableData = res?.data;
       this.tableTotal = res?.total;
       //防止不在首页,再去搜索,导致当前页无数据,所以出现这种状况时返回第一页
-      if(res?.data?.length==0 && res?.total!=0) {
-        this.currentPage =0;
-        this.search()
-        }
+      if (res?.data?.length == 0 && res?.total != 0) {
+        this.currentPage = 0;
+        this.search();
+      }
     },
     /**
      * 派发给子组件的table配置项修改
      */
-    setTableConfig(config,isHomePage) {
+    setTableConfig(config, isHomePage) {
       const {
         currentPage = this.currentPage,
         pageSize = this.pageSize,
         value = this.searchValue,
         type = this.selectLabel,
-        userType =  this.selectType
+        userType = this.selectType
         // pageNo = this.pageNo,
       } = config;
       this.currentPage = currentPage;
@@ -135,25 +137,25 @@ export default {
       this.searchValue = value;
       this.selectLabel = type;
       this.selectType = userType;
-     this.search(isHomePage)
+      this.search(isHomePage);
     },
 
     /**
      * 派发给子组件的搜索
      */
-    async search( isHomePage = false) {
-        const res = await this.$Http.get("/users/getUsersInfoByType", {
-          params: {
-            value: this.searchValue ,
-            type:this.selectLabel,
-            userType:this.selectType,
-            page_number: this.pageSize,
-            current_page:this.currentPage 
-          }
-        });
-        if (res?.code == 200) {
-          this.getTableData(res);
+    async search(isHomePage = false) {
+      const res = await this.$Http.get("/users/getUsersInfoByType", {
+        params: {
+          value: this.searchValue,
+          type: this.selectLabel,
+          userType: this.selectType,
+          page_number: this.pageSize,
+          current_page: this.currentPage
         }
+      });
+      if (res?.code == 200) {
+        this.getTableData(res);
+      }
       // }
     },
     /**
@@ -168,10 +170,14 @@ export default {
       });
       if (res?.code == 200) this.getTableData(res);
       this.currentPage = 0;
-      this.searchValue = '';
-      this.selectLabel = '';
-      this.selectType = ''
+      this.searchValue = "";
+      this.selectLabel = "";
+      this.selectType = "";
     },
+    /**
+     *
+     */
+  
     /**
      * 分页获取用户信息
      * @param current_page 当前页
@@ -184,7 +190,7 @@ export default {
       const res = await this.$Http.get("/users/getUsersInfoByType", {
         params: {
           page_number,
-          current_page,
+          current_page
         }
       });
       if (res.code == 200) {
