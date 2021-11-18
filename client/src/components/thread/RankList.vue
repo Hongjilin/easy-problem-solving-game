@@ -8,7 +8,7 @@
                 <img style="width:800px" src="../thread/images/ranklist3.png" alt=""><br>
                 <div style="width:1100px;position:absolute;font-size:20px;overflow:hidden;">
                     <ul style="list-style:none;overflow:scroll;width:100%;height:340px;overflow-y:scroll;overflow-x:hidden;">
-                        <li class="rankList" style="margin-top:-5px;margin-bottom:28px;display:flex" v-for="(item, index) in list" :key="index">
+                        <li class="rankList" style="margin-top:-3px;margin-bottom:28px;display:flex;position: relative" v-for="(item, index) in list" :key="index">
                             <img style="width:80px;position:absolute;margin-left:68px;margin-top:-15px" v-if="index==0" src="../thread/images/ranklist4.png">
                             <img style="width:80px;position:absolute;margin-left:68px;margin-top:-20px" v-if="index==1" src="../thread/images/ranklist5.png">
                             <img style="width:80px;position:absolute;margin-left:68px;margin-top:-15px" v-if="index==2" src="../thread/images/ranklist6.png">

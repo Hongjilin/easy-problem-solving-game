@@ -3,18 +3,18 @@
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
         <div class="hometap">
             <img src="../io/images/answer1.png" style="width:1200px" alt="">
-            <img src="../io/images/answer2.png" style="width:130px;margin-left:260px" alt="">
-            <img src="../io/images/answer16.png" style="position:absolute;width:100px;margin-top:-27px;margin-left:-115px" alt="">
+            <img src="../io/images/answer2.png" style="width:130px;margin-left:320px" alt="">
+            <img src="../io/images/answer16.png" v-if="type >= 1" style="position:absolute;width:100px;margin-top:-27px;margin-left:-115px" alt="">
             <img src="../io/images/answer12.png" style="width:128px;margin-left:-20px" alt="">
-            <img src="../io/images/answer16.png" style="position:absolute;width:100px;margin-top:-27px;margin-left:-111px" alt="">
+            <img src="../io/images/answer16.png" v-if="type >= 2" style="position:absolute;width:100px;margin-top:-27px;margin-left:-111px" alt="">
             <img src="../io/images/answer13.png" style="width:140px;margin-left:-20px" alt="">
-            <img src="../io/images/answer16.png" style="position:absolute;width:100px;margin-top:-27px;margin-left:-116px" alt="">
+            <img src="../io/images/answer16.png" v-if="type >= 3" style="position:absolute;width:100px;margin-top:-27px;margin-left:-116px" alt="">
             <img src="../io/images/answer14.png" style="width:131px;margin-left:-20px" alt="">
-            <img src="../io/images/answer16.png" style="position:absolute;width:100px;margin-top:-27px;margin-left:-114px" alt="">
+            <img src="../io/images/answer16.png" v-if="type >= 4" style="position:absolute;width:100px;margin-top:-27px;margin-left:-114px" alt="">
             <img src="../io/images/answer15.png" style="width:130px;margin-left:-20px" alt="">
-            <img src="../io/images/answer16.png" style="position:absolute;width:100px;margin-top:-27px;margin-left:-115px" alt="">
-            <img src="../io/images/answer6.png" style="width:131px;margin-left:-20px" alt="">
-            <img src="../io/images/answer16.png" style="position:absolute;width:100px;margin-top:-27px;margin-left:-112px" alt="">
+            <img src="../io/images/answer16.png" v-if="type >= 5" style="position:absolute;width:100px;margin-top:-27px;margin-left:-115px" alt="">
+            <!-- <img src="../io/images/answer6.png" style="width:131px;margin-left:-20px" alt="">
+            <img src="../io/images/answer16.png" v-if="type > 4" style="position:absolute;width:100px;margin-top:-27px;margin-left:-112px" alt=""> -->
             <img src="../io/images/answer3.png" style="width:1200px" alt="">
             <div style="position:absolute;top:140%;margin-left:30%">答题时间：{{elapsed}}秒</div>
             <div style="position:absolute;top:140%;margin-left:56%">当前得分：{{score1+score2+score3+score4+score5+score6+score7+score8+score9+score10+score11}}分</div>
@@ -274,25 +274,6 @@ export default {
                 //     this.$router.push('/home')
                 // }
         },
-        // async login(){
-        //     const res =  await this.$Http.post('/scorecard/setThreadScorecard',{
-        //         uid:1701130050,
-        //         username: '读书',
-        //         io_score: 60,
-        //         elapsed: 100,
-        //         points: {
-        //             thread: 10,
-        //             async: 10,
-        //             judgment: 10,
-        //             change_state: 10,
-        //             scoring_details: '[10,10,10,10,10,10,10,10,10,10]'
-        //         }
-        //         })
-        //         console.log(res,'resresres')
-        //         // if (res.code == 200) {
-        //         //     this.$router.push('/home')
-        //         // }
-        // },
 
         open3(v) {
             this.$message({
