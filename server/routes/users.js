@@ -27,6 +27,9 @@ router.post('/login', function (req, res) {
 router.get('/getUserInfo', function (req, res, next) {
   user.getUserInfo(req, res)
 });
+router.get('/getAllUsersInfo', function (req, res, next) {
+  user.getAllUsersInfo(req, res)
+});
 router.get('/getUsersInfoByType', function (req, res, next) {
   user.getUsersInfoByType(req, res)
 });

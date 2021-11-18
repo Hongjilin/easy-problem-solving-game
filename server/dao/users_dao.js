@@ -53,6 +53,10 @@ module.exports=class users_dao extends  require('../model/users_mod'){
       let res= await  this.getUserInfoMod(uid)
       resp.send(res)
     }
+    static async getAllUsersInfo(req,resp){
+      let res= await  this.getAllUsersInfoMod()
+      resp.send(res)
+    }
     /**
      * 根据类型查询所有用户信息、总条数
      * @param {*} req 

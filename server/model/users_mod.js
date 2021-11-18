@@ -40,6 +40,18 @@ module.exports = class users_mod extends require('./model') {
       })
     })
   }
+  static getAllUsersInfoMod(uid) {
+    return new Promise((resolve, reject) => {
+      // let sql="select * from user where binary id='"+id+"' and password='"+password+"' and type= "
+      let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed io_elapsed,c.thread_score,c.elapsed thread_elapsed from user a,io_scorecard b,thread_scorecard c  where a.id = b.uid and a.id = c.uid'
+      console.log(sql)
+      this.query(sql).then(result => {
+        resolve(result)
+      }).catch(err => {
+        reject('查无信息')
+      })
+    })
+  }
   /**
    * 根据类型分页查询所有用户信息
    * @param {*} page_number 
