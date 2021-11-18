@@ -209,11 +209,11 @@ module.exports = class ScorecardMod extends require('./model') {
     })
   }
   static  async setThreadScorecardMod(body) {
-    const { uid, username, io_score,elapsed } = body
+    const { uid, username, thread_score,elapsed } = body
     const res = await  this.isCountByTable(uid,'thread_points')
     const { count}  = res[0]
-    let  sql= (count == 0)?`INSERT INTO thread_scorecard(uid,username,thread_score,elapsed)  VALUES('${uid}', '${username}', ${io_score}, ${elapsed});`
-    :`update thread_scorecard set username='${username}',thread_score=${io_score},elapsed=${elapsed} where uid='${uid}'`
+    let  sql= (count == 0)?`INSERT INTO thread_scorecard(uid,username,thread_score,elapsed)  VALUES('${uid}', '${username}', ${thread_score}, ${elapsed});`
+    :`update thread_scorecard set username='${username}',thread_score=${thread_score},elapsed=${elapsed} where uid='${uid}'`
     return new Promise((resolve, reject) => {
       // let sql = `update scorecard set ${type} = ${score} where  uid = ${uid}`'
       console.log('sql1',sql)
