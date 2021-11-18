@@ -1,11 +1,3 @@
-<!--
- * @Description: 描述
- * @Version: 版本
- * @Autor: Zhu Song
- * @Date: 2021-11-13 21:06:33
- * @LastEditors: Zhu Song
- * @LastEditTime: 2021-11-14 14:14:19
--->
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
@@ -13,22 +5,39 @@
         <div class="welcome"></div>
         <div class="background1">
             <div class="around">
-                <img style="width:1200px" src="../io/images/myscore4.png" alt="" @click="login1">
-                <div style="color:white;width:100%;position:absolute;margin-top:0px;font-size:20px;">
-                    <ul style="list-style: none;">
-                        <li style="margin-bottom:36px;margin-left:120px">
-                            <span>1</span>
-                            <span style="margin-left:211px">2</span>
-                            <span style="margin-left:196px">2</span>
-                            <span style="margin-left:234px">2</span>
-                            <span style="margin-left:196px">2</span>
+                <img style="width:1000px" src="../io/images/myscore4.png" alt="">
+                <div style="color:white;width:100%;position:absolute;margin-top:0px;font-size:20px;overflow:hidden;">
+                    <ul style="list-style:none;overflow:scroll;width:1200px;height:450px;overflow-y:scroll;overflow-x:hidden;">
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div style="margin-left:-10px">{{ index + 1 }}</div>
+                            <div style="margin-left:47px">{{item.username}}</div>
+                            <div style="margin-left:185px">{{item.io_score}}</div>
+                            <div style="margin-left:100px">{{item.elapsed}}</div>
                         </li>
-                        <li style="margin-bottom:36px;margin-left:120px">2</li>
-                        <li style="margin-bottom:36px;margin-left:120px">3</li>
-                        <li style="margin-bottom:36px;margin-left:120px">4</li>
-                        <li style="margin-bottom:36px;margin-left:120px">5</li>
-                        <li style="margin-bottom:36px;margin-left:120px">5</li>
-                        <li style="margin-bottom:36px;margin-left:120px">6</li>
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div style="margin-left:-10px">{{ index + 1 }}</div>
+                            <div style="margin-left:47px">{{item.username}}</div>
+                            <div style="margin-left:185px">{{item.io_score}}</div>
+                            <div style="margin-left:100px">{{item.elapsed}}</div>
+                        </li>
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div style="margin-left:-10px">{{ index + 1 }}</div>
+                            <div style="margin-left:47px">{{item.username}}</div>
+                            <div style="margin-left:185px">{{item.io_score}}</div>
+                            <div style="margin-left:100px">{{item.elapsed}}</div>
+                        </li>
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div style="margin-left:-10px">{{ index + 1 }}</div>
+                            <div style="margin-left:47px">{{item.username}}</div>
+                            <div style="margin-left:185px">{{item.io_score}}</div>
+                            <div style="margin-left:100px">{{item.elapsed}}</div>
+                        </li>
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div style="margin-left:-10px">{{ index + 1 }}</div>
+                            <div style="margin-left:47px">{{item.username}}</div>
+                            <div style="margin-left:185px">{{item.io_score}}</div>
+                            <div style="margin-left:100px">{{item.elapsed}}</div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -40,44 +49,25 @@
 export default {
     name:'MyScore',
     data() {
-    return {
-        input_user: '',
-        input_pwd:'',
-    }
-  },
-  methods:{
-      /**
-       * 登录
-       * 用户名：username:this.input_user,
-       * 密码：password:this.input_pwd,
-       */
-     async login(){
-         console.log("333")
-          if (!this.input_user || !this.input_pwd){
-                this.open3("用户名,密码不能为空")
-              this.input_user=""
-              this.input_pwd=""
-          }else{
-           const res =  await this.$Http.post('/users/login',{
-              id:1701130050,
-              password: 123456,
-              type:1
+        return {
+            list: []
+        }
+    },
+    mounted() {
+        this.resRankList()
+    },
+    methods:{
+        async resRankList(){
+            const res = await this.$Http.get('/scorecard/rankingList',{
+                number:6,
+                type:'io_score'
             })
-        console.log(res,"resresresres")
-
-          }
-    },
-    async login1(){
-         console.log("222")
-    },
-
-      open3(v) {
-          this.$message({
-              message:v,
-              type: 'warning'
-          });
-      },
-  }
+            if (res.data.code == 200) {
+                this.list = res.data.data
+            }
+            console.log(res.data.data,"resresresres")
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -92,11 +82,26 @@ export default {
         background-size:100%;
         .around{
             width:100%;height:50px;position:absolute;top:11%;left:50%;transform: translate(-50%,-50%);
+            img{
+                margin-left: 110px;
+            }
         }
     }
     .welcome{
         width:80%;height:100px;position:absolute;top:10%;left:50%;transform: translate(-50%,-10%);
         background:url('../io/images/myscore1.png') no-repeat center center;
         background-size:100%;
+    }
+    .rankList{
+        margin-left: 10px;
+        div{
+            display: flex;
+            justify-content: center;
+            width:200px;
+            margin-left: -60px;
+            // &:first-child{
+                // margin-right: -5px;
+            // }
+        }
     }
 </style>

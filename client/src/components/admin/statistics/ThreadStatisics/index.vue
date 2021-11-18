@@ -49,12 +49,12 @@ export default {
           judgment = 0,
           change_state = 0
         } = res?.data?.[0];
-        this.scores = [thread, async, judgment, change_state];
+        this.scores = [thread.toFixed(1), async.toFixed(1), judgment.toFixed(1), change_state.toFixed(1)];
         this.pointsof = [
-          maxPoints.thread - thread,
-          maxPoints.async - async,
-          maxPoints.judgment - judgment,
-          maxPoints.change_state - change_state
+          maxPoints.thread - thread.toFixed(1),
+          maxPoints.async - async.toFixed(1),
+          maxPoints.judgment - judgment.toFixed(1),
+          maxPoints.change_state - change_state.toFixed(1)
         ];
       }
       console.log(res, Array.from(this.scores), "resresresres");

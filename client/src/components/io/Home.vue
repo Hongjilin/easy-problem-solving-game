@@ -3,8 +3,8 @@
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
         <div class="hometap">
             <img src="../io/images/home1.png" style="width:200px" alt="">
-            <img src="../io/images/home2.png" style="width:200px" alt="">
-            <img src="../io/images/home3.png" style="width:200px" alt="">
+            <img src="../io/images/home2.png" style="width:200px" alt="" @click="goToMyScore">
+            <img src="../io/images/home3.png" style="width:200px" alt="" @click="goToRankList">
             <img src="../io/images/home4.png" style="width:200px" alt="">
         </div>
             <img src="../io/images/home5.png" style="width:150px;float:right;margin-top:-100px;margin-right:70px" alt="">
@@ -16,8 +16,8 @@
                 <img style="width:200px" src="../io/images/home8.png" alt="" @click="login">
             </div>
             <div class="around1">
-                <img style="width:200px" src="../io/images/home9.png" alt="" @click="login1"><br>
-                <img style="width:200px" src="../io/images/home10.png" alt="" @click="login">
+                <img style="width:200px" src="../io/images/home9.png" alt="" @click="goToGameHome"><br>
+                <img style="width:200px" src="../io/images/home10.png" alt="" @click="goToGameHome">
             </div>
         </div>
     </div>
@@ -27,31 +27,44 @@
 export default {
     name:'Home',
     data() {
-    return {
-        input_user: '',
-        input_pwd:'',
-    }
-  },
-  methods:{
-      /**
-       * 登录
-       * 用户名：username:this.input_user,
-       * 密码：password:this.input_pwd,
-       */
-     async login(){
-         console.log("333")
+        return {
+            input_user: '',
+            input_pwd:'',
+        }
     },
-    async login1(){
-         console.log("222")
-    },
+    methods:{
+        /**
+        * 登录
+        * 用户名：username:this.input_user,
+        * 密码：password:this.input_pwd,
+        */
+        async login(){
+            console.log("333")
+        },
 
-      open3(v) {
-          this.$message({
-              message:v,
-              type: 'warning'
-          });
-      },
-  }
+        goToMyScore() {
+            this.$router.push('/myscore')
+        },
+        
+        goToRankList() {
+            this.$router.push('/ranklist')
+        },
+
+        goToGameHome() {
+            this.$router.push('/gamehome')
+        },
+
+        async login1(){
+            console.log("222")
+        },
+
+        open3(v) {
+            this.$message({
+                message:v,
+                type: 'warning'
+            });
+        },
+    }
 }
 </script>
 <style lang="scss" scoped>

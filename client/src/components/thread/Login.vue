@@ -1,38 +1,26 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <!-- <transition name="el-fade-in-linear">
-            <el-card class="box-card" shadow="hover" style="text-align: center"    @keyup.enter.native="login" >
-                <div slot="header" class="clearfix" style="text-align: center">
-                    <h2 style="font-size: 1rem">IO综合应用仿真程序脚本</h2>
-                </div>
-                <el-input prefix-icon="el-icon-user-solid" v-model="input_user" placeholder="请输入学号" class="inp"></el-input>
-                <div style="height: 1.3rem"></div>
-                <el-input prefix-icon="el-icon-lock" placeholder="请输入密码" v-model="input_pwd" show-password class="inp" ></el-input>
-                <el-button type="primary" class="button" size="small" @click="login">登录</el-button>
-            </el-card>
-        </transition> -->
-        <!-- <div class="welcome"></div> -->
         <div class="background1">
             <div class="around">
-                <img style="width:200px" src="../thread/images/login2.png" alt="" @click="login1">
-                <img style="width:197px" src="../thread/images/login3.png" alt="" @click="login">
+                <img style="width:200px" src="../thread/images/login2.png" alt="">
+                <img style="width:197px" src="../thread/images/login3.png" alt="">
             </div>
             <div class="around1">
                 <div class="input1">
-                    <input type="text">
+                    <input type="text" v-model="input_user">
                 </div>
                 <div class="input2">
-                    <input type="password">
+                    <input type="password" v-model="input_pwd">
                 </div>
             </div>
             <div class="around2">
                 <input type="checkbox" style="margin-top:6px">
                 <img src="../thread/images/login5.png" style="width:80px" alt="">
-                <img src="../thread/images/login6.png" style="width:80px;margin-left:80px" @click="login1" alt="">
+                <img src="../thread/images/login6.png" style="width:80px;margin-left:80px" alt="">
             </div>
             <div class="around3">
-                <img src="../thread/images/login7.png" style="width:200px" alt="" @click="login1">
+                <img src="../thread/images/login7.png" style="width:200px" alt="" @click="login">
             </div>
         </div>
     </div>
@@ -42,44 +30,37 @@
 export default {
     name:'Loginth',
     data() {
-    return {
-        input_user: '',
-        input_pwd:'',
-    }
-  },
-  methods:{
-      /**
-       * 登录
-       * 用户名：username:this.input_user,
-       * 密码：password:this.input_pwd,
-       */
-     async login(){
-         console.log("333")
-          if (!this.input_user || !this.input_pwd){
+        return {
+            input_user: '',
+            input_pwd:'',
+        }
+    },
+    methods:{
+        async login(){
+            if (!this.input_user || !this.input_pwd){
                 this.open3("用户名,密码不能为空")
-              this.input_user=""
-              this.input_pwd=""
-          }else{
-           const res =  await this.$Http.post('/users/login',{
-              id:1701130050,
-              password: 123456,
-              type:1
-            })
-        console.log(res,"resresresres")
+                // this.input_user=""
+                // this.input_pwd=""
+            }else{
+                const res =  await this.$Http.post('/users/login',{
+                    id:this.input_user,
+                    password: this.input_pwd,
+                    type:1
+                })
+                console.log(res,'resresres')
+                if (res.code == 200) {
+                    this.$router.push('/thhome')
+                }
+            }
+        },
 
-          }
-    },
-    async login1(){
-         console.log("222")
-    },
-
-      open3(v) {
-          this.$message({
-              message:v,
-              type: 'warning'
-          });
-      },
-  }
+        open3(v) {
+            this.$message({
+                message:v,
+                type: 'warning'
+            });
+        },
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -102,14 +83,14 @@ export default {
             background-size:100%;
             .input1{
                 margin-top:12px;
-                margin-left:83px;
+                margin-left:155px;
                 input{
-                     width:280px;height:24px;background-color:transparent;border:none;outline:none;font-size:20px;color:rgb(254,153,1);
+                     width:280px;height:24px;background-color:transparent;border:none;outline:none;font-size:16px;color:rgb(254,153,1);
                 }
             }
             .input2{
                 margin-top:23px;
-                margin-left:83px;
+                margin-left:155px;
                 input{
                      width:280px;height:24px;background-color:transparent;border:none;outline:none;font-size:20px;color:rgb(254,153,1);
                 }

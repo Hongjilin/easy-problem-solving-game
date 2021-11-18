@@ -5,24 +5,51 @@
         <div class="welcome"></div>
         <div class="background1">
             <div class="around">
-                <img style="width:1200px" src="../thread/images/myscore3.png" alt="" @click="login1">
-                <div style="width:100%;position:absolute;margin-top:-30px;font-size:20px;">
-                    <ul style="list-style: none;">
-                        <li style="margin-bottom:17px;margin-left:120px">
-                            <span>1</span>
-                            <span style="margin-left:211px">2</span>
-                            <span style="margin-left:198px">2</span>
-                            <span style="margin-left:230px">2</span>
-                            <span style="margin-left:198px">2</span>
+                <img style="width:800px" src="../thread/images/myscore3.png" alt="">
+                <div style="width:100%;position:absolute;font-size:20px;margin-left:57px;overflow:hidden">
+                    <ul style="list-style:none;overflow:scroll;width:1200px;height:370px;overflow-y:scroll;overflow-x:hidden;">
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div >{{ index + 1 }}</div>
+                            <div >{{item.username}}</div>
+                            <div style="margin-left:48px">{{item.io_score}}</div>
+                            <div style="margin-left:33px">{{item.elapsed}}</div>
                         </li>
-                        <li style="margin-bottom:17px;margin-left:120px">2</li>
-                        <li style="margin-bottom:17px;margin-left:120px">3</li>
-                        <li style="margin-bottom:17px;margin-left:120px">4</li>
-                        <li style="margin-bottom:17px;margin-left:120px">5</li>
-                        <li style="margin-bottom:17px;margin-left:120px">5</li>
-                        <li style="margin-bottom:17px;margin-left:120px">6</li>
-                        <li style="margin-bottom:17px;margin-left:120px">7</li>
-                        <li style="margin-bottom:17px;margin-left:120px">8</li>
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div >{{ index + 1 }}</div>
+                            <div >{{item.username}}</div>
+                            <div style="margin-left:48px">{{item.io_score}}</div>
+                            <div style="margin-left:33px">{{item.elapsed}}</div>
+                        </li>
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div >{{ index + 1 }}</div>
+                            <div >{{item.username}}</div>
+                            <div style="margin-left:48px">{{item.io_score}}</div>
+                            <div style="margin-left:33px">{{item.elapsed}}</div>
+                        </li>
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div >{{ index + 1 }}</div>
+                            <div >{{item.username}}</div>
+                            <div style="margin-left:48px">{{item.io_score}}</div>
+                            <div style="margin-left:33px">{{item.elapsed}}</div>
+                        </li>
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div >{{ index + 1 }}</div>
+                            <div >{{item.username}}</div>
+                            <div style="margin-left:48px">{{item.io_score}}</div>
+                            <div style="margin-left:33px">{{item.elapsed}}</div>
+                        </li>
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div >{{ index + 1 }}</div>
+                            <div >{{item.username}}</div>
+                            <div style="margin-left:48px">{{item.io_score}}</div>
+                            <div style="margin-left:33px">{{item.elapsed}}</div>
+                        </li>
+                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div >{{ index + 1 }}</div>
+                            <div >{{item.username}}</div>
+                            <div style="margin-left:48px">{{item.io_score}}</div>
+                            <div style="margin-left:33px">{{item.elapsed}}</div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -34,44 +61,25 @@
 export default {
     name:'MyScoreth',
     data() {
-    return {
-        input_user: '',
-        input_pwd:'',
-    }
-  },
-  methods:{
-      /**
-       * 登录
-       * 用户名：username:this.input_user,
-       * 密码：password:this.input_pwd,
-       */
-     async login(){
-         console.log("333")
-          if (!this.input_user || !this.input_pwd){
-                this.open3("用户名,密码不能为空")
-              this.input_user=""
-              this.input_pwd=""
-          }else{
-           const res =  await this.$Http.post('/users/login',{
-              id:1701130050,
-              password: 123456,
-              type:1
+        return {
+            list: []
+        }
+    },
+    mounted() {
+        this.resRankList()
+    },
+    methods:{
+        async resRankList(){
+            const res = await this.$Http.get('/scorecard/rankingList',{
+                number:6,
+                type:'io_score'
             })
-        console.log(res,"resresresres")
-
-          }
-    },
-    async login1(){
-         console.log("222")
-    },
-
-      open3(v) {
-          this.$message({
-              message:v,
-              type: 'warning'
-          });
-      },
-  }
+            if (res.data.code == 200) {
+                this.list = res.data.data
+            }
+            console.log(res.data.data,"resresresres")
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -86,11 +94,25 @@ export default {
         background-size:100%;
         .around{
             width:100%;height:50px;position:absolute;top:15%;left:49%;transform: translate(-50%,0%);
+            img{
+                margin-left: 200px;
+            }
         }
     }
     .welcome{
         width:80%;height:200px;position:absolute;top:0%;left:50%;transform: translate(-50%,0%);
         background:url('../thread/images/myscore2.png') no-repeat center center;
         background-size:100%;
+    }
+    .rankList{
+        margin-left: 10px;
+        div{
+            display: flex;
+            justify-content: center;
+            width:230px;
+            &:first-child{
+                margin-right: -17px;
+            }
+        }
     }
 </style>

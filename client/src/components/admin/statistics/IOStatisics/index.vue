@@ -53,20 +53,20 @@ export default {
           conversion = 0
         } = res?.data?.[0];
         this.scores = [
-          array,
-          keyboard,
-          methodcall,
-          io_stream,
-          rw_object,
-          conversion
+          array.toFixed(1),
+          keyboard.toFixed(1),
+          methodcall.toFixed(1),
+          io_stream.toFixed(1),
+          rw_object.toFixed(1),
+          conversion.toFixed(1)
         ];
         this.pointsof = [
-          maxPoints.array - array,
-          maxPoints.keyboard - keyboard,
-          maxPoints.methodcall - methodcall,
-          maxPoints.io_stream - io_stream,
-          maxPoints.rw_object - rw_object,
-          maxPoints.conversion - conversion
+          maxPoints.array - array.toFixed(1),
+          maxPoints.keyboard - keyboard.toFixed(1),
+          maxPoints.methodcall - methodcall.toFixed(1),
+          maxPoints.io_stream - io_stream.toFixed(1),
+          maxPoints.rw_object - rw_object.toFixed(1),
+          maxPoints.conversion - conversion.toFixed(1)
         ];
       }
     }

@@ -3,9 +3,9 @@
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
         <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:00px;margin-right:70px" alt="">
         <div class="homeImg">
-            <img style="width:240px" class="img1" src="../thread/images/gamehome2.png" alt="" @click="login1"><br>
-            <img style="width:170px" class="img2" src="../thread/images/gamehome3.png" alt="" @click="login">
-            <img style="width:180px" class="img3" src="../thread/images/gamehome4.png" alt="" @click="login2">
+            <img style="width:240px" class="img1" src="../thread/images/gamehome2.png" alt="" @click="goToAnswer"><br>
+            <img style="width:170px" class="img2" src="../thread/images/gamehome3.png" alt="" @click="goToRankList">
+            <img style="width:180px" class="img3" src="../thread/images/gamehome4.png" alt="" @click="goToMyScore">
         </div>
     </div>
 
@@ -14,34 +14,24 @@
 export default {
     name:'GameHometh',
     data() {
-    return {
-        input_user: '',
-        input_pwd:'',
+        return {
+            input_user: '',
+            input_pwd:'',
+        }
+    },
+    methods:{
+        goToAnswer() {
+            this.$router.push('/thanswer')
+        },
+        
+        goToMyScore() {
+            this.$router.push('/thmyscore')
+        },
+        
+        goToRankList() {
+            this.$router.push('/thranklist')
+        },
     }
-  },
-  methods:{
-      /**
-       * 登录
-       * 用户名：username:this.input_user,
-       * 密码：password:this.input_pwd,
-       */
-     async login(){
-         console.log("333")
-    },
-    async login1(){
-         console.log("222")
-    },
-    async login2(){
-         console.log("444")
-    },
-
-      open3(v) {
-          this.$message({
-              message:v,
-              type: 'warning'
-          });
-      },
-  }
 }
 </script>
 <style lang="scss" scoped>

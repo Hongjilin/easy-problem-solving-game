@@ -6,7 +6,8 @@
 <style>
  .background{
     height: 100vh;
-    background: url('./components/io/images/background.png') no-repeat;
-    background-size:100%;
+    min-width: 1200px;
+    /* background: url('./components/io/images/background.png') no-repeat; */
+    /* background-size:100%; */
  }
 </style>

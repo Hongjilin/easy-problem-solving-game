@@ -11,9 +11,9 @@
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
         <img src="../io/images/home5.png" style="width:150px;float:right;margin-top:00px;margin-right:70px" alt="">
         <div class="homeImg">
-            <img style="width:180px" class="img1" src="../io/images/gamehome7.png" alt="" @click="login1"><br>
-            <img style="width:152px" class="img2" src="../io/images/gamehome11.png" alt="" @click="login">
-            <img style="width:180px" class="img3" src="../io/images/gamehome13.png" alt="" @click="login2">
+            <img style="width:180px" class="img1" src="../io/images/gamehome7.png" alt="" @click="goToAnswer"><br>
+            <img style="width:152px" class="img2" src="../io/images/gamehome11.png" alt="" @click="goToRankList">
+            <img style="width:180px" class="img3" src="../io/images/gamehome13.png" alt="" @click="goToMyScore">
         </div>
     </div>
 
@@ -22,34 +22,31 @@
 export default {
     name:'GameHome',
     data() {
-    return {
-        input_user: '',
-        input_pwd:'',
-    }
-  },
-  methods:{
-      /**
-       * 登录
-       * 用户名：username:this.input_user,
-       * 密码：password:this.input_pwd,
-       */
-     async login(){
-         console.log("333")
+        return {
+            input_user: '',
+            input_pwd:'',
+        }
     },
-    async login1(){
-         console.log("222")
-    },
-    async login2(){
-         console.log("444")
-    },
+    methods:{
+        goToAnswer() {
+            this.$router.push('/answer')
+        },
+        
+        goToMyScore() {
+            this.$router.push('/myscore')
+        },
+        
+        goToRankList() {
+            this.$router.push('/ranklist')
+        },
 
-      open3(v) {
-          this.$message({
-              message:v,
-              type: 'warning'
-          });
-      },
-  }
+        open3(v) {
+            this.$message({
+                message:v,
+                type: 'warning'
+            });
+        },
+    }
 }
 </script>
 <style lang="scss" scoped>

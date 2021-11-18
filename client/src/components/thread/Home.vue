@@ -3,8 +3,8 @@
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
         <div class="hometap">
             <img src="../thread/images/home1.png" style="width:225px" alt="">
-            <img src="../thread/images/home2.png" style="width:200px" alt="">
-            <img src="../thread/images/home3.png" style="width:200px" alt="">
+            <img src="../thread/images/home2.png" style="width:200px" alt="" @click="goToMyScore">
+            <img src="../thread/images/home3.png" style="width:200px" alt="" @click="goToRankList">
         </div>
             <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:-100px;margin-right:70px" alt="">
 
@@ -15,8 +15,8 @@
                 <img style="width:230px" src="../thread/images/home12.png" alt="" @click="login">
             </div>
             <div class="around1">
-                <img style="width:200px" src="../thread/images/home7.png" alt="" @click="login1"><br>
-                <img style="width:200px" src="../thread/images/home8.png" alt="" @click="login">
+                <img style="width:200px" src="../thread/images/home7.png" alt="" @click="goToGameHome"><br>
+                <img style="width:200px" src="../thread/images/home8.png" alt="" @click="goToGameHome">
             </div>
         </div>
     </div>
@@ -26,31 +26,31 @@
 export default {
     name:'Hometh',
     data() {
-    return {
-        input_user: '',
-        input_pwd:'',
-    }
-  },
-  methods:{
-      /**
-       * 登录
-       * 用户名：username:this.input_user,
-       * 密码：password:this.input_pwd,
-       */
-     async login(){
-         console.log("333")
+        return {
+            input_user: '',
+            input_pwd:'',
+        }
     },
-    async login1(){
-         console.log("222")
-    },
+    methods:{
+        goToMyScore() {
+            this.$router.push('/thmyscore')
+        },
+        
+        goToRankList() {
+            this.$router.push('/thranklist')
+        },
 
-      open3(v) {
-          this.$message({
-              message:v,
-              type: 'warning'
-          });
-      },
-  }
+        goToGameHome() {
+            this.$router.push('/thgamehome')
+        },
+
+        open3(v) {
+            this.$message({
+                message:v,
+                type: 'warning'
+            });
+        },
+    }
 }
 </script>
 <style lang="scss" scoped>

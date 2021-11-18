@@ -2,9 +2,22 @@
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
         <div class="hometap">
-            <!-- <img src="../thread/images/answer1.png" style="width:1200px" alt="">
-            <img src="../thread/images/answer2.png" style="width:1200px" alt="">
-            <img src="../thread/images/answer3.png" style="width:1200px" alt=""> -->
+            <img src="../thread/images/answer2.png" style="width:100px" alt="">
+            <img src="./images/answer11.png" style="width:20px;height:20px;position:absolute;margin-top:40px;margin-left:-11px" alt="">
+            <!-- <img src="../thread/images/answer2.png" style="width:100px;margin-left:-11px" alt="">
+            <img src="./images/answer11.png" style="width:20px;height:20px;position:absolute;margin-top:40px;margin-left:-11px" alt=""> -->
+            <img src="../thread/images/answer3.png" style="width:106px;margin-left:-7px;" alt="">
+            <img src="./images/answer11.png" style="width:20px;height:20px;position:absolute;margin-top:40px;margin-left:-18px" alt="">
+            <!-- <img src="../thread/images/answer2.png" style="width:100px;margin-left:-11px" alt="">
+            <img src="./images/answer11.png" style="width:20px;height:20px;position:absolute;margin-top:40px;margin-left:-11px" alt=""> -->
+            <img src="../thread/images/answer3.png" style="width:106px;margin-left:-14px;" alt="">
+            <img src="./images/answer11.png" style="width:20px;height:20px;position:absolute;margin-top:40px;margin-left:-18px" alt="">
+            <!-- <img src="../thread/images/answer2.png" style="width:100px;margin-left:-11px" alt="">
+            <img src="./images/answer11.png" style="width:20px;height:20px;position:absolute;margin-top:40px;margin-left:-11px" alt=""> -->
+            <img src="../thread/images/answer3.png" style="width:106px;margin-left:-14px;" alt="">
+            <img src="./images/answer11.png" style="width:20px;height:20px;position:absolute;margin-top:40px;margin-left:-18px" alt="">
+            <!-- <img src="../thread/images/answer2.png" style="width:100px;margin-left:-11px" alt=""> -->
+            <img src="../thread/images/answer3.png" style="width:106px;margin-left:-14px;" alt="">
         </div>
         <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt="">
         <div>

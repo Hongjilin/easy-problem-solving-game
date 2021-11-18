@@ -1,27 +1,24 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <div class="welcome"></div>
         <div class="background1">
-            <div class="around">
-                <img style="width:193px" src="../io/images/login4.png" alt="">
-                <img style="width:201px" src="../io/images/login2.png" alt="">
-            </div>
             <div class="around1">
+                <img src="./images/changpwd4.png" style="width:380px" alt=""><br>
+                <img src="./images/changpwd3.png" style="width:380px" alt=""><br>
+                <img src="./images/changpwd1.png" style="width:380px" alt=""><br>
+                <img src="./images/changpwd2.png" style="width:380px" alt="">
+
                 <div class="input1">
-                    <input type="text" v-model="input_user" placeholder="请学生账号">
+                    <input type="text" v-model="input_user" placeholder="请输入账号">
+                    <input type="text" style="margin-left: 25px;margin-top:30px" v-model="input_user" placeholder="请输入旧密码">
                 </div>
                 <div class="input2">
-                    <input type="password" v-model="input_pwd" placeholder="请输入密码">
+                    <input type="password" style="margin-left:25px;" v-model="input_pwd" placeholder="请输入新密码">
+                    <input type="password" style="margin-left:25px;margin-top:27px" v-model="input_pwd" placeholder="请输入确定密码">
                 </div>
             </div>
-            <div class="around2">
-                <input type="checkbox">
-                <img src="../io/images/login7.png" style="width:80px" alt="">
-                <img src="../io/images/login9.png" style="width:65px;margin-left:215px" alt="">
-            </div>
             <div class="around3">
-                <img src="../io/images/login8.png" style="width:120px" alt="" @click="login">
+                <img src="../io/images/changpwd6.png" style="width:100px" alt="" @click="login">
             </div>
         </div>
     </div>
@@ -29,7 +26,7 @@
 </template>
 <script>
 export default {
-    name:'Login',
+    name:'ChangePwd',
     data() {
         return {
             input_user: '',
@@ -72,26 +69,26 @@ export default {
     }
     .background1{
         width:610px;height:450px;position:absolute;top:50%;left:49%;transform: translate(-49%,-50%);
-        background: url('../io/images/login3.png') no-repeat center center;
+        background: url('../io/images/changpwd5.png') no-repeat center center;
         background-size:100%;
         .around{
             width:400px;height:50px;position:absolute;top:20%;left:50%;transform: translate(-45%,-50%);
-            // background:rgba(255,255,255,0.5)
         }
         .around1{
-            width:400px;height:100px;position:absolute;top:40%;left:50%;transform: translate(-46%,-50%);
-            background: url('../io/images/login5.png') no-repeat;
+            width:400px;height:100px;position:absolute;top:20%;left:50%;transform: translate(-46%,-0%);
             background-size:100%;
             .input1{
-                margin-top:12px;
-                margin-left:83px;
+                position:absolute;
+                top: 11%;
+                margin-left:78px;
                 input{
                      width:280px;height:24px;background-color:transparent;border:none;outline:none;font-size:20px;color:rgb(36,253,254);
                 }
             }
             .input2{
-                margin-top:23px;
-                margin-left:83px;
+                position:absolute;
+                top: 120px;
+                margin-left:78px;
                 input{
                      width:280px;height:24px;background-color:transparent;border:none;outline:none;font-size:20px;color:rgb(36,253,254);
                 }
@@ -104,9 +101,6 @@ export default {
             }
             input[type="checkbox"] {
                 text-align: center;
-                // vertical-align: middle;
-                // text-align: center;
-                // vertical-align: middle;
                 line-height: 11px;
             }
             input[type="checkbox"]::before {
@@ -122,24 +116,18 @@ export default {
                 content: "✓";
                 position: absolute;
                 background: #fff;
-                // left:0.5%;
                 width: 10px;
                 height: 10px;
                 border: 1px solid #CACDCF;
                 background-color: rgb(36,253,254);
                 color: #fff;
-                // position: absolute;
-                // margin-top: -2px;
-                // left: 0;
-                // // width: 100%;
                 border: 1px solid rgb(36,253,254);
                 font-size: 12px;
-                // font-weight: bold;
             }
             
         }
         .around3{
-            position:absolute;top:65%;left:50%;transform: translate(-38%,-50%);
+            position:absolute;top:65%;left:50%;transform: translate(-42%,0%);
         }
     }
     input::-webkit-input-placeholder{

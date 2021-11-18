@@ -14,19 +14,22 @@ module.exports=class users_dao extends  require('../model/users_mod'){
         //如果不传入type,则默认为学生
         const { id, password, type = 1 } = body
         let res= await  this.LoginUser(id, password, type)
+        console.log(res,"idid")
         // let loginData= await  this.LoginUserByid(body.username,body.password,body.type)
         //如果获取到了登录用户信息则登陆成功
-        if(res.length!=0){
+        if(res.code==200 && res.data.length>0){
+            
           let data = res[0];
-            let jwt_token= jwtUtil.sign({
-                id:data.id,
-                username:data.username,
-            },global.globalKey,3600)
+            // let jwt_token= jwtUtil.sign({
+            //     id:data.id,
+            //     username:data.username,
+            // },global.globalKey,3600)
             // resp.status(200).send({data,jwt_token})
-            resp.status(200).send({data,jwt_token})
-            return;
+            resp.send(res)
+            return
+          
         }
-          resp.status(500).send("用户名或者账号输入错误")
+          resp.send("用户名或者账号输入错误")
     }
     /**
      * 读取并写入用户信息

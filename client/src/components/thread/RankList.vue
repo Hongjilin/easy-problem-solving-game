@@ -5,26 +5,47 @@
         <div class="welcome"></div>
         <div class="background1">
             <div class="around">
-                <img style="width:800px" src="../thread/images/ranklist3.png" alt="" @click="login1"><br>
-                <img style="width:80px;margin-top:-10px" src="../thread/images/ranklist4.png" alt="" @click="login"><br>
-                <img style="width:80px;margin-top:-15px" src="../thread/images/ranklist5.png" alt="" @click="login"><br>
-                <img style="width:80px;margin-top:-15px" src="../thread/images/ranklist6.png" alt="" @click="login">
-                <div style="width:100%;position:absolute;margin-top:-165px;font-size:20px;">
-                    <ul style="list-style: none;">
-                        <li style="margin-bottom:20px;margin-left:-5px">
-                            <span>1</span>
-                            <span style="margin-left:145px">2</span>
-                            <span style="margin-left:140px">2</span>
-                            <span style="margin-left:152px">2</span>
-                            <span style="margin-left:223px">2</span>
+                <img style="width:800px" src="../thread/images/ranklist3.png" alt=""><br>
+                <div style="width:1100px;position:absolute;font-size:20px;overflow:hidden;">
+                    <ul style="list-style:none;overflow:scroll;width:100%;height:340px;overflow-y:scroll;overflow-x:hidden;">
+                        <li class="rankList" style="margin-top:-5px;margin-bottom:28px;display:flex" v-for="(item, index) in list" :key="index">
+                            <img style="width:80px;position:absolute;margin-left:68px;margin-top:-15px" v-if="index==0" src="../thread/images/ranklist4.png">
+                            <img style="width:80px;position:absolute;margin-left:68px;margin-top:-20px" v-if="index==1" src="../thread/images/ranklist5.png">
+                            <img style="width:80px;position:absolute;margin-left:68px;margin-top:-15px" v-if="index==2" src="../thread/images/ranklist6.png">
+                            <div >{{ (index < 3) ? '': index + 1 }}</div>
+                            <div style="margin-left:-70px">{{item.username}}</div>
+                            <div style="margin-left:-31px">{{item.io_score}}</div>
+                            <div style="margin-left:-43px">{{item.elapsed}}</div>
+                            <div style="margin-left:17px">{{2}}</div>
                         </li>
-                        <li style="margin-bottom:20px;margin-left:-5px">2</li>
-                        <li style="margin-bottom:20px;margin-left:-5px">3</li>
-                        <li style="margin-bottom:20px;margin-left:-5px">4</li>
-                        <li style="margin-bottom:20px;margin-left:-5px">5</li>
-                        <li style="margin-bottom:20px;margin-left:-5px">5</li>
-                        <li style="margin-bottom:20px;margin-left:-5px">6</li>
-                        <li style="margin-bottom:20px;margin-left:-5px">7</li>
+                        <li class="rankList" style="margin-top:-5px;margin-bottom:28px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div>{{ index + 1 }}</div>
+                            <div style="margin-left:-70px">{{item.username}}</div>
+                            <div style="margin-left:-31px">{{item.io_score}}</div>
+                            <div style="margin-left:-43px">{{item.elapsed}}</div>
+                            <div style="margin-left:17px">{{100}}</div>
+                        </li>
+                        <li class="rankList" style="margin-top:-5px;margin-bottom:28px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div>{{ index + 1 }}</div>
+                            <div style="margin-left:-70px">{{item.username}}</div>
+                            <div style="margin-left:-31px">{{item.io_score}}</div>
+                            <div style="margin-left:-43px">{{item.elapsed}}</div>
+                            <div style="margin-left:17px">{{2}}</div>
+                        </li>
+                        <li class="rankList" style="margin-top:-5px;margin-bottom:28px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div>{{ index + 1 }}</div>
+                            <div style="margin-left:-70px">{{item.username}}</div>
+                            <div style="margin-left:-31px">{{item.io_score}}</div>
+                            <div style="margin-left:-43px">{{item.elapsed}}</div>
+                            <div style="margin-left:17px">{{2}}</div>
+                        </li>
+                        <li class="rankList" style="margin-top:-5px;margin-bottom:28px;display:flex" v-for="(item, index) in list" :key="index">
+                            <div>{{ index + 1 }}</div>
+                            <div style="margin-left:-70px">{{item.username}}</div>
+                            <div style="margin-left:-31px">{{item.io_score}}</div>
+                            <div style="margin-left:-43px">{{item.elapsed}}</div>
+                            <div style="margin-left:17px">{{2}}</div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -36,44 +57,25 @@
 export default {
     name:'RankListth',
     data() {
-    return {
-        input_user: '',
-        input_pwd:'',
-    }
-  },
-  methods:{
-      /**
-       * 登录
-       * 用户名：username:this.input_user,
-       * 密码：password:this.input_pwd,
-       */
-     async login(){
-         console.log("333")
-          if (!this.input_user || !this.input_pwd){
-                this.open3("用户名,密码不能为空")
-              this.input_user=""
-              this.input_pwd=""
-          }else{
-           const res =  await this.$Http.post('/users/login',{
-              id:1701130050,
-              password: 123456,
-              type:1
+        return {
+            list: []
+        }
+    },
+    mounted() {
+        this.resRankList()
+    },
+    methods:{
+        async resRankList(){
+            const res = await this.$Http.get('/scorecard/rankingList',{
+                number:6,
+                type:'io_score'
             })
-        console.log(res,"resresresres")
-
-          }
-    },
-    async login1(){
-         console.log("222")
-    },
-
-      open3(v) {
-          this.$message({
-              message:v,
-              type: 'warning'
-          });
-      },
-  }
+            if (res.data.code == 200) {
+                this.list = res.data.data
+            }
+            console.log(res.data.data,"resresresres")
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -87,12 +89,23 @@ export default {
         background: url('../thread/images/ranklist2.png') no-repeat center center;
         background-size:100%;
         .around{
-            width:100%;height:50px;position:absolute;top:20%;left:50%;transform: translate(-35%,-50%);
+            width:100%;height:0px;position:absolute;top:15%;left:50%;transform: translate(-35%,-50%);
         }
     }
     .welcome{
         width:80%;height:200px;position:absolute;top:0%;left:50%;transform: translate(-50%,0%);
         background:url('../thread/images/ranklist1.png') no-repeat center center;
         background-size:100%;
+    }
+    .rankList{
+        margin-left: -114px;
+        div{
+            display: flex;
+            justify-content: center;
+            width:215px;
+            &:first-child{
+                // margin-right: -70px;
+            }
+        }
     }
 </style>

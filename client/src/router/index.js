@@ -1,11 +1,3 @@
-/*
- * @Description: 描述
- * @Version: 版本
- * @Autor: Zhu Song
- * @Date: 2021-11-13 10:00:52
- * @LastEditors: Zhu Song
- * @LastEditTime: 2021-11-14 21:46:46
- */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -26,6 +18,8 @@ const routes = [
             import ('@/components/io/Login.vue') },
     { path: '/home', name: 'Home', component: () =>
             import ('@/components/io/Home.vue') },
+    { path: '/changepwd', name: 'ChangePwd', component: () =>
+            import ('@/components/io/ChangePwd.vue') },
     { path: '/gamehome', name: 'GameHome', component: () =>
             import ('@/components/io/GameHome.vue') },
     { path: '/ranklist', name: 'RankList', component: () =>
@@ -40,6 +34,8 @@ const routes = [
             import ('@/components/thread/Login.vue') },
     { path: '/thhome', name: 'Hometh', component: () =>
             import ('@/components/thread/Home.vue') },
+    { path: '/thchangepwd', name: 'ChangePwd', component: () =>
+            import ('@/components/thread/ChangePwd.vue') },
     { path: '/thgamehome', name: 'GameHometh', component: () =>
             import ('@/components/thread/GameHome.vue') },
     { path: '/thranklist', name: 'RankListth', component: () =>

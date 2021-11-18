@@ -195,7 +195,7 @@ export default {
               {
                 // 雷达图的数据是多变量（维度）的
                 name: "失分情况", // 数据项名称
-                value: [2, 10, 6, 5, 6, 8], // 其中的value项数组是具体的数据，每个值跟 radar.indicator 一一对应。
+                value:this.pointsof, // 其中的value项数组是具体的数据，每个值跟 radar.indicator 一一对应。
                 symbol: "circle", // 单个数据标记的图形。
                 symbolSize: 5, // 单个数据标记的大小，可以设置成诸如 10 这样单一的数字，也可以用数组分开表示宽和高，例如 [20, 10] 表示标记宽为20，高为10。
                 label: {
