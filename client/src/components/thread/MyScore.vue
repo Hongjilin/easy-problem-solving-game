@@ -1,7 +1,8 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt="">
+        <img src="./images/up.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt="" @click="up">
+        <!-- <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt=""> -->
         <div class="welcome"></div>
         <div class="background1">
             <div class="around">
@@ -11,44 +12,8 @@
                         <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
                             <div >{{ index + 1 }}</div>
                             <div >{{item.username}}</div>
-                            <div style="margin-left:48px">{{item.io_score}}</div>
-                            <div style="margin-left:33px">{{item.elapsed}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div >{{ index + 1 }}</div>
-                            <div >{{item.username}}</div>
-                            <div style="margin-left:48px">{{item.io_score}}</div>
-                            <div style="margin-left:33px">{{item.elapsed}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div >{{ index + 1 }}</div>
-                            <div >{{item.username}}</div>
-                            <div style="margin-left:48px">{{item.io_score}}</div>
-                            <div style="margin-left:33px">{{item.elapsed}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div >{{ index + 1 }}</div>
-                            <div >{{item.username}}</div>
-                            <div style="margin-left:48px">{{item.io_score}}</div>
-                            <div style="margin-left:33px">{{item.elapsed}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div >{{ index + 1 }}</div>
-                            <div >{{item.username}}</div>
-                            <div style="margin-left:48px">{{item.io_score}}</div>
-                            <div style="margin-left:33px">{{item.elapsed}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div >{{ index + 1 }}</div>
-                            <div >{{item.username}}</div>
-                            <div style="margin-left:48px">{{item.io_score}}</div>
-                            <div style="margin-left:33px">{{item.elapsed}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div >{{ index + 1 }}</div>
-                            <div >{{item.username}}</div>
-                            <div style="margin-left:48px">{{item.io_score}}</div>
-                            <div style="margin-left:33px">{{item.elapsed}}</div>
+                            <div style="margin-left:48px">{{item.thread_score?item.thread_score:0}}</div>
+                            <div style="margin-left:33px">{{(myThreadNo < 101&&myThreadNo)? myThreadNo: '100+'}}</div>
                         </li>
                     </ul>
                 </div>
@@ -62,22 +27,50 @@ export default {
     name:'MyScoreth',
     data() {
         return {
-            list: []
+            list: [],
+            myThreadNo: '',
+            userInfo: []
         }
     },
     mounted() {
+        this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
         this.resRankList()
+        this.getUserInfo()
     },
     methods:{
+        up() {
+            this.$router.push('/thhome')
+        },
+        async getUserInfo(){
+            const res = await this.$Http.get('/users/getUserInfo',{
+                params:{
+                    uid: this.userInfo.uid
+                }
+            })
+            if (res.code == 200) {
+                this.list = res.data
+            }
+            console.log(res.data,"resresresres")
+        },
         async resRankList(){
             const res = await this.$Http.get('/scorecard/rankingList',{
-                number:6,
-                type:'io_score'
+                params:{
+                    number:100,
+                    type:'thread_score'
+                }
             })
             if (res.data.code == 200) {
-                this.list = res.data.data
+                const {data} = res?.data
+                data?.map((item,index)=>{
+                    if(item.uid == this.userInfo.uid) this.myThreadNo=index+1
+                })
+
+                // for (let i = 0;i<res.data.data.length;i++) {
+                //     if (res.data.data[i] == '1701130050') {
+                //         this.list.
+                //     }
+                // }
             }
-            console.log(res.data.data,"resresresres")
         }
     }
 }

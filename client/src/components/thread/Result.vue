@@ -1,15 +1,29 @@
 <template>
 
-    <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
+<div>
+    <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background" v-if="score >= 60">
         <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:00px;margin-right:70px" alt="">
         <div class="homeImg">
-            <div class="div1">得分：100分</div>
-            <div class="div2">闯关时间：100秒</div>
-            <img style="width:210px" class="img1" src="../thread/images/result4.png" alt="" @click="login1">
-            <img style="width:160px" class="img2" src="../thread/images/result3.png" alt="" @click="login">
-            <img style="width:210px" class="img3" src="../thread/images/result5.png" alt="" @click="login">
+            <div class="div1">得分：{{score}}分</div>
+            <div class="div2">闯关时间：{{elapsed}}秒</div>
+            <img style="width:210px" class="img1" src="../thread/images/result4.png" alt="" @click="goToHome">
+            <img style="width:160px" class="img2" src="../thread/images/result3.png" alt="" @click="goToAgainGame">
+            <img style="width:210px" class="img3" src="../thread/images/result5.png" alt="" @click="goToRankList">
         </div>
     </div>
+    <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background" v-if="score < 60">
+        <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:00px;margin-right:70px" alt="">
+        <div class="homeImg homeImg1">
+            <div class="div1">得分：{{score}}分</div>
+            <div class="div2">闯关时间：{{elapsed}}秒</div>
+            <img style="width:210px" class="img1" src="../thread/images/result4.png" alt="" @click="goToHome">
+            <img style="width:160px" class="img2" src="../thread/images/result3.png" alt="" @click="goToAgainGame">
+            <img style="width:210px" class="img3" src="../thread/images/result5.png" alt="" @click="goToRankList">
+        </div>
+    </div>
+</div>
+    
+    
 
 </template>
 <script>
@@ -17,29 +31,25 @@ export default {
     name:'Result',
     data() {
     return {
-        input_user: '',
-        input_pwd:'',
+        elapsed:0,
+        score:0,
     }
   },
+  mounted() {
+        this.elapsed = this.$route.query.elapsed
+        this.score = this.$route.query.score
+  },
   methods:{
-      /**
-       * 登录
-       * 用户名：username:this.input_user,
-       * 密码：password:this.input_pwd,
-       */
-     async login(){
-         console.log("333")
+    async goToHome(){
+        this.$router.push('/thhome')
     },
-    async login1(){
-         console.log("222")
+    async goToAgainGame(){
+        this.$router.push('/thgamehome')
+    },
+    async goToRankList(){
+        this.$router.push('/thranklist')
     },
 
-      open3(v) {
-          this.$message({
-              message:v,
-              type: 'warning'
-          });
-      },
   }
 }
 </script>
@@ -78,5 +88,10 @@ export default {
         .img3{
             width:600px;height:85px;position:absolute;top:82%;left:67%;transform: translate(-53%,0%);
         }
+    }
+    .homeImg1{
+        top:35%;
+        background:url('../thread/images/result1.png') no-repeat center center;
+        background-size:100%;
     }
 </style>

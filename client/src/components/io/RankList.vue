@@ -1,3 +1,11 @@
+<!--
+ * @Description: 描述
+ * @Version: 版本
+ * @Autor: Zhu Song
+ * @Date: 2021-11-13 20:52:37
+ * @LastEditors: Zhu Song
+ * @LastEditTime: 2021-11-18 19:36:51
+-->
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
@@ -13,34 +21,6 @@
                             <img style="width:80px;position:absolute;margin-left:68px;margin-top:-10px" v-if="index==1" src="../io/images/ranklist6.png" alt="">
                             <img style="width:80px;position:absolute;margin-left:68px;margin-top:-10px" v-if="index==2" src="../io/images/ranklist7.png" alt="">
                             <div v-if="index!=1||index!=2||index!=0">{{ index + 1 }}</div>
-                            <div style="margin-left:-36px">{{item.username}}</div>
-                            <div style="margin-left:30px">{{item.io_score}}</div>
-                            <div style="margin-left:3px">{{item.elapsed}}</div>
-                            <div style="margin-left:35px">{{1701130078}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:36px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div>{{ index + 1 }}</div>
-                            <div style="margin-left:-36px">{{item.username}}</div>
-                            <div style="margin-left:30px">{{item.io_score}}</div>
-                            <div style="margin-left:3px">{{item.elapsed}}</div>
-                            <div style="margin-left:35px">{{1701130078}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:36px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div>{{ index + 1 }}</div>
-                            <div style="margin-left:-36px">{{item.username}}</div>
-                            <div style="margin-left:30px">{{item.io_score}}</div>
-                            <div style="margin-left:3px">{{item.elapsed}}</div>
-                            <div style="margin-left:35px">{{1701130078}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:36px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div>{{ index + 1 }}</div>
-                            <div style="margin-left:-36px">{{item.username}}</div>
-                            <div style="margin-left:30px">{{item.io_score}}</div>
-                            <div style="margin-left:3px">{{item.elapsed}}</div>
-                            <div style="margin-left:35px">{{1701130078}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:36px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div>{{ index + 1 }}</div>
                             <div style="margin-left:-36px">{{item.username}}</div>
                             <div style="margin-left:30px">{{item.io_score}}</div>
                             <div style="margin-left:3px">{{item.elapsed}}</div>

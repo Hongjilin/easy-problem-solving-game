@@ -1,7 +1,7 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt="">
+        <img src="./images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
         <div class="welcome"></div>
         <div class="background1">
             <div class="around">
@@ -12,37 +12,9 @@
                             <img style="width:80px;position:absolute;margin-left:68px;margin-top:-15px" v-if="index==0" src="../thread/images/ranklist4.png">
                             <img style="width:80px;position:absolute;margin-left:68px;margin-top:-20px" v-if="index==1" src="../thread/images/ranklist5.png">
                             <img style="width:80px;position:absolute;margin-left:68px;margin-top:-15px" v-if="index==2" src="../thread/images/ranklist6.png">
-                            <div >{{ (index < 3) ? '': index + 1 }}</div>
+                            <div v-if="index!=1||index!=2||index!=0">{{ index + 1 }}</div>
                             <div style="margin-left:-70px">{{item.username}}</div>
-                            <div style="margin-left:-31px">{{item.io_score}}</div>
-                            <div style="margin-left:-43px">{{item.elapsed}}</div>
-                            <div style="margin-left:17px">{{2}}</div>
-                        </li>
-                        <li class="rankList" style="margin-top:-5px;margin-bottom:28px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div>{{ index + 1 }}</div>
-                            <div style="margin-left:-70px">{{item.username}}</div>
-                            <div style="margin-left:-31px">{{item.io_score}}</div>
-                            <div style="margin-left:-43px">{{item.elapsed}}</div>
-                            <div style="margin-left:17px">{{100}}</div>
-                        </li>
-                        <li class="rankList" style="margin-top:-5px;margin-bottom:28px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div>{{ index + 1 }}</div>
-                            <div style="margin-left:-70px">{{item.username}}</div>
-                            <div style="margin-left:-31px">{{item.io_score}}</div>
-                            <div style="margin-left:-43px">{{item.elapsed}}</div>
-                            <div style="margin-left:17px">{{2}}</div>
-                        </li>
-                        <li class="rankList" style="margin-top:-5px;margin-bottom:28px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div>{{ index + 1 }}</div>
-                            <div style="margin-left:-70px">{{item.username}}</div>
-                            <div style="margin-left:-31px">{{item.io_score}}</div>
-                            <div style="margin-left:-43px">{{item.elapsed}}</div>
-                            <div style="margin-left:17px">{{2}}</div>
-                        </li>
-                        <li class="rankList" style="margin-top:-5px;margin-bottom:28px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div>{{ index + 1 }}</div>
-                            <div style="margin-left:-70px">{{item.username}}</div>
-                            <div style="margin-left:-31px">{{item.io_score}}</div>
+                            <div style="margin-left:-31px">{{item.uid}}</div>
                             <div style="margin-left:-43px">{{item.elapsed}}</div>
                             <div style="margin-left:17px">{{2}}</div>
                         </li>
@@ -58,17 +30,24 @@ export default {
     name:'RankListth',
     data() {
         return {
-            list: []
+            list: [],
+            userInfo: []
         }
     },
     mounted() {
+        this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
         this.resRankList()
     },
     methods:{
+        up() {
+            this.$router.push('/thhome')
+        },
         async resRankList(){
             const res = await this.$Http.get('/scorecard/rankingList',{
-                number:6,
-                type:'io_score'
+                params:{
+                    number:100,
+                    type:'thread_score'
+                }
             })
             if (res.data.code == 200) {
                 this.list = res.data.data

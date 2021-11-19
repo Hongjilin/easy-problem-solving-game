@@ -1,23 +1,24 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
+        <img src="./images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
         <div class="background1">
             <div class="around1">
-                <img src="./images/changepwd1.png" style="width:380px" alt=""><br>
+                <!-- <img src="./images/changepwd1.png" style="width:380px" alt=""><br> -->
                 <img src="./images/changepwd2.png" style="width:380px" alt=""><br>
                 <img src="./images/changepwd3.png" style="width:380px" alt=""><br>
                 <img src="./images/changepwd4.png" style="width:380px" alt="">
                 <div class="input1">
-                    <input type="text" placeholder="请输入用户名" v-model="input_user">
-                    <input type="text" style="margin-top:30px" placeholder="请输入旧密码" v-model="input_user">
+                    <!-- <input type="text" placeholder="请输入用户名" v-model="input_user"> -->
+                    <input type="text" style="margin-top:2px" placeholder="请输入原密码" v-model="old_passowrd">
                 </div>
                 <div class="input2">
-                    <input type="password" placeholder="请输入新密码" v-model="input_pwd">
-                    <input type="password" style="margin-top:27px;margin-left:10px" placeholder="请输入确认密码" v-model="input_pwd">
+                    <input type="password" placeholder="请输入新密码" v-model="new_password">
+                    <input type="password" style="margin-top:27px;margin-left:10px" placeholder="请输入确认密码" v-model="again_password">
                 </div>
             </div>
             <div class="around3">
-                <img src="../thread/images/changepwd6.png" style="width:150px" alt="" @click="login">
+                <img src="../thread/images/changepwd6.png" style="width:150px" alt="" @click="submit">
             </div>
         </div>
     </div>
@@ -28,33 +29,64 @@ export default {
     name:'Loginth',
     data() {
         return {
-            input_user: '',
-            input_pwd:'',
+            userInfo: [],
+            old_passowrd:'',
+            new_password:'',
+            again_password:'',
+            pwd: ''
         }
     },
+    mounted() {
+        this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        this.login()
+    },
     methods:{
-        async login(){
-            if (!this.input_user || !this.input_pwd){
-                this.open3("用户名,密码不能为空")
-                // this.input_user=""
-                // this.input_pwd=""
-            }else{
-                const res =  await this.$Http.post('/users/login',{
-                    id:this.input_user,
-                    password: this.input_pwd,
-                    type:1
-                })
-                console.log(res,'resresres')
-                if (res.code == 200) {
-                    this.$router.push('/thhome')
-                }
+        up() {
+            this.$router.push('/thhome')
+        },
+        // async login(){
+        //     debugger
+        //     const res =  await this.$Http.post('/users/login',{
+        //         id:this.userInfo.uid,
+        //         password: this.userInfo.username,
+        //         type:this.userInfo.type
+        //     })
+        //     if (res.code == 200 && res != '用户名,密码不能为空') {
+        //         debugger
+        //         this.pwd = res.data[0].pwd
+        //     }
+        // },
+        async submit(){
+            if (!this.old_passowrd.trim()){
+                return this.open("请输入原密码")
+            }
+            if (!this.new_password.trim()){
+                return this.open("请输入新密码")
+            }
+            if (!this.again_password.trim()){
+                return this.open("请输入确认密码")
+            }
+            if (this.new_password.trim() != this.again_password.trim()){
+                return this.open("新密码与确认密码不相同")
+            }
+            const res =  await this.$Http.post('/users/editPWD',{
+                uid:this.userInfo.uid,
+                old_passowrd: this.old_passowrd,
+                new_password:this.new_password
+            })
+            console.log(res,'resresres')
+            if (res.code == 200 && res.affectedRows > 0) {
+                this.open('修改成功','success')
+                this.$router.push('/thhome')
+            } else {
+                this.open('输入的旧密码与原密码相同或旧密码错误','warning')
             }
         },
 
-        open3(v) {
+        open(message,type) {
             this.$message({
-                message:v,
-                type: 'warning'
+                message:message,
+                type: type
             });
         },
     }
@@ -74,7 +106,7 @@ export default {
             width:400px;height:50px;position:absolute;top:25%;left:50%;transform: translate(-45%,-50%);
         }
         .around1{
-            width:400px;height:100px;position:absolute;top:20%;left:50%;transform: translate(-46%,0%);
+            width:400px;height:100px;position:absolute;top:25%;left:50%;transform: translate(-46%,0%);
             .input1{
                 position:absolute;
                 top:12px;
@@ -85,7 +117,7 @@ export default {
             }
             .input2{
                 position:absolute;
-                top:123px;
+                top:70px;
                 margin-left:100px;
                 input{
                      width:280px;height:24px;background-color:transparent;border:none;outline:none;font-size:16px;color:rgb(254,153,1);
@@ -126,7 +158,7 @@ export default {
             
         }
         .around3{
-            position:absolute;top:72%;left:50%;transform: translate(-50%,0%);
+            position:absolute;top:68%;left:50%;transform: translate(-50%,0%);
         }
     }
     input::-webkit-input-placeholder{

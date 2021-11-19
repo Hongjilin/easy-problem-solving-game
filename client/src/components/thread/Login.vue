@@ -3,15 +3,21 @@
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
         <div class="background1">
             <div class="around">
-                <img style="width:200px" src="../thread/images/login2.png" alt="">
-                <img style="width:197px" src="../thread/images/login3.png" alt="">
+                <img style="width:200px" src="../thread/images/login2.png" alt="" @click="student">
+                <img style="width:197px" src="../thread/images/login3.png" alt="" @click="teacher">
             </div>
             <div class="around1">
-                <div class="input1">
-                    <input type="text" v-model="input_user">
+                <div class="input1" v-if="type == 1">
+                    <input type="text" v-model="input_user" placeholder="请输入学生账号">
                 </div>
-                <div class="input2">
-                    <input type="password" v-model="input_pwd">
+                <div class="input2" v-if="type == 1">
+                    <input type="password" v-model="input_pwd" placeholder="请输入密码">
+                </div>
+                <div class="input1" v-if="type == 2">
+                    <input type="text" v-model="input_user" placeholder="请输入教师账号">
+                </div>
+                <div class="input2" v-if="type == 2">
+                    <input type="password" v-model="input_pwd" placeholder="请输入密码">
                 </div>
             </div>
             <div class="around2">
@@ -31,30 +37,43 @@ export default {
     name:'Loginth',
     data() {
         return {
+            type: 1,
             input_user: '',
             input_pwd:'',
         }
     },
     methods:{
+        student() {
+            this.type = 1
+        },
+        teacher() {
+            this.type = 2
+        },
         async login(){
             if (!this.input_user || !this.input_pwd){
-                this.open3("用户名,密码不能为空")
-                // this.input_user=""
-                // this.input_pwd=""
+                this.open("用户名,密码不能为空")
             }else{
                 const res =  await this.$Http.post('/users/login',{
                     id:this.input_user,
                     password: this.input_pwd,
-                    type:1
+                    type:this.type
                 })
-                console.log(res,'resresres')
-                if (res.code == 200) {
+                if (res.code == 200 && res != '用户名,密码不能为空') {
+                    let userInfo = {
+                        uid:res.data[0].id,
+                        username:res.data[0].username,
+                        type:res.data[0].type
+                    }
+                    userInfo = JSON.stringify(userInfo)
+                    localStorage.setItem("userInfo",userInfo)
                     this.$router.push('/thhome')
+                } else {
+                    this.open("用户名或密码错误")
                 }
             }
         },
 
-        open3(v) {
+        open(v) {
             this.$message({
                 message:v,
                 type: 'warning'
@@ -92,7 +111,7 @@ export default {
                 margin-top:23px;
                 margin-left:155px;
                 input{
-                     width:280px;height:24px;background-color:transparent;border:none;outline:none;font-size:20px;color:rgb(254,153,1);
+                     width:280px;height:24px;background-color:transparent;border:none;outline:none;font-size:16px;color:rgb(254,153,1);
                 }
             }
         }

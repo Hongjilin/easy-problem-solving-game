@@ -1,7 +1,8 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:00px;margin-right:70px" alt="">
+        <img src="./images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
+        <!-- <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:00px;margin-right:70px" alt=""> -->
         <div class="homeImg">
             <img style="width:240px" class="img1" src="../thread/images/gamehome2.png" alt="" @click="goToAnswer"><br>
             <img style="width:170px" class="img2" src="../thread/images/gamehome3.png" alt="" @click="goToRankList">
@@ -31,6 +32,9 @@ export default {
         goToRankList() {
             this.$router.push('/thranklist')
         },
+        up() {
+            this.$router.push('/thhome')
+        }
     }
 }
 </script>
