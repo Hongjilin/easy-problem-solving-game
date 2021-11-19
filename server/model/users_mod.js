@@ -31,7 +31,8 @@ module.exports = class users_mod extends require('./model') {
   static getUserInfoMod(uid) {
     return new Promise((resolve, reject) => {
       // let sql="select * from user where binary id='"+id+"' and password='"+password+"' and type= "
-      let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed io_elapsed,c.thread_score,c.elapsed thread_elapsed from user a,io_scorecard b,thread_scorecard c where a.id = b.uid and a.id = c.uid  and a.id = ' + uid
+    //   let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed io_elapsed,c.thread_score,c.elapsed thread_elapsed from user a,io_scorecard b,thread_scorecard c where a.id = b.uid and a.id = c.uid  and a.id = ' + uid
+      let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed,c.thread_score,c.elapsed thelapsed from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN thread_scorecard c on a.id = c.uid where a.id =' + uid
       console.log(sql)
       this.query(sql).then(result => {
         resolve(result)
@@ -120,13 +121,14 @@ module.exports = class users_mod extends require('./model') {
   }
   static editPwdMod(uid, username,  password,old_passowrd) {
     // console.log(uid, username,  password,old_passowrd)
+    console.log(!!password && !username && !!old_passowrd,'xx')
     let sql=''
     //根据传入参数不同,拼接不同sql
     if (!username && !password || !uid) return ;
     if (username && !password) sql='update `user` set username = "'+ username + '"  where id = '+ uid
-    if (password && !username && old_passowrd) sql='update `user` set password = "'+ password + '" where password = "'+ password + ' and id = '+ uid
+    if (!!password && !username && !!old_passowrd) sql='update `user` set password = "'+ password + '" where password = "'+ password + '" and id = '+ uid
     if (password && username)  sql='update `user` set password = "'+ password +'", username = "' +  username + '"  where id = '+ uid + ' password = "'+ password+'"'
-    else return;
+    // else return;
     console.log(sql)
     return new Promise((resolve, reject) => {
       this.query(sql).then(result => {

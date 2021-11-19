@@ -50,6 +50,7 @@ module.exports=class users_dao extends  require('../model/users_mod'){
      */
     static async getUserInfo(req,resp){
       const { uid } = req.query;
+      console.log(uid,"xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
       let res= await  this.getUserInfoMod(uid)
       resp.send(res)
     }
@@ -86,6 +87,7 @@ module.exports=class users_dao extends  require('../model/users_mod'){
     static  async editPWD(req,resp){
      const {uid, username, new_password,old_passowrd}=req.body;
       let res = await this.editPwdMod(uid, username,  new_password,old_passowrd)
+      console.log(res,'ssss')
       if(!res) { resp.send({msg:'无任何修改',code:400});return }
       const { data : {affectedRows} ,code} = res
       resp.send({affectedRows,code})
