@@ -211,10 +211,10 @@ export default {
      */
     async submit_form(lists) {
       //此处需要过滤
-
       const res = await this.$Http.post("/upload/readXlsx", { lists });
       this.getUsersInfoByType(this.currentPage, this.pageSize);
       if (res?.code == 200) this.open2("导入成功"); //直接成功,后面再改
+      this.clearvalue()
     },
 
     /**
