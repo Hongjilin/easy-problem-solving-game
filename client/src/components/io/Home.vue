@@ -5,15 +5,15 @@
             <img src="../io/images/home1.png" style="width:200px" alt="">
             <img src="../io/images/home2.png" style="width:200px" alt="" @click="goToMyScore">
             <img src="../io/images/home3.png" style="width:200px" alt="" @click="goToRankList">
-            <img src="../io/images/home4.png" style="width:200px" alt="">
+            <img src="../io/images/pwd.png" style="width:200px" alt="" @click="goToPwd">
         </div>
-            <img src="../io/images/home5.png" style="width:150px;float:right;margin-top:-100px;margin-right:70px" alt="">
+            <img src="../io/images/home5.png" @click="out" style="width:150px;float:right;margin-top:-100px;margin-right:70px" alt="">
 
         <div class="background1">
             <div class="around">
-                <img style="width:210px" src="../io/images/home7.png" alt="" @click="login1"><br>
-                <div>洪吉林</div>
-                <img style="width:200px" src="../io/images/home8.png" alt="" @click="login">
+                <img style="width:210px" src="../io/images/home7.png" alt=""><br>
+                <div>{{userInfo.username}}</div>
+                <!-- <img style="width:200px" src="../io/images/home8.png" alt=""> -->
             </div>
             <div class="around1">
                 <img style="width:200px" src="../io/images/home9.png" alt="" @click="goToGameHome"><br>
@@ -30,16 +30,20 @@ export default {
         return {
             input_user: '',
             input_pwd:'',
+            userInfo: []
         }
     },
+    mounted() {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (!userInfo) {
+            this.$router.push('/login')
+        }
+        this.userInfo = userInfo
+    },
     methods:{
-        /**
-        * 登录
-        * 用户名：username:this.input_user,
-        * 密码：password:this.input_pwd,
-        */
-        async login(){
-            console.log("333")
+        out() {
+            localStorage.removeItem("userInfo")
+            this.$router.push('/login')
         },
 
         goToMyScore() {
@@ -54,11 +58,11 @@ export default {
             this.$router.push('/gamehome')
         },
 
-        async login1(){
-            console.log("222")
+        goToPwd() {
+            this.$router.push('/changepwd')
         },
 
-        open3(v) {
+        open(v) {
             this.$message({
                 message:v,
                 type: 'warning'
@@ -71,7 +75,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../io/images/login6.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .background1{
         width:850px;height:650px;position:absolute;top:50%;left:55%;transform: translate(-50%,-45%);

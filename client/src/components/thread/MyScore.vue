@@ -1,7 +1,10 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <img src="./images/up.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt="" @click="up">
+        <div @click="up"  style="width:150px;position:absolute;right:0%;top:20px">
+            <img src="./images/up.png" width="80%" style="" alt="" >
+        </div>
+        <!-- <img src="./images/up.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt="" @click="up"> -->
         <!-- <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt=""> -->
         <div class="welcome"></div>
         <div class="background1">
@@ -11,7 +14,7 @@
                     <ul style="list-style:none;overflow:scroll;width:1200px;height:370px;overflow-y:scroll;overflow-x:hidden;">
                         <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
                             <div >{{ index + 1 }}</div>
-                            <div >{{item.username}}</div>
+                            <div >{{item.elapsed}}</div>
                             <div style="margin-left:48px">{{item.thread_score?item.thread_score:0}}</div>
                             <div style="margin-left:33px">{{(myThreadNo < 101&&myThreadNo)? myThreadNo: '100+'}}</div>
                         </li>
@@ -33,13 +36,17 @@ export default {
         }
     },
     mounted() {
-        this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (!userInfo) {
+            this.$router.push('/thlogin')
+        }
+        this.userInfo = userInfo
         this.resRankList()
         this.getUserInfo()
     },
     methods:{
         up() {
-            this.$router.push('/thhome')
+            this.$router.go(-1)
         },
         async getUserInfo(){
             const res = await this.$Http.get('/users/getUserInfo',{
@@ -79,7 +86,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../thread/images/login8.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .background1{
         width:1200px;height:600px;position:absolute;top:19%;left:49%;transform: translate(-49%,-1%);

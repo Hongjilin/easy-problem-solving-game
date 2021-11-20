@@ -1,24 +1,26 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
+            <img src="../io/images/up.png" @click="up" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="">
+        
         <div class="background1">
             <div class="around1">
-                <img src="./images/changpwd4.png" style="width:380px" alt=""><br>
+                <!-- <img src="./images/changpwd4.png" style="width:380px" alt=""><br> -->
                 <img src="./images/changpwd3.png" style="width:380px" alt=""><br>
                 <img src="./images/changpwd1.png" style="width:380px" alt=""><br>
                 <img src="./images/changpwd2.png" style="width:380px" alt="">
 
                 <div class="input1">
-                    <input type="text" v-model="input_user" placeholder="请输入账号">
-                    <input type="text" style="margin-left: 25px;margin-top:30px" v-model="input_user" placeholder="请输入旧密码">
+                    <!-- <input type="text" v-model="input_user" placeholder="请输入账号"> -->
+                    <input type="text" style="margin-left: 25px;margin-top:2px" v-model="old_passowrd" placeholder="请输入旧密码">
                 </div>
                 <div class="input2">
-                    <input type="password" style="margin-left:25px;" v-model="input_pwd" placeholder="请输入新密码">
-                    <input type="password" style="margin-left:25px;margin-top:27px" v-model="input_pwd" placeholder="请输入确定密码">
+                    <input type="password" style="margin-left:25px;" v-model="new_password" placeholder="请输入新密码">
+                    <input type="password" style="margin-left:25px;margin-top:25px" v-model="again_password" placeholder="请输入确定密码">
                 </div>
             </div>
             <div class="around3">
-                <img src="../io/images/changpwd6.png" style="width:100px" alt="" @click="login">
+                <img src="../io/images/changpwd6.png" style="width:100px" alt="" @click="submit">
             </div>
         </div>
     </div>
@@ -29,35 +31,57 @@ export default {
     name:'ChangePwd',
     data() {
         return {
-            input_user: '',
-            input_pwd:'',
+            userInfo: [],
+            old_passowrd:'',
+            new_password:'',
+            again_password:'',
+            pwd: ''
         }
     },
+    mounted() {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (!userInfo) {
+            this.$router.push('/login')
+        }
+        this.userInfo = userInfo
+    },
     methods:{
-        async login(){
-            if (!this.input_user || !this.input_pwd){
-                this.open3("用户名,密码不能为空")
-                // this.input_user=""
-                // this.input_pwd=""
-            }else{
-                const res =  await this.$Http.post('/users/login',{
-                    id:this.input_user,
-                    password: this.input_pwd,
-                    type:1
-                })
-                console.log(res,'resresres')
-                if (res.code == 200) {
-                    this.$router.push('/home')
-                }
+        up() {
+            this.$router.go(-1)
+        },
+        async submit(){
+            if (!this.old_passowrd.trim()){
+                return this.open("请输入原密码",'warning')
+            }
+            if (!this.new_password.trim()){
+                return this.open("请输入新密码",'warning')
+            }
+            if (!this.again_password.trim()){
+                return this.open("请输入确认密码",'warning')
+            }
+            if (this.new_password.trim() != this.again_password.trim()){
+                return this.open("新密码与确认密码不相同",'warning')
+            }
+            const res =  await this.$Http.post('/users/editPWD',{
+                uid:this.userInfo.uid,
+                old_passowrd: this.old_passowrd,
+                new_password:this.new_password
+            })
+            console.log(res,'resresres')
+            if (res.code == 200 && res.affectedRows > 0) {
+                this.open('修改成功','success')
+                this.$router.push('/home')
+            } else {
+                this.open('输入的旧密码与原密码相同或旧密码错误','warning')
             }
         },
     
-        open3(v) {
+        open(message,type) {
             this.$message({
-                message:v,
-                type: 'warning'
+                message:message,
+                type: type
             });
-        }
+        },
     }
 }
 </script>
@@ -65,7 +89,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../io/images/login6.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .background1{
         width:610px;height:450px;position:absolute;top:50%;left:49%;transform: translate(-49%,-50%);
@@ -87,7 +111,7 @@ export default {
             }
             .input2{
                 position:absolute;
-                top: 120px;
+                top: 67px;
                 margin-left:78px;
                 input{
                      width:280px;height:24px;background-color:transparent;border:none;outline:none;font-size:20px;color:rgb(36,253,254);

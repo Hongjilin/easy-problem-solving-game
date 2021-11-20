@@ -1,6 +1,9 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
+        <BgMusic />
+         <audio preload="auto" loop id="success" :src="require('@/assets/audio/yes1.mp3')"></audio>
+         <audio preload="auto" loop id="no" :src="require('@/assets/audio/no.mp3')"></audio>
         <div class="hometap">
             <img src="../io/images/answer1.png" style="width:1200px" alt="">
             <img src="../io/images/answer2.png" style="width:130px;margin-left:320px" alt="">
@@ -20,108 +23,112 @@
             <div style="position:absolute;top:140%;margin-left:56%">当前得分：{{score1+score2+score3+score4+score5+score6+score7+score8+score9+score10+score11}}分</div>
         </div>
 
-        <img src="../io/images/home5.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt="">
+        <!-- <img src="../io/images/home5.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt=""> -->
 
         <div class="background1">
-            <div class="around">
-                <div style="position:absolute;margin-top:30px;margin-left:80px" v-if="type==1">
-                    <img src="./images/io1.png" style="width:100%" alt="">
-                    <img src="./images/io2.png" style="width:51%" alt="">
-                    <img src="./images/io3.png" style="width:49%" alt="">
-                    <img src="./images/io4.png" style="width:100%" alt="">
-                </div>
-                <div style="position:absolute;margin-top:30px;margin-left:80px" v-if="type==2">
-                    <img src="./images/io2.1.png" style="width:97%" alt="">
-                </div>
-                <div style="position:absolute;margin-top:30px;margin-left:80px" v-if="type==3">
-                    <img src="./images/io3.1.png" style="width:97%" alt="">
-                </div>
-                <div style="position:absolute;margin-top:30px;margin-left:80px" v-if="type==4">
-                    <img src="./images/io4.1.png" style="width:97%" alt="">
-                </div>
-                <div style="position:absolute;margin-top:30px;margin-left:80px" v-if="type==5">
-                    <img src="./images/io5.1.png" style="width:97%" alt="">
+            <div class="around" style="position:absolute;font-size:20px;overflow:hidden;">
+                <div style="width:100%;margin-left:40px;height:395px;margin-top:35px;overflow-y:scroll;overflow-x:hidden;">
+                    <img v-if="type == 1" src="./images/io1.png" style="width:85%;margin-left:45px" alt="">
+                    <img v-if="type == 1" src="./images/io2.png" style="width:85%;margin-left:45px;margin-top:-10px" alt="">
+                    <img v-if="type == 2" src="./images/io3.png" style="width:85%;margin-left:45px" alt="">
+                    <img v-if="type == 3" src="./images/io4.png" style="width:85%;margin-left:45px" alt="">
+                    <img v-if="type == 4" src="./images/io5.png" style="width:85%;margin-left:45px" alt="">
+                    <img v-if="type == 5" src="./images/io6.png" style="width:85%;margin-left:45px" alt="">
                 </div>
             </div>
             <div class="around1">
+                <div class="yes" v-if="isShow">
+                    <img v-if="!check" src="./images/no.png" style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" alt="">
+                    <!-- <div v-if="!check" style="position:absolute;top:40%;left:51%;transform: translate(-50%,0%);color:red">回答错误！</div> -->
+                    <img v-if="check" src="./images/yes.png" style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" alt="">
+                    <!-- <div v-if="check" style="position:absolute;top:60%;left:51%;transform: translate(-50%,0%);color:green">恭喜你，回答正确！</div> -->
+                    <div v-if="!check" style="position:absolute;top:62%;left:50%;transform: translate(-50%,0%);font-size:18px">{{tip}}</div>
+                    <img v-if="!check" @click="pass" style="position:absolute;top:78%;left:50%;transform: translate(-50%,0%);width:150px" src="../io/images/pass.png" alt="">
+                </div>
+                <div style="margin-top:-150px">
+                    <img src="./images/yes1.png" width="220px" alt="" v-if="type==1 && yes1">
+                    <img src="./images/yes2.png" width="360px" alt="" v-if="type==2 && yes2">
+                </div>
                 <div style="color:white;font-size:24px">请输入答案：</div>
                 <div style="margin-top:40px" v-if="type==1">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeOne" style="width:100px;height:32px;font-size:18px" type="text" v-model="type1">
+                        <input @input="typeOne" @blur="checkOne('对象需要实现Serializable接口才能进行序列化和反序列化。')" style="width:100px;height:32px;font-size:18px" type="text" v-model="type1">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:-10px" v-if="type == 2">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeTwo" placeholder="第1空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_1">
+                        <input @input="typeTwo" @blur="checkTwo('')" placeholder="第1空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_1">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:110px" v-if="type == 2">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeThree" placeholder="第2空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_2">
+                        <input @input="typeThree" @blur="checkThree('')" placeholder="第2空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_2">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:230px" v-if="type == 2">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeFour" placeholder="第3空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_3">
+                        <input @input="typeFour" @blur="checkFour('')" placeholder="第3空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_3">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:350px" v-if="type == 2">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeFive" placeholder="第4空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_4">
+                        <input @input="typeFive" @blur="checkFive('')" placeholder="第4空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_4">
                     </div>
                 </div>
                 <div style="margin-top:90px;margin-left:-10px" v-if="type == 2">
                     <img style="width:405px;height:50px;margin-top:0px;margin-left:-30px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeSix" placeholder="第5空" style="width:290px;height:32px;font-size:18px" type="text" v-model="type2_5">
+                        <input @input="typeSix" @blur="checkSix('总分应为2门科目的成绩之和，可以通过getScore*方法获取单科成绩')" placeholder="第5空" style="width:290px;height:32px;font-size:18px" type="text" v-model="type2_5">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:-10px" v-if="type == 3">
                     <img style="width:205px;height:50px;margin-left:-6px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeSeven" placeholder="第1空" style="width:140px;height:32px;font-size:18px" type="text" v-model="type3_1">
+                        <input @input="typeSeven" @blur="checkSeven('生成一个文件输出字节流')" placeholder="第1空" style="width:140px;height:32px;font-size:18px" type="text" v-model="type3_1">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:170px" v-if="type == 3">
                     <img style="width:242px;height:50px;margin-left:-9px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeEight" placeholder="第2空" style="width:170px;height:32px;font-size:18px" type="text" v-model="type3_2">
+                        <input @input="typeEight" @blur="checkEight('生成一个对象输出流')" placeholder="第2空" style="width:170px;height:32px;font-size:18px" type="text" v-model="type3_2">
                     </div>
                 </div>
                 <div style="margin-top:40px" v-if="type==4">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeNine" style="width:100px;height:32px;font-size:18px" type="text" v-model="type4">
+                        <input @input="typeNine" @blur="checkNine('请输入正确的写对象方法')" style="width:100px;height:32px;font-size:18px" type="text" v-model="type4">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:-10px" v-if="type == 5">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeTen" placeholder="第1空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type5_1">
+                        <input @input="typeTen" @blur="checkTen('要将Object对象转成Student1对象。')" placeholder="第1空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type5_1">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:110px" v-if="type == 5">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeEleven" placeholder="第2空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type5_2">
+                        <input @input="typeEleven" @blur="checkEleven('请输入正确的读对象方法')" placeholder="第2空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type5_2">
                     </div>
                 </div>
-                <img style="width:95px;margin-left:250px" class="answerAction" src="../io/images/answer10.png" alt="" @click="up">
-                <img style="width:108px;margin-left:350px" class="answerAction" src="../io/images/answer9.png" alt="" @click="next">
-                <!-- <img style="width:100px;margin-left:320px" class="answerAction" src="../io/images/answer11.png" alt=""> -->
+                <img v-if="type != 1" style="width:95px;margin-left:250px" class="answerAction" src="../io/images/answer10.png" alt="" @click="up">
+                <img v-if="type != 5" style="width:108px;margin-left:350px" class="answerAction" src="../io/images/answer9.png" alt="" @click="next">
+                <img v-if="type == 5" style="width:109px;margin-left:350px;margin-top:8px" class="answerAction" src="../io/images/submit.png" alt="" @click="submit">
             </div>
         </div>
     </div>
 
 </template>
 <script>
+import BgMusic from '../common/bg-music.vue'
 export default {
     name:'Answer',
+    components:{BgMusic},
     data() {
         return {
             score1: 0,
@@ -148,15 +155,71 @@ export default {
             type5_1:'',
             type5_2:'',
             elapsed:0,
+            stop: false,
+            userInfo:[],
+            isShow: false,
+            tip: '',
+            check: false,
+            check1: false,
+            check2: false,
+            check3: false,
+            check4: false,
+            check5: false,
+            check6: false,
+            check7: false,
+            check8: false,
+            check9: false,
+            check10: false,
+            check11: false,
+            yes1: false,
+            yes2: false,
+            list: [],
+            isOff: false,
+            isOff1:false
         }
     },
-    mounted:function(){
+    mounted() {
         this.timer();
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (!userInfo) {
+            this.$router.push('/login')
+        }
+        this.userInfo = userInfo
+        this.getUserInfo()
     },
     methods:{
+        changeSeccessOn(){
+            let oAudio = document.querySelector("#success");
+            if(this.isOff){
+            oAudio.play();//让音频文件开始播放     
+            }else{
+            oAudio.load();//让音频文件暂停播放 
+            }
+        //    this.isOff = !this.isOff;
+        },
+        changeNoOn(){
+            let oAudio = document.querySelector("#no");
+            if(this.isOff1){
+            oAudio.play();//让音频文件开始播放     
+            }else{
+            oAudio.load();//让音频文件暂停播放 
+            }
+        //    this.isOff = !this.isOff;
+        },
+        async getUserInfo(){
+            const res = await this.$Http.get('/users/getUserInfo',{
+                params:{
+                    uid: this.userInfo.uid
+                }
+            })
+            if (res.code == 200) {
+                this.list = res.data
+            }
+            console.log(res.data,"resresresres")
+        },
         timer() {
             let time = setInterval(()=>{
-                if (this.type == 5) {
+                if (this.stop == true) {
                     clearInterval(time)
                 }
                 this.elapsed = this.elapsed + 1
@@ -165,78 +228,100 @@ export default {
         typeOne() {
             if (this.type1.trim() == 'Serializable') {
                 this.score1 = 10
+                this.check1 = true
             } else {
                 this.score1 = 0
+                this.check1 = false
             }
         },
         typeTwo() {
             if (this.type2_1.trim() == 'Student1[]') {
                 this.score2 = 10
+                this.check2 = true
             } else {
                 this.score2 = 0
+                this.check2 = false
             }
         },
         typeThree() {
             if (this.type2_2.trim() == 's.nextInt()') {
                 this.score3 = 10
+                this.check3 = true
             } else {
                 this.score3 = 0
+                this.check3 = false
             }
         },
         typeFour() {
             if (this.type2_3.trim() == 's.nextInt()') {
                 this.score4 = 10
+                this.check4 = true
             } else {
                 this.score4 = 0
+                this.check4 = false
             }
         },
         typeFive() {
             if (this.type2_4.trim() == 's.nextInt()') {
                 this.score5 = 10
+                this.check5 = true
             } else {
                 this.score5 = 0
+                this.check5 = false
             }
         },
         typeSix() {
             if (this.type2_5.trim() == 'stu[i].getScore1()+stu[i].getScore2()') {
                 this.score6 = 10
+                this.check5 = true
             } else {
                 this.score6 = 0
+                this.check6 = false
             }
         },
         typeSeven() {
             if (this.type3_1.trim() == 'FileOutputStream') {
                 this.score7 = 10
+                this.check7 = true
             } else {
                 this.score7 = 0
+                this.check7 = false
             }
         },
         typeEight() {
             if (this.type3_2.trim() == 'ObjectOutputStream') {
                 this.score8 = 10
+                this.check8 = true
             } else {
                 this.score8 = 0
+                this.check8 = false
             }
         },
         typeNine() {
             if (this.type4.trim() == 'writeObject') {
                 this.score9 = 10
+                this.check9 = true
             } else {
                 this.score9 = 0
+                this.check9 = false
             }
         },
         typeTen() {
             if (this.type5_1.trim() == 'readObject') {
                 this.score10 = 5
+                this.check10 = true
             } else {
                 this.score10 = 0
+                this.check10 = false
             }
         },
         typeEleven() {
             if (this.type5_2.trim() == 'Serializable') {
                 this.score11 = 5
+                this.check11 = true
             } else {
                 this.score11 = 0
+                this.check11 = false
             }
         },
         up() {
@@ -248,15 +333,311 @@ export default {
             if (this.type < 5) {
                 this.type = this.type + 1
             }
-            if (this.type == 5) {
+            // if (this.type == 5) {
                 // clearInterval(time)
                 // this.submit()
+            // }
+        },
+        checkOne(msg) {
+            if(this.check1 == false) {
+                this.isShow = true
+                this.tip = msg
+                this.yes1 = false
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
+            } else {
+                this.isOff = true
+                this.changeSeccessOn()
+                this.isShow = true
+                this.tip = ''
+                this.check = true
+                this.yes1 = true
+                setTimeout(()=>{
+                    this.isShow = false
+                    this.check = false
+                },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
             }
         },
+        checkTwo(msg) {
+            if(this.check2 == false) {
+                this.isShow = true
+                this.tip = msg
+                // this.check = false
+                this.yes2 = false
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
+            } else {
+                this.isShow = true
+                this.tip = ''
+                this.check = true
+                this.yes2 = true
+                this.isOff = true
+                this.changeSeccessOn()
+                setTimeout(()=>{
+                    this.isShow = false
+                    this.check = false
+                },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
+            }
+        },
+        checkThree(msg) {
+            if(this.check3 == false) {
+                this.isShow = true
+                this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
+            } else {
+                this.isShow = true
+                this.tip = ''
+                this.check = true
+                this.isOff = true
+                this.changeSeccessOn()
+                setTimeout(()=>{
+                    this.isShow = false
+                    this.check = false
+                },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
+            }
+        },
+        checkFour(msg) {
+            if(this.check4 == false) {
+                this.isShow = true
+                this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
+            } else {
+                this.isShow = true
+                this.tip = ''
+                this.check = true
+                this.isOff = true
+                this.changeSeccessOn()
+                setTimeout(()=>{
+                    this.isShow = false
+                    this.check = false
+                },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
+            }
+        },
+        checkFive(msg) {
+            if(this.check5 == false) {
+                this.isShow = true
+                this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
+            } else {
+                this.isShow = true
+                this.tip = ''
+                this.check = true
+                this.isOff = true
+                this.changeSeccessOn()
+                setTimeout(()=>{
+                    this.isShow = false
+                    this.check = false
+                },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
+            }
+        },
+        checkSix(msg) {
+            if(this.check6 == false) {
+                this.isShow = true
+                this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
+            } else {
+                this.isShow = true
+                this.tip = ''
+                this.check = true
+                this.isOff = true
+                this.changeSeccessOn()
+                setTimeout(()=>{
+                    this.isShow = false
+                    this.check = false
+                },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
+            }
+        },
+        checkSeven(msg) {
+            if(this.check7 == false) {
+                this.isShow = true
+                this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
+            } else {
+                this.isShow = true
+                this.tip = ''
+                this.check = true
+                this.isOff = true
+                this.changeSeccessOn()
+                setTimeout(()=>{
+                    this.isShow = false
+                    this.check = false
+                },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
+            }
+        },
+        checkEight(msg) {
+            if(this.check8 == false) {
+                this.isShow = true
+                this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
+            } else {
+                this.isShow = true
+                this.tip = ''
+                this.check = true
+                this.isOff = true
+                this.changeSeccessOn()
+                setTimeout(()=>{
+                    this.isShow = false
+                    this.check = false
+                },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
+            }
+        },
+        checkNine(msg) {
+            if(this.check9 == false) {
+                this.isShow = true
+                this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
+            } else {
+                this.isShow = true
+                this.tip = ''
+                this.check = true
+                this.isOff = true
+                this.changeSeccessOn()
+                setTimeout(()=>{
+                    this.isShow = false
+                    this.check = false
+                },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
+            }
+        },
+        checkTen(msg) {
+            if(this.check10 == false) {
+                this.isShow = true
+                this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
+            } else {
+                this.isShow = true
+                this.tip = ''
+                this.check = true
+                this.isOff = true
+                this.changeSeccessOn()
+                setTimeout(()=>{
+                    this.isShow = false
+                    this.check = false
+                },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
+            }
+        },
+        checkEleven(msg) {
+            if(this.check11 == false) {
+                this.isShow = true
+                this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
+            } else {
+                this.isOff = true
+                this.changeSeccessOn()
+                this.isShow = true
+                this.tip = ''
+                this.check = true
+                setTimeout(()=>{
+                    this.isShow = false
+                    this.check = false
+                },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
+            }
+        },
+        pass() {
+            this.isShow = false
+        },
         async submit(){
-            const res =  await this.$Http.post('/scorecard/setIOScorecard',{
-                uid:1701130050,
-                username: '读书',
+            let scores = this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10+this.score11
+            if (scores >= this.list.io_score && this.list.thread_score) {
+                const res =  await this.$Http.post('/scorecard/setIOScorecard',{
+                uid:this.userInfo.uid,
+                username: this.userInfo.username,
                 io_score: this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10+this.score11,
                 elapsed: this.elapsed,
                 points: {
@@ -270,16 +651,44 @@ export default {
                 }
                 })
                 console.log(res,'resresres')
-                // if (res.code == 200) {
-                //     this.$router.push('/home')
-                // }
+                if (res.code == 200) {
+                    // this.open('提交成功')
+                this.$router.push({path: '/result', query: {elapsed:this.elapsed,score:this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10+this.score11}})
+                }
+            } else if(!this.list.thread_score) {
+                const res =  await this.$Http.post('/scorecard/setIOScorecard',{
+                uid:this.userInfo.uid,
+                username: this.userInfo.username,
+                io_score: this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10+this.score11,
+                elapsed: this.elapsed,
+                points: {
+                    array: this.score1,
+                    keyboard: this.score2+this.score3+this.score4,
+                    methodcall: this.score5,
+                    io_stream: this.score6+this.score7,
+                    rw_object: this.score8+this.score10+this.score11,
+                    conversion: this.score9,
+                    scoring_details: `${[this.score1,this.score2,this.score3,this.score4,this.score5,this.score6,this.score7,this.score8,this.score9,(this.score10+this.score11)]}`
+                }
+                })
+                console.log(res,'resresres')
+                if (res.code == 200) {
+                    // this.open('提交成功')
+                this.$router.push({path: '/result', query: {elapsed:this.elapsed,score:this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10+this.score11}})
+                }
+            } else {
+                this.$router.push({path: '/result', query: {elapsed:this.elapsed,score:this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10+this.score11}})
+            }
         },
 
-        open3(v) {
+        open(v) {
             this.$message({
                 message:v,
-                type: 'warning'
+                type: 'success'
             });
+            // setTimeout(()=>{
+                this.$router.push({path: '/result', query: {elapsed:this.elapsed,score:this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10+this.score11}})
+            // },2000)
         },
   }
 }
@@ -319,5 +728,11 @@ export default {
             font-size: 22px;
             font-weight: bold;
         }
+    }
+    .yes{
+        position:absolute;font-size:24px;width:500px;height:500px;z-index: 9999;color: white;
+        margin-top: -300px;margin-left: -320px;
+        // background: url('./images/yes2.png') no-repeat center center;
+        background-size:100%;
     }
 </style>

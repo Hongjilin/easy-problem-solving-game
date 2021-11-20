@@ -4,21 +4,27 @@
         <div class="welcome"></div>
         <div class="background1">
             <div class="around">
-                <img style="width:193px" src="../io/images/login4.png" alt="">
-                <img style="width:201px" src="../io/images/login2.png" alt="">
+                <img style="width:193px" src="../io/images/login4.png" @click="student" alt="">
+                <img style="width:201px" src="../io/images/login2.png" @click="teacher" alt="">
             </div>
             <div class="around1">
-                <div class="input1">
+                <div class="input1" v-if="type == 1">
                     <input type="text" v-model="input_user" placeholder="请学生账号">
                 </div>
-                <div class="input2">
+                <div class="input2" v-if="type == 1">
+                    <input type="password" v-model="input_pwd" placeholder="请输入密码">
+                </div>
+                <div class="input1" v-if="type == 2">
+                    <input type="text" v-model="input_user" placeholder="请教师账号">
+                </div>
+                <div class="input2" v-if="type == 2">
                     <input type="password" v-model="input_pwd" placeholder="请输入密码">
                 </div>
             </div>
             <div class="around2">
-                <input type="checkbox">
+                <!-- <input type="checkbox">
                 <img src="../io/images/login7.png" style="width:80px" alt="">
-                <img src="../io/images/login9.png" style="width:65px;margin-left:215px" alt="">
+                <img src="../io/images/login9.png" style="width:65px;margin-left:215px" alt=""> -->
             </div>
             <div class="around3">
                 <img src="../io/images/login8.png" style="width:120px" alt="" @click="login">
@@ -32,30 +38,48 @@ export default {
     name:'Login',
     data() {
         return {
+            type: 1,
             input_user: '',
             input_pwd:'',
         }
     },
     methods:{
+        student() {
+            this.type = 1
+        },
+        teacher() {
+            this.type = 2
+        },
         async login(){
             if (!this.input_user || !this.input_pwd){
                 this.open3("用户名,密码不能为空")
-                // this.input_user=""
-                // this.input_pwd=""
             }else{
                 const res =  await this.$Http.post('/users/login',{
                     id:this.input_user,
                     password: this.input_pwd,
-                    type:1
+                    type:this.type
                 })
-                console.log(res,'resresres')
-                if (res.code == 200) {
-                    this.$router.push('/home')
+                if (res.code == 200 && res != '用户名,密码不能为空') {
+                    console.log(res.data[0].id,'2123121231231')
+                    let userInfo = {
+                        uid:res.data[0].id,
+                        username:res.data[0].username,
+                        type: res.data[0].type
+                    }
+                    userInfo = JSON.stringify(userInfo)
+                    localStorage.setItem("userInfo",userInfo)
+                    if (this.type == 1) {
+                        this.$router.push('/home')
+                    } else {
+                        this.$router.push('/admin/userControl')
+                    }
+                } else {
+                    this.open("用户名或密码错误")
                 }
             }
         },
     
-        open3(v) {
+        open(v) {
             this.$message({
                 message:v,
                 type: 'warning'
@@ -68,7 +92,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../io/images/login6.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .background1{
         width:610px;height:450px;position:absolute;top:50%;left:49%;transform: translate(-49%,-50%);

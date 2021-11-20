@@ -2,6 +2,8 @@
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
         <img src="./images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
+        
+        <!-- <img src="./images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up"> -->
         <!-- <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:00px;margin-right:70px" alt=""> -->
         <div class="homeImg">
             <img style="width:240px" class="img1" src="../thread/images/gamehome2.png" alt="" @click="goToAnswer"><br>
@@ -18,7 +20,15 @@ export default {
         return {
             input_user: '',
             input_pwd:'',
+            userInfo: []
         }
+    },
+    mounted() {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (!userInfo) {
+            this.$router.push('/thlogin')
+        }
+        this.userInfo = userInfo
     },
     methods:{
         goToAnswer() {
@@ -42,7 +52,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../thread/images/login8.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .homeImg{
         width:600px;height:800px;position:absolute;top:30%;left:50%;transform: translate(-50%,-40%);

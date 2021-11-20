@@ -1,7 +1,10 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <img src="./images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
+        <div @click="up"  style="width:150px;position:absolute;right:0%;top:30px">
+            <img src="./images/up.png" width="80%" style="" alt="" >
+        </div>
+        <!-- <img src="./images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up"> -->
         <div class="welcome"></div>
         <div class="background1">
             <div class="around">
@@ -16,7 +19,7 @@
                             <div style="margin-left:-70px">{{item.username}}</div>
                             <div style="margin-left:-31px">{{item.uid}}</div>
                             <div style="margin-left:-43px">{{item.elapsed}}</div>
-                            <div style="margin-left:17px">{{2}}</div>
+                            <div style="margin-left:17px">{{item.thread_score}}</div>
                         </li>
                     </ul>
                 </div>
@@ -35,12 +38,16 @@ export default {
         }
     },
     mounted() {
-        this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (!userInfo) {
+            this.$router.push('/thlogin')
+        }
+        this.userInfo = userInfo
         this.resRankList()
     },
     methods:{
         up() {
-            this.$router.push('/thhome')
+            this.$router.go(-1)
         },
         async resRankList(){
             const res = await this.$Http.get('/scorecard/rankingList',{
@@ -61,7 +68,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../thread/images/login8.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .background1{
         width:1200px;height:600px;position:absolute;top:50%;left:49%;transform: translate(-49%,-40%);

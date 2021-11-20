@@ -1,6 +1,9 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
+        <BgMusic />
+         <audio preload="auto" loop id="success" :src="require('@/assets/audio/yes2.mp3')"></audio>
+         <audio preload="auto" loop id="no" :src="require('@/assets/audio/no2.mp3')"></audio>
         <div class="hometap">
             <img src="../thread/images/answer2.png" style="width:100px" alt="">
             <img src="./images/answer11.png" style="width:20px;height:20px;position:absolute;margin-top:40px;margin-left:-11px" alt="">
@@ -47,7 +50,7 @@
                     <div v-if="!check" style="position:absolute;top:55%;left:50%;transform: translate(-50%,0%);font-size:20px">{{tip}}</div>
                     <img v-if="!check" @click="pass" style="position:absolute;top:70%;left:50%;transform: translate(-50%,0%);width:150px" src="../thread/images/yes.png" alt="">
                 </div>
-                <div style="color:white;font-size:24px">
+                <div style="color:white;font-size:24px" v-if="type==3 || type == 4 || type == 5">
                     <img style="width:180px;margin-left:-20px" src="../thread/images/answer4.png" alt="">
                 </div>
                 <div style="margin-top:40px" v-if="type == 3">
@@ -110,17 +113,19 @@
                         <input @input="typeTen" @blur="checkTen('线程等待')" placeholder="第5空" v-model="type10" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
                     </div>
                 </div>
-                <img style="width:120px;margin-left:100px;margin-top:20px" class="answerAction" src="../thread/images/answer8.png" alt="" @click="up">
-                <img style="width:130px;margin-left:213px;margin-top:20px" class="answerAction" src="../thread/images/answer9.png" alt="" @click="next">
-                <img style="width:110px;margin-left:340px;margin-top:28px" class="answerAction" src="../thread/images/submit.png" alt="" @click="submit">
+                <img style="width:120px;margin-left:200px;margin-top:20px" class="answerAction" src="../thread/images/answer8.png" v-if="type != 1" alt="" @click="up">
+                <img style="width:130px;margin-left:310px;margin-top:20px" class="answerAction" src="../thread/images/answer9.png" v-if="type != 5" alt="" @click="next">
+                <img style="width:110px;margin-left:320px;margin-top:28px" class="answerAction" src="../thread/images/submit.png" v-if="type == 5" alt="" @click="submit">
             </div>
         </div>
     </div>
 
 </template>
 <script>
+import BgMusic from '../common/bg-music.vue'
 export default {
     name:'Answerth',
+    components:{BgMusic},
     data() {
     return {
         score1: 0,
@@ -159,14 +164,40 @@ export default {
         check9: false,
         check10: false,
         stop: false,
-        userInfo:[]
+        userInfo:[],
+        list: [],
+        isOff: false,
+        isOff1:false
     }
   },
   mounted() {
         this.timer();
-        this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (!userInfo) {
+            this.$router.push('/thlogin')
+        }
+        this.userInfo = userInfo
+        this.getUserInfo()
     },
   methods:{
+      changeSeccessOn(){
+            let oAudio = document.querySelector("#success");
+            if(this.isOff){
+            oAudio.play();//让音频文件开始播放     
+            }else{
+            oAudio.load();//让音频文件暂停播放 
+            }
+        //    this.isOff = !this.isOff;
+        },
+        changeNoOn(){
+            let oAudio = document.querySelector("#no");
+            if(this.isOff1){
+            oAudio.play();//让音频文件开始播放     
+            }else{
+            oAudio.load();//让音频文件暂停播放 
+            }
+        //    this.isOff = !this.isOff;
+        },
       timer() {
             let time = setInterval(()=>{
                 if (this.stop) {
@@ -272,7 +303,7 @@ export default {
         },
         typeTen() {
             if (this.type10.trim() == 'Wait()') {
-                this.score10 = 5
+                this.score10 = 10
                 this.check10 = true
             } else {
                 this.score10 = 0
@@ -284,7 +315,15 @@ export default {
                 this.isShow = true
                 this.tip = msg
                 this.check = false
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
             } else {
+                this.isOff = true
+                this.changeSeccessOn()
                 this.isShow = true
                 this.tip = ''
                 this.check = true
@@ -292,13 +331,25 @@ export default {
                     this.isShow = false
                     this.check = false
                 },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
             }
         },
         checkTwo(msg) {
             if(this.check2 == false) {
                 this.isShow = true
                 this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
             } else {
+                this.isOff = true
+                this.changeSeccessOn()
                 this.isShow = true
                 this.tip = ''
                 this.check = true
@@ -306,13 +357,25 @@ export default {
                     this.isShow = false
                     this.check = false
                 },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
             }
         },
         checkThree(msg) {
             if(this.check3 == false) {
                 this.isShow = true
                 this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
             } else {
+                this.isOff = true
+                this.changeSeccessOn()
                 this.isShow = true
                 this.tip = ''
                 this.check = true
@@ -320,13 +383,25 @@ export default {
                     this.isShow = false
                     this.check = false
                 },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
             }
         },
         checkFour(msg) {
             if(this.check4 == false) {
                 this.isShow = true
                 this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
             } else {
+                this.isOff = true
+                this.changeSeccessOn()
                 this.isShow = true
                 this.tip = ''
                 this.check = true
@@ -334,13 +409,25 @@ export default {
                     this.isShow = false
                     this.check = false
                 },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
             }
         },
         checkFive(msg) {
             if(this.check5 == false) {
                 this.isShow = true
                 this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
             } else {
+                this.isOff = true
+                this.changeSeccessOn()
                 this.isShow = true
                 this.tip = ''
                 this.check = true
@@ -348,13 +435,25 @@ export default {
                     this.isShow = false
                     this.check = false
                 },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
             }
         },
         checkSix(msg) {
             if(this.check6 == false) {
                 this.isShow = true
                 this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
             } else {
+                this.isOff = true
+                this.changeSeccessOn()
                 this.isShow = true
                 this.tip = ''
                 this.check = true
@@ -362,13 +461,25 @@ export default {
                     this.isShow = false
                     this.check = false
                 },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
             }
         },
         checkSeven(msg) {
             if(this.check7 == false) {
                 this.isShow = true
                 this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
             } else {
+                this.isOff = true
+                this.changeSeccessOn()
                 this.isShow = true
                 this.tip = ''
                 this.check = true
@@ -376,13 +487,25 @@ export default {
                     this.isShow = false
                     this.check = false
                 },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
             }
         },
         checkEight(msg) {
             if(this.check8 == false) {
                 this.isShow = true
                 this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
             } else {
+                this.isOff = true
+                this.changeSeccessOn()
                 this.isShow = true
                 this.tip = ''
                 this.check = true
@@ -390,13 +513,25 @@ export default {
                     this.isShow = false
                     this.check = false
                 },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
             }
         },
         checkNine(msg) {
             if(this.check9 == false) {
                 this.isShow = true
                 this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
             } else {
+                this.isOff = true
+                this.changeSeccessOn()
                 this.isShow = true
                 this.tip = ''
                 this.check = true
@@ -404,13 +539,25 @@ export default {
                     this.isShow = false
                     this.check = false
                 },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
             }
         },
         checkTen(msg) {
             if(this.check10 == false) {
                 this.isShow = true
                 this.tip = msg
+                this.isOff1 = true
+                this.changeNoOn()
+                setTimeout(()=>{
+                    this.isOff1 = false
+                    this.changeNoOn()
+                },1000)
             } else {
+                this.isOff = true
+                this.changeSeccessOn()
                 this.isShow = true
                 this.tip = ''
                 this.check = true
@@ -418,6 +565,10 @@ export default {
                     this.isShow = false
                     this.check = false
                 },1000)
+                setTimeout(()=>{
+                    this.isOff = false
+                    this.changeSeccessOn()
+                },2000)
             }
         },
         pass() {
@@ -425,11 +576,12 @@ export default {
         },
         async submit(){
             this.stop = true
-            // return console.log(this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10)
+            let scores=this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10
+            if(scores >= this.list.thread_score && this.list.thread_score){
             const res =  await this.$Http.post('/scorecard/setThreadScorecard',{
                 uid:this.userInfo.uid,
                 username: this.userInfo.username,
-                thread_score: this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10,
+                thread_score: scores,
                 elapsed: this.elapsed,
                 points: {
                     thread: this.score1+this.score6,
@@ -441,17 +593,52 @@ export default {
                 })
                 console.log(res,'resresres')
                 if (res.code == 200) {
-                    this.open('提交成功')
+                    // this.open('提交成功')
+                    this.$router.push({path: '/thresult', query: {elapsed:this.elapsed,score:this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10}})
                 }
+            } else if (!this.list.thread_score) {
+                const res =  await this.$Http.post('/scorecard/setThreadScorecard',{
+                uid:this.userInfo.uid,
+                username: this.userInfo.username,
+                thread_score: scores,
+                elapsed: this.elapsed,
+                points: {
+                    thread: this.score1+this.score6,
+                    async: this.score2,
+                    judgment: this.score3+this.score7+this.score8,
+                    change_state: this.score4+this.score5+this.score9+this.score10,
+                    scoring_details: `${[this.score1,this.score2,this.score3,this.score4,this.score5,this.score6,this.score7,this.score8,this.score9,this.score10]}`
+                }
+                })
+                console.log(res,'resresres')
+                if (res.code == 200) {
+                    // this.open('提交成功')
+                    this.$router.push({path: '/thresult', query: {elapsed:this.elapsed,score:this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10}})
+                }
+            } else {
+                this.$router.push({path: '/thresult', query: {elapsed:this.elapsed,score:this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10}})
+            }
+        
         },
         open(v) {
             this.$message({
                 message:v,
                 type: 'success'
             });
-            setTimeout(()=>{
+            // setTimeout(()=>{
                 this.$router.push({path: '/thresult', query: {elapsed:this.elapsed,score:this.score1+this.score2+this.score3+this.score4+this.score5+this.score6+this.score7+this.score8+this.score9+this.score10}})
-            },2000)
+            // },2000)
+        },
+        async getUserInfo(){
+            const res = await this.$Http.get('/users/getUserInfo',{
+                params:{
+                    uid: this.userInfo.uid
+                }
+            })
+            if (res.code == 200) {
+                this.list = res.data
+            }
+            console.log(res.data,"resresresres")
         },
   }
 }
@@ -460,7 +647,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../thread/images/login8.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .background1{
         width:1200px;height:600px;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);

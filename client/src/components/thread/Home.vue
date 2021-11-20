@@ -36,8 +36,9 @@ export default {
     mounted() {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'))
         if (!userInfo) {
-            window.history.forward(1);
+            this.$router.push('/thlogin')
         }
+        this.userInfo = userInfo
     },
     methods:{
         out() {
@@ -73,7 +74,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../thread/images/login8.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .background1{
         width:850px;height:650px;position:absolute;top:50%;left:55%;transform: translate(-50%,-45%);

@@ -1,15 +1,7 @@
-<!--
- * @Description: 描述
- * @Version: 版本
- * @Autor: Zhu Song
- * @Date: 2021-11-13 20:20:10
- * @LastEditors: Zhu Song
- * @LastEditTime: 2021-11-14 14:09:15
--->
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <img src="../io/images/home5.png" style="width:150px;float:right;margin-top:00px;margin-right:70px" alt="">
+        <img src="../io/images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
         <div class="homeImg">
             <img style="width:180px" class="img1" src="../io/images/gamehome7.png" alt="" @click="goToAnswer"><br>
             <img style="width:152px" class="img2" src="../io/images/gamehome11.png" alt="" @click="goToRankList">
@@ -25,9 +17,20 @@ export default {
         return {
             input_user: '',
             input_pwd:'',
+            userInfo:[]
         }
     },
+    mounted() {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (!userInfo) {
+            this.$router.push('/login')
+        }
+        this.userInfo = userInfo
+    },
     methods:{
+        up(){
+            this.$router.push('/home')
+        },
         goToAnswer() {
             this.$router.push('/answer')
         },
@@ -53,7 +56,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../io/images/login6.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .homeImg{
         width:600px;height:800px;position:absolute;top:30%;left:50%;transform: translate(-50%,-40%);

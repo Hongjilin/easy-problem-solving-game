@@ -21,9 +21,9 @@
                 </div>
             </div>
             <div class="around2">
-                <input type="checkbox" style="margin-top:6px">
+                <!-- <input type="checkbox" style="margin-top:6px">
                 <img src="../thread/images/login5.png" style="width:80px" alt="">
-                <img src="../thread/images/login6.png" style="width:80px;margin-left:80px" alt="">
+                <img src="../thread/images/login6.png" style="width:80px;margin-left:80px" alt=""> -->
             </div>
             <div class="around3">
                 <img src="../thread/images/login7.png" style="width:200px" alt="" @click="login">
@@ -66,7 +66,11 @@ export default {
                     }
                     userInfo = JSON.stringify(userInfo)
                     localStorage.setItem("userInfo",userInfo)
-                    this.$router.push('/thhome')
+                    if (this.type == 1) {
+                        this.$router.push('/thhome')
+                    } else {
+                        this.$router.push('/admin/userControl')
+                    }
                 } else {
                     this.open("用户名或密码错误")
                 }
@@ -86,7 +90,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../thread/images/login8.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .background1{
         width:610px;height:450px;position:absolute;top:50%;left:49%;transform: translate(-49%,-50%);
@@ -97,7 +101,7 @@ export default {
             // background:rgba(255,255,255,0.5)
         }
         .around1{
-            width:400px;height:100px;position:absolute;top:40%;left:50%;transform: translate(-46%,-30%);
+            width:400px;height:100px;position:absolute;top:45%;left:50%;transform: translate(-46%,-30%);
             background: url('../thread/images/login4.png') no-repeat;
             background-size:100%;
             .input1{

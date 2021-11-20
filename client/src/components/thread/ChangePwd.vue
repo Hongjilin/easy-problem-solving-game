@@ -1,3 +1,11 @@
+<!--
+ * @Description: 描述
+ * @Version: 版本
+ * @Autor: Zhu Song
+ * @Date: 2021-11-16 21:42:37
+ * @LastEditors: Zhu Song
+ * @LastEditTime: 2021-11-19 20:42:48
+-->
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
@@ -37,37 +45,28 @@ export default {
         }
     },
     mounted() {
-        this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
-        this.login()
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (!userInfo) {
+            this.$router.push('/thlogin')
+        }
+        this.userInfo = userInfo
     },
     methods:{
         up() {
-            this.$router.push('/thhome')
+            this.$router.go(-1)
         },
-        // async login(){
-        //     debugger
-        //     const res =  await this.$Http.post('/users/login',{
-        //         id:this.userInfo.uid,
-        //         password: this.userInfo.username,
-        //         type:this.userInfo.type
-        //     })
-        //     if (res.code == 200 && res != '用户名,密码不能为空') {
-        //         debugger
-        //         this.pwd = res.data[0].pwd
-        //     }
-        // },
         async submit(){
             if (!this.old_passowrd.trim()){
-                return this.open("请输入原密码")
+                return this.open("请输入原密码",'warning')
             }
             if (!this.new_password.trim()){
-                return this.open("请输入新密码")
+                return this.open("请输入新密码",'warning')
             }
             if (!this.again_password.trim()){
-                return this.open("请输入确认密码")
+                return this.open("请输入确认密码",'warning')
             }
             if (this.new_password.trim() != this.again_password.trim()){
-                return this.open("新密码与确认密码不相同")
+                return this.open("新密码与确认密码不相同",'warning')
             }
             const res =  await this.$Http.post('/users/editPWD',{
                 uid:this.userInfo.uid,
@@ -96,7 +95,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../thread/images/login8.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .background1{
         width:610px;height:450px;position:absolute;top:50%;left:49%;transform: translate(-49%,-50%);

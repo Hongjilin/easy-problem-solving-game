@@ -1,7 +1,7 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <img src="../io/images/home5.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt="">
+        <img src="../io/images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
         <div class="welcome"></div>
         <div class="background1">
             <div class="around">
@@ -10,33 +10,9 @@
                     <ul style="list-style:none;overflow:scroll;width:1200px;height:450px;overflow-y:scroll;overflow-x:hidden;">
                         <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
                             <div style="margin-left:-10px">{{ index + 1 }}</div>
-                            <div style="margin-left:47px">{{item.username}}</div>
-                            <div style="margin-left:185px">{{item.io_score}}</div>
-                            <div style="margin-left:100px">{{item.elapsed}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div style="margin-left:-10px">{{ index + 1 }}</div>
-                            <div style="margin-left:47px">{{item.username}}</div>
-                            <div style="margin-left:185px">{{item.io_score}}</div>
-                            <div style="margin-left:100px">{{item.elapsed}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div style="margin-left:-10px">{{ index + 1 }}</div>
-                            <div style="margin-left:47px">{{item.username}}</div>
-                            <div style="margin-left:185px">{{item.io_score}}</div>
-                            <div style="margin-left:100px">{{item.elapsed}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div style="margin-left:-10px">{{ index + 1 }}</div>
-                            <div style="margin-left:47px">{{item.username}}</div>
-                            <div style="margin-left:185px">{{item.io_score}}</div>
-                            <div style="margin-left:100px">{{item.elapsed}}</div>
-                        </li>
-                        <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
-                            <div style="margin-left:-10px">{{ index + 1 }}</div>
-                            <div style="margin-left:47px">{{item.username}}</div>
-                            <div style="margin-left:185px">{{item.io_score}}</div>
-                            <div style="margin-left:100px">{{item.elapsed}}</div>
+                            <div style="margin-left:47px">{{item.elapsed}}</div>
+                            <div style="margin-left:185px">{{item.io_score?item.io_score:0}}</div>
+                            <div style="margin-left:100px">{{(myIoNo < 101&&myIoNo)? myIoNo: '100+'}}</div>
                         </li>
                     </ul>
                 </div>
@@ -50,22 +26,54 @@ export default {
     name:'MyScore',
     data() {
         return {
-            list: []
+            list: [],
+            myIoNo: '',
+            userInfo: []
         }
     },
     mounted() {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (!userInfo) {
+            this.$router.push('/login')
+        }
+        this.userInfo = userInfo
         this.resRankList()
+        this.getUserInfo()
     },
     methods:{
+        up(){
+            this.$router.go(-1)
+        },
+        async getUserInfo(){
+            const res = await this.$Http.get('/users/getUserInfo',{
+                params:{
+                    uid: this.userInfo.uid
+                }
+            })
+            if (res.code == 200) {
+                this.list = res.data
+            }
+            console.log(res.data,"resresresres")
+        },
         async resRankList(){
             const res = await this.$Http.get('/scorecard/rankingList',{
-                number:6,
-                type:'io_score'
+                params:{
+                    number:100,
+                    type:'io_score'
+                }
             })
             if (res.data.code == 200) {
-                this.list = res.data.data
+                const {data} = res?.data
+                data?.map((item,index)=>{
+                    if(item.uid == this.userInfo.uid) this.myIoNo=index+1
+                })
+
+                // for (let i = 0;i<res.data.data.length;i++) {
+                //     if (res.data.data[i] == '1701130050') {
+                //         this.list.
+                //     }
+                // }
             }
-            console.log(res.data.data,"resresresres")
         }
     }
 }
@@ -74,7 +82,7 @@ export default {
     .background{
         min-width:1200px;
         background: url('../io/images/login6.png') no-repeat center center;
-        background-size:100%;
+        // background-size:100%;
     }
     .background1{
         width:1200px;height:600px;position:absolute;top:50%;left:49%;transform: translate(-49%,-40%);
