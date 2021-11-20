@@ -1,4 +1,7 @@
 const tools = require('../utils/tools')
+const {
+  USERTYPE
+} = require('../utils/constant')
 
 module.exports = class users_mod extends require('./model') {
   /**
@@ -31,7 +34,7 @@ module.exports = class users_mod extends require('./model') {
   static getUserInfoMod(uid) {
     return new Promise((resolve, reject) => {
       // let sql="select * from user where binary id='"+id+"' and password='"+password+"' and type= "
-    //   let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed io_elapsed,c.thread_score,c.elapsed thread_elapsed from user a,io_scorecard b,thread_scorecard c where a.id = b.uid and a.id = c.uid  and a.id = ' + uid
+      //   let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed io_elapsed,c.thread_score,c.elapsed thread_elapsed from user a,io_scorecard b,thread_scorecard c where a.id = b.uid and a.id = c.uid  and a.id = ' + uid
       let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed,c.thread_score,c.elapsed thelapsed from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN thread_scorecard c on a.id = c.uid where a.id =' + uid
       console.log(sql)
       this.query(sql).then(result => {
@@ -63,15 +66,15 @@ module.exports = class users_mod extends require('./model') {
   static getUsersInfoByTypeMod(page_number, current_page, type, value, userType) {
     page_number = Number(page_number);
     current_page = Number(current_page);
-    current_page = (current_page==0) ? 0 : page_number * (Number(current_page)-1)
+    current_page = (current_page == 0) ? 0 : page_number * (Number(current_page) - 1)
     let sql = `select a.id,a.username,a.type,b.io_score,b.elapsed,c.thread_score,c.elapsed thelapsed from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN thread_scorecard c on a.id = c.uid`
-    
-    if( type && value && userType ) sql+=` where a.${type}  like '%${value}%' and type = ${userType}`
-    else if( type && value && !userType ) sql+=` where a.${type}  like '%${value}%'`
-    else if(userType) sql+=` where  type = ${userType}`
+
+    if (type && value && userType) sql += ` where a.${type}  like '%${value}%' and type = ${userType}`
+    else if (type && value && !userType) sql += ` where a.${type}  like '%${value}%'`
+    else if (userType) sql += ` where  type = ${userType}`
 
 
-    sql+=` LIMIT ${current_page},${page_number}`
+    sql += ` LIMIT ${current_page},${page_number}`
     return new Promise((resolve, reject) => {
       this.query(sql).then(result => {
         resolve(result)
@@ -83,9 +86,9 @@ module.exports = class users_mod extends require('./model') {
   static getUsersTotalMod(type, value, userType) {
     return new Promise((resolve, reject) => {
       let sql = 'select count(1) as count from user '
-      if( type && value && userType ) sql+=` where a.${type}  like '%${value}%' and type = ${userType}`
-      else if( type && value && !userType ) sql+=` where ${type} like '%${value}%'`
-      else if(userType) sql+=` where  type = ${userType}`
+      if (type && value && userType) sql += ` where a.${type}  like '%${value}%' and type = ${userType}`
+      else if (type && value && !userType) sql += ` where ${type} like '%${value}%'`
+      else if (userType) sql += ` where  type = ${userType}`
       this.query(sql, '', false).then(result => {
         resolve(result)
       }).catch(err => {
@@ -104,13 +107,13 @@ module.exports = class users_mod extends require('./model') {
    */
   static editUserMod(uid, username, password) {
     console.log(uid, username, password)
-    let sql=''
+    let sql = ''
     //根据传入参数不同,拼接不同sql
-    if (!username && !password || !uid) return ;
-    if (username && !password) sql='update `user` set username = "'+ username + '"'
-    if (password && !username) sql='update `user` set password = "'+ password + '"'
-    if (password && username)  sql='update `user` set password = "'+ password +'", username = "' +  username + '"'
-    sql+=' where id = '+ uid
+    if (!username && !password || !uid) return;
+    if (username && !password) sql = 'update `user` set username = "' + username + '"'
+    if (password && !username) sql = 'update `user` set password = "' + password + '"'
+    if (password && username) sql = 'update `user` set password = "' + password + '", username = "' + username + '"'
+    sql += ' where id = ' + uid
     console.log(sql)
     return new Promise((resolve, reject) => {
       this.query(sql).then(result => {
@@ -120,15 +123,15 @@ module.exports = class users_mod extends require('./model') {
       })
     })
   }
-  static editPwdMod(uid, username,  password,old_passowrd) {
+  static editPwdMod(uid, username, password, old_passowrd) {
     // console.log(uid, username,  password,old_passowrd)
-    console.log(!!password && !username && !!old_passowrd,'xx')
-    let sql=''
+    console.log(!!password && !username && !!old_passowrd, 'xx')
+    let sql = ''
     //根据传入参数不同,拼接不同sql
-    if (!username && !password || !uid) return ;
-    if (username && !password) sql='update `user` set username = "'+ username + '"  where id = '+ uid
-    if (!!password && !username && !!old_passowrd) sql='update `user` set password = "'+ password + '" where password = "'+ old_passowrd + '" and id = '+ uid
-    if (password && username)  sql='update `user` set password = "'+ password +'", username = "' +  username + '"  where id = '+ uid + ' password = "'+ old_passowrd+'"'
+    if (!username && !password || !uid) return;
+    if (username && !password) sql = 'update `user` set username = "' + username + '"  where id = ' + uid
+    if (!!password && !username && !!old_passowrd) sql = 'update `user` set password = "' + password + '" where password = "' + old_passowrd + '" and id = ' + uid
+    if (password && username) sql = 'update `user` set password = "' + password + '", username = "' + username + '"  where id = ' + uid + ' password = "' + old_passowrd + '"'
     // else return;
     console.log(sql)
     return new Promise((resolve, reject) => {
@@ -148,22 +151,40 @@ module.exports = class users_mod extends require('./model') {
   static readXlsxMod(lists) {
     console.log(lists, "谢谢谢谢")
     if (lists.length <= 0) {
-      resp.send({msg: '正确的用户数据为空',code:400});
+      resp.send({
+        msg: '正确的用户数据为空',
+        code: 400
+      });
       return;
     };
-   lists.map(async (item)=>{
-   console.log(item,"xxxxxxxxxxxxxxxx")
-   const {id,username,password,type} = item;
-    let  sql= `INSERT INTO user(id,username,password,type)  VALUES(${id}, '${username}', '${password}', ${type});`
-    return await new Promise((resolve, reject) => {
-      this.query(sql).then(result => {
-        resolve(result)
-      }).catch(err => {
-        reject(err)
+    lists.map(async (item) => {
+      console.log(item, "xxxxxxxxxxxxxxxx")
+      let {
+        id,
+        username,
+        password,
+        type
+      } = item;
+      //如果传入的为字符串,将其转为数字
+      if (type != 0 && type != 1) {
+        if (USERTYPE.STUDENT == type) type = 1
+        else if (USERTYPE.TEACHER == type) type = 2
+        else if (USERTYPE.TEACHER1 == type) type = 2
+        else type = 1
+      }
+      let sql = `INSERT INTO user(id,username,password,type)  VALUES(${id}, '${username}', '${password}', ${type});`
+      return await new Promise((resolve, reject) => {
+        this.query(sql).then(result => {
+          resolve(result)
+        }).catch(err => {
+          reject(err)
+        })
       })
     })
-  })
-  return {code:200,msg:'导入完成'}
+    return {
+      code: 200,
+      msg: '导入完成'
+    }
 
   }
 

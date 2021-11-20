@@ -37,7 +37,7 @@ function readExcel(e, callback) {
           id: item["学号"],
           username: item["名字"] || item["姓名"],
           password: item["密码"],
-          type:item["身份"]
+          type:item["身份"]|| item["类型"]
         });
       });
     } catch (e) {

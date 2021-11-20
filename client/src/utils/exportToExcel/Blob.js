@@ -67,7 +67,7 @@
     if (!real_URL.createObjectURL) {
       URL = view.URL = function (uri) {
         var
-          uri_info = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+          uri_info = document.createElementNS("https://gitee.com/hongjilin", "a")
           , uri_origin
         ;
         uri_info.href = uri;

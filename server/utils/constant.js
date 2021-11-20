@@ -9,9 +9,15 @@ const TABLENAME = {
   IO_SCORECARD:'io_scorecard', //IO计分板
   THREAD_SCORECARD:'thread_scorecard'//线程计分板
 }
+const USERTYPE={
+  TEACHER:'教师',
+  TEACHER1:'老师',
+  STUDENT :'学生'
+}
 
 
 module.exports = {
   GAMETYPE,
-  TABLENAME
+  TABLENAME,
+  USERTYPE
 };
