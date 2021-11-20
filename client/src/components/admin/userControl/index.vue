@@ -57,6 +57,7 @@
           :table-currpage="currentPage"
           @setTableConfig="setTableConfig($event)"
           @search="search($event)"
+          @getUsersInfoByTypeToChilds="getUsersInfoByTypeToChilds($event)"
         />
       </el-col>
     </el-row>
@@ -68,12 +69,14 @@ import { readExcel } from "@/utils";
 import SuperTable from "./table";
 import Search from "./search";
 import ExportToExcel from "./export-to-excel";
+import BgMusic from '../../common/bg-music'
+
 export default {
   /**
    * 1 表格数据应该再父组件中调用,传给子组件
    * 2 搜索后将更新表格数据
    */
-  components: { SuperTable, Search, ExportToExcel },
+  components: { SuperTable, Search, ExportToExcel ,BgMusic},
   data() {
     return {
       upload_file: "",
@@ -120,6 +123,10 @@ export default {
         this.search();
       }
     },
+    getUsersInfoByTypeToChilds(){
+       this.getUsersInfoByType(this.currentPage, this.pageSize);
+    }
+    ,
     /**
      * 派发给子组件的table配置项修改
      */

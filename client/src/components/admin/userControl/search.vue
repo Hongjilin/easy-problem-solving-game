@@ -21,6 +21,7 @@
     </el-select>
     <el-button type="primary" size="small" style="margin-left:10px" @click="spuerSearch">搜索</el-button>
     <el-button type="primary" size="small" style="margin-left:10px" @click="spuerClearvalue">重置</el-button>
+    <el-button type="primary" size="small" style="margin-left:75px;width:100px" @click="out">退出登录</el-button>
   </div>
 </template>
 <script>
@@ -43,6 +44,11 @@ export default {
   },
   created() {},
   methods: {
+    /* 退出登录 */
+    out() {
+        localStorage.removeItem("userInfo")
+        this.$router.push('/login')
+    },
     /**
      * 继承于父组件的搜索函数
      */

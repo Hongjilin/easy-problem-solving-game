@@ -73,6 +73,12 @@
       return {
         tableData: Array(20).fill(item)
       }
+    },
+    mounted() {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        if (!userInfo || userInfo.type != 2) {
+            this.$router.go(-1)
+        }
     }
   };
 </script>

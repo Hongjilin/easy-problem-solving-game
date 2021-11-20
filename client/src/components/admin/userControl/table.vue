@@ -86,7 +86,7 @@ const IMITFROM = {
 };
 
 export default {
-  props: ["tableSource", "tableTotal", "tableCurrpage"],
+  props: ["tableSource", "tableTotal", "tableCurrpage","getUsersInfoByTypeToChilds"],
   data() {
     return {
       form: {
@@ -154,6 +154,7 @@ export default {
       });
       if (res.code == 200) {
         this.editShow = false;
+        this.$emit("getUsersInfoByTypeToChilds")
       }
     },
 
