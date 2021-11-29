@@ -1,7 +1,7 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <img src="../io/images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
+        <img src="../io/images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px;cursor: pointer;" alt="" @click="up">
         <div class="welcome"></div>
         <div class="background1">
             <div class="around">

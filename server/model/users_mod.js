@@ -35,7 +35,7 @@ module.exports = class users_mod extends require('./model') {
     return new Promise((resolve, reject) => {
       // let sql="select * from user where binary id='"+id+"' and password='"+password+"' and type= "
       //   let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed io_elapsed,c.thread_score,c.elapsed thread_elapsed from user a,io_scorecard b,thread_scorecard c where a.id = b.uid and a.id = c.uid  and a.id = ' + uid
-      let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed,c.thread_score,c.elapsed thelapsed from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN thread_scorecard c on a.id = c.uid where a.id =' + uid
+      let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed,c.thread_score,c.elapsed thelapsed from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN thread_scorecard c on a.id = c.uid where a.id = "' + uid + '"'
       console.log(sql)
       this.query(sql).then(result => {
         resolve(result)
@@ -44,11 +44,12 @@ module.exports = class users_mod extends require('./model') {
       })
     })
   }
-  static getAllUsersInfoMod(uid) {
+  static getAllUsersInfoMod(userType) {
     return new Promise((resolve, reject) => {
       // let sql="select * from user where binary id='"+id+"' and password='"+password+"' and type= "
       // let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed io_elapsed,c.thread_score,c.elapsed thread_elapsed from user a,io_scorecard b,thread_scorecard c  where a.id = b.uid and a.id = c.uid'
       let sql = 'select a.id,a.username,a.type,b.io_score,b.elapsed,c.thread_score,c.elapsed thelapsed from (user a LEFT JOIN io_scorecard b on a.id = b.uid) LEFT JOIN thread_scorecard c on a.id = c.uid'
+      if (userType) sql += ' where a.type = ' + userType
       console.log(sql)
       this.query(sql).then(result => {
         resolve(result)
@@ -113,7 +114,7 @@ module.exports = class users_mod extends require('./model') {
     if (username && !password) sql = 'update `user` set username = "' + username + '"'
     if (password && !username) sql = 'update `user` set password = "' + password + '"'
     if (password && username) sql = 'update `user` set password = "' + password + '", username = "' + username + '"'
-    sql += ' where id = ' + uid
+    sql += ' where id = "' + uid + '"'
     console.log(sql)
     return new Promise((resolve, reject) => {
       this.query(sql).then(result => {
@@ -129,9 +130,9 @@ module.exports = class users_mod extends require('./model') {
     let sql = ''
     //根据传入参数不同,拼接不同sql
     if (!username && !password || !uid) return;
-    if (username && !password) sql = 'update `user` set username = "' + username + '"  where id = ' + uid
-    if (!!password && !username && !!old_passowrd) sql = 'update `user` set password = "' + password + '" where password = "' + old_passowrd + '" and id = ' + uid
-    if (password && username) sql = 'update `user` set password = "' + password + '", username = "' + username + '"  where id = ' + uid + ' password = "' + old_passowrd + '"'
+    if (username && !password) sql = 'update `user` set username = "' + username + '"  where id = "' + uid + '"'
+    if (!!password && !username && !!old_passowrd) sql = 'update `user` set password = "' + password + '" where password = "' + old_passowrd + '" and id = "' + uid + '"'
+    if (password && username) sql = 'update `user` set password = "' + password + '", username = "' + username + '"  where id = "' + uid + '" password = "' + old_passowrd + '"'
     // else return;
     console.log(sql)
     return new Promise((resolve, reject) => {
@@ -166,13 +167,13 @@ module.exports = class users_mod extends require('./model') {
         type
       } = item;
       //如果传入的为字符串,将其转为数字
-      if (type != 0 && type != 1) {
+      if (type != 1 && type != 2) {
         if (USERTYPE.STUDENT == type) type = 1
         else if (USERTYPE.TEACHER == type) type = 2
         else if (USERTYPE.TEACHER1 == type) type = 2
         else type = 1
       }
-      let sql = `INSERT INTO user(id,username,password,type)  VALUES(${id}, '${username}', '${password}', ${type});`
+      let sql = `INSERT INTO user(id,username,password,type)  VALUES('${id}', '${username}', '${password}', ${type});`
       return await new Promise((resolve, reject) => {
         this.query(sql).then(result => {
           resolve(result)
@@ -198,7 +199,7 @@ module.exports = class users_mod extends require('./model') {
   static inXlsxData(inXlsxArr) {
     return new Promise((resolve, reject) => {
       for (let i = 0; i < inXlsxArr.length; i++) {
-        let sql = "insert into user (id,username,password,head,address,sex,classes,type) values(" + inXlsxArr[i].id + ", '" + inXlsxArr[i].username + "' , '" + inXlsxArr[i].password + "', '" + inXlsxArr[i].head + "'," +
+        let sql = "insert into user (id,username,password,head,address,sex,classes,type) values('" + inXlsxArr[i].id + "', '" + inXlsxArr[i].username + "' , '" + inXlsxArr[i].password + "', '" + inXlsxArr[i].head + "'," +
           "'" + inXlsxArr[i].address + "', '" + inXlsxArr[i].sex + "', '" + inXlsxArr[i].classes + "', '" + inXlsxArr[i].type + "')"
         this.query(sql).then(result => {
           resolve(result)
@@ -223,9 +224,9 @@ module.exports = class users_mod extends require('./model') {
    * 删除用户表用户
    * @param id
    */
-  static delUserdataMod(id) {
+  static deleteUserByIDMod(id) {
     return new Promise((resolve, reject) => {
-      let sql = "delete from user where id = " + id
+      let sql = "delete from user where id = '" + id + "'"
       console.log(sql)
       this.query(sql).then(result => {
         resolve("删除用户表用户成功")
@@ -235,17 +236,52 @@ module.exports = class users_mod extends require('./model') {
     })
   }
   /**
-   * 删除阅读表用户
+   * 删除io表用户
    * @param id
    */
-  static delRead(id) {
+  static delIOPointsMod(id) {
     return new Promise((resolve, reject) => {
-      let sql = "delete from `read` where u_id = " + id
+      let sql = "delete from `io_points` where uid = '" + id +"'"
+      
       console.log(sql)
       this.query(sql).then(result => {
-        resolve(".删除阅读表用户成功")
+        resolve(".删除IO知识点表数据成功")
       }).catch(err => {
-        reject(",删除阅读表用户失败")
+        reject(",删除IO知识点表数据失败")
+      })
+    })
+  }
+  static delIOScorecardMod(id) {
+    return new Promise((resolve, reject) => {
+      let sql = "delete from `io_scorecard` where uid = '" + id+"'"
+      console.log(sql)
+      this.query(sql).then(result => {
+        resolve(".删除IO成绩表数据成功")
+      }).catch(err => {
+        reject(",删除IO成绩表数据失败")
+      })
+    })
+  }
+  static delThreadPointsMod(id) {
+    return new Promise((resolve, reject) => {
+      let sql = "delete from `thread_points` where uid = '" + id +"'"
+      
+      console.log(sql)
+      this.query(sql).then(result => {
+        resolve(".删除Thread知识点表数据成功")
+      }).catch(err => {
+        reject(",删除Thread知识点表数据失败")
+      })
+    })
+  }
+  static delThreadScorecardMod(id) {
+    return new Promise((resolve, reject) => {
+      let sql = "delete from `thread_scorecard` where uid = '" + id+"'"
+      console.log(sql)
+      this.query(sql).then(result => {
+        resolve(".删除Thread成绩表数据成功")
+      }).catch(err => {
+        reject(",删除Thread成绩表数据失败")
       })
     })
   }

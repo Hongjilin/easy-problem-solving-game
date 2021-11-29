@@ -10,6 +10,7 @@ const routes = [
     {path:'/admin',component:() => import('@/components/admin/layout/index.vue'),
         children:[
             {path:'userControl', component:() => import('@/components/admin/userControl/index.vue')},
+            {path:'adminControl', component:() => import('@/components/admin/adminControl/index.vue')},
             {path:'radarmap',name: 'radarmap',component: () => import('@/components/admin/statistics/IOStatisics/index.vue')},
             {path:'thread',name: 'thread',component: () => import('@/components/admin/statistics/ThreadStatisics/index.vue')},
           ]},
@@ -66,7 +67,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-    routes
+    routes,
+    mode:'hash'
 })
 
 export default router

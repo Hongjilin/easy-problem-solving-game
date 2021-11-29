@@ -38,7 +38,7 @@ export default {
       upload_file: "",
       lists: [],
       currentPage: 0,
-      pageSize: 10,
+      pageSize: 5,
       searchVlue: "",
       selectLabel: "",
       selectType: "",
@@ -114,6 +114,7 @@ export default {
         });
         if (res?.code == 200) {
           this.getTableData(res);
+            this.$emit("getAveragePoints", this.searchValue);
         }
       // }
     },
@@ -131,7 +132,10 @@ export default {
       this.currentPage = 0;
       this.searchValue = '';
       this.selectLabel = '';
-      this.selectType = ''
+      this.selectType = '';
+      //必须在数据重置后再去进行获取,否则第一次无效
+      this.$emit("getAveragePoints", this.searchValue);
+
     },
     /**
      * 分页获取用户信息

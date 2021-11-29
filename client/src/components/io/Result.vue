@@ -110,13 +110,13 @@ export default {
             font-size: 16px;
         }
         .img1{
-            width:600px;height:80px;position:absolute;top:80%;left:50%;transform: translate(-61%,0%);
+            width:600px;height:80px;position:absolute;top:80%;left:50%;transform: translate(-61%,0%);cursor: pointer;
         }
         .img2{
-            width:600px;height:80px;position:absolute;top:80%;left:35%;transform: translate(-63%,0%);
+            width:600px;height:80px;position:absolute;top:80%;left:35%;transform: translate(-63%,0%);cursor: pointer;
         }
         .img3{
-            width:600px;height:80px;position:absolute;top:80%;left:67%;transform: translate(-63%,0%);
+            width:600px;height:80px;position:absolute;top:80%;left:67%;transform: translate(-63%,0%);cursor: pointer;
         }
     }
     .homeImg1{

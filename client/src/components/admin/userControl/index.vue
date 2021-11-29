@@ -9,8 +9,10 @@
             @clearvalue="clearvalue($event)"
             @setTableConfig="setTableConfig($event)"
           />
-          <div>  <ExportToExcel class="export-class"/></div>
-     
+          <div>
+            <ExportToExcel class="export-class" />
+          </div>
+
           <el-button
             type="primary"
             size="small"
@@ -28,7 +30,7 @@
           <el-row>
             <el-col :span="24">
               <transition name="el-zoom-in-top">
-                <el-card class="box-card" v-show="show" style="margin-top: 10px">
+                <el-card class="box-card" v-if="show" style="margin-top: 10px">
                   <div slot="header" class="clearfix" style="text-align: center">
                     <span>上传excel表格（.xlsx）</span>
                   </div>
@@ -69,14 +71,14 @@ import { readExcel } from "@/utils";
 import SuperTable from "./table";
 import Search from "./search";
 import ExportToExcel from "./export-to-excel";
-import BgMusic from '../../common/bg-music'
+import BgMusic from "../../common/bg-music";
 
 export default {
   /**
    * 1 表格数据应该再父组件中调用,传给子组件
    * 2 搜索后将更新表格数据
    */
-  components: { SuperTable, Search, ExportToExcel ,BgMusic},
+  components: { SuperTable, Search, ExportToExcel, BgMusic },
   data() {
     return {
       upload_file: "",
@@ -85,7 +87,7 @@ export default {
       pageSize: 10,
       searchVlue: "",
       selectLabel: "",
-      selectType: "",
+      selectType: "1",
 
       show1: false,
       show: false,
@@ -123,10 +125,9 @@ export default {
         this.search();
       }
     },
-    getUsersInfoByTypeToChilds(){
-       this.getUsersInfoByType(this.currentPage, this.pageSize);
-    }
-    ,
+    getUsersInfoByTypeToChilds() {
+      this.getUsersInfoByType(this.currentPage, this.pageSize);
+    },
     /**
      * 派发给子组件的table配置项修改
      */
@@ -155,7 +156,7 @@ export default {
         params: {
           value: this.searchValue,
           type: this.selectLabel,
-          userType: this.selectType,
+          userType: 1,
           page_number: this.pageSize,
           current_page: this.currentPage
         }
@@ -168,23 +169,24 @@ export default {
     /**
      * 清空value
      */
-    async clearvalue({ page_number, current_page }) {
+    async clearvalue() {
       const res = await this.$Http.get("/users/getUsersInfoByType", {
         params: {
           page_number: 10,
-          current_page: 0
+          current_page: 0,
+          userType: 1,
         }
       });
       if (res?.code == 200) this.getTableData(res);
       this.currentPage = 0;
       this.searchValue = "";
       this.selectLabel = "";
-      this.selectType = "";
+      this.selectType = "1";
     },
     /**
      *
      */
-  
+
     /**
      * 分页获取用户信息
      * @param current_page 当前页
@@ -197,7 +199,8 @@ export default {
       const res = await this.$Http.get("/users/getUsersInfoByType", {
         params: {
           page_number,
-          current_page
+          current_page,
+          userType: 1,
         }
       });
       if (res.code == 200) {
@@ -209,12 +212,21 @@ export default {
     /**
      * 文件读取成功后的回调
      */
-    async submit_form(lists) {
+    async submit_form(lists, isTrue = true) {
+      if (!isTrue) {
+        this.$message({
+          message: "导入数据格式错误,请修正后导入",
+          type: "error"
+        });
+        return;
+      }
       //此处需要过滤
       const res = await this.$Http.post("/upload/readXlsx", { lists });
-      this.getUsersInfoByType(this.currentPage, this.pageSize);
+    //  this.getUsersInfoByType(this.currentPage, this.pageSize);
       if (res?.code == 200) this.open2("导入成功"); //直接成功,后面再改
-      this.clearvalue()
+      this.show=false;
+    //   this.clearvalue()
+      setTimeout(this.clearvalue,500)
     },
 
     /**

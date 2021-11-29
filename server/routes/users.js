@@ -33,6 +33,9 @@ router.get('/getAllUsersInfo', function (req, res, next) {
 router.get('/getUsersInfoByType', function (req, res, next) {
   user.getUsersInfoByType(req, res)
 });
+router.post('/deleteUserByID', function (req, res, next) {
+  user.deleteUserByID(req, res)
+});
 
 router.post('/editUser', function (req, res) {
   user.editUser(req, res)

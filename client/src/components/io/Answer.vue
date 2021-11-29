@@ -23,7 +23,12 @@
             <div style="position:absolute;top:140%;margin-left:56%">当前得分：{{score1+score2+score3+score4+score5+score6+score7+score8+score9+score10+score11}}分</div>
         </div>
 
-        <!-- <img src="../io/images/home5.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt=""> -->
+        <div class="go-back">
+            <div :class="isShowImg?'shadow':''" />
+            <!-- <img class="img1" @mouseover="mouseOver" @mouseleave="mouseOver" src="../io/images/home5.png" @click="out" alt="" /> -->
+            <img src="../io/images/tuichudati.png" class="img1" @mouseover="mouseOver" @mouseleave="mouseOver" @click="out" alt="">
+        </div>
+
 
         <div class="background1">
             <div class="around" style="position:absolute;font-size:20px;overflow:hidden;">
@@ -53,72 +58,72 @@
                 <div style="margin-top:40px" v-if="type==1">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeOne" @blur="checkOne('对象需要实现Serializable接口才能进行序列化和反序列化。')" style="width:100px;height:32px;font-size:18px" type="text" v-model="type1">
+                        <input @input="typeOne" @blur="checkOne('对象需要实现Serializable接口才能进行序列化和反序列化。')" placeholder="第一空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type1">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:-10px" v-if="type == 2">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeTwo" @blur="checkTwo('')" placeholder="第1空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_1">
+                        <input @input="typeTwo" @blur="checkTwo('')" placeholder="第一空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_1">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:110px" v-if="type == 2">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeThree" @blur="checkThree('')" placeholder="第2空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_2">
+                        <input @input="typeThree" @blur="checkThree('')" placeholder="第二空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_2">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:230px" v-if="type == 2">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeFour" @blur="checkFour('')" placeholder="第3空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_3">
+                        <input @input="typeFour" @blur="checkFour('')" placeholder="第三空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_3">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:350px" v-if="type == 2">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeFive" @blur="checkFive('')" placeholder="第4空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_4">
+                        <input @input="typeFive" @blur="checkFive('')" placeholder="第四空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type2_4">
                     </div>
                 </div>
                 <div style="margin-top:90px;margin-left:-10px" v-if="type == 2">
                     <img style="width:405px;height:50px;margin-top:0px;margin-left:-30px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeSix" @blur="checkSix('总分应为2门科目的成绩之和，可以通过getScore*方法获取单科成绩')" placeholder="第5空" style="width:290px;height:32px;font-size:18px" type="text" v-model="type2_5">
+                        <input @input="typeSix" @blur="checkSix('总分应为2门科目的成绩之和，可以通过getScore*方法获取单科成绩')" placeholder="第五空" style="width:290px;height:32px;font-size:18px" type="text" v-model="type2_5">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:-10px" v-if="type == 3">
                     <img style="width:205px;height:50px;margin-left:-6px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeSeven" @blur="checkSeven('生成一个文件输出字节流')" placeholder="第1空" style="width:140px;height:32px;font-size:18px" type="text" v-model="type3_1">
+                        <input @input="typeSeven" @blur="checkSeven('生成一个文件输出字节流')" placeholder="第一空" style="width:140px;height:32px;font-size:18px" type="text" v-model="type3_1">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:170px" v-if="type == 3">
                     <img style="width:242px;height:50px;margin-left:-9px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeEight" @blur="checkEight('生成一个对象输出流')" placeholder="第2空" style="width:170px;height:32px;font-size:18px" type="text" v-model="type3_2">
+                        <input @input="typeEight" @blur="checkEight('生成一个对象输出流')" placeholder="第二空" style="width:170px;height:32px;font-size:18px" type="text" v-model="type3_2">
                     </div>
                 </div>
                 <div style="margin-top:40px" v-if="type==4">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeNine" @blur="checkNine('请输入正确的写对象方法')" style="width:100px;height:32px;font-size:18px" type="text" v-model="type4">
+                        <input @input="typeNine" @blur="checkNine('请输入正确的写对象方法')" placeholder="第一空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type4">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:-10px" v-if="type == 5">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeTen" @blur="checkTen('要将Object对象转成Student1对象。')" placeholder="第1空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type5_1">
+                        <input @input="typeTen" @blur="checkTen('要将Object对象转成Student1对象。')" placeholder="第一空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type5_1">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:110px" v-if="type == 5">
                     <img style="width:150px" class="answerImg" src="../io/images/answer7.png" alt="">
                     <div style="position:absolute;margin-top:5px;margin-left:20px">
-                        <input @input="typeEleven" @blur="checkEleven('请输入正确的读对象方法')" placeholder="第2空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type5_2">
+                        <input @input="typeEleven" @blur="checkEleven('请输入正确的读对象方法')" placeholder="第二空" style="width:100px;height:32px;font-size:18px" type="text" v-model="type5_2">
                     </div>
                 </div>
-                <img v-if="type != 1" style="width:95px;margin-left:250px" class="answerAction" src="../io/images/answer10.png" alt="" @click="up">
-                <img v-if="type != 5" style="width:108px;margin-left:350px" class="answerAction" src="../io/images/answer9.png" alt="" @click="next">
-                <img v-if="type == 5" style="width:109px;margin-left:350px;margin-top:8px" class="answerAction" src="../io/images/submit.png" alt="" @click="submit">
+                <img v-if="type != 1" class="answerAction answerAction1" src="../io/images/answer10.png" alt="" @click="up">
+                <img v-if="type != 5" class="answerAction answerAction2" src="../io/images/answer9.png" alt="" @click="next">
+                <img v-if="type == 5" class="answerAction answerAction3" src="../io/images/submit.png" alt="" @click="submit">
             </div>
         </div>
     </div>
@@ -131,6 +136,7 @@ export default {
     components:{BgMusic},
     data() {
         return {
+            isShowImg: false,
             score1: 0,
             score2: 0,
             score3: 0,
@@ -188,6 +194,12 @@ export default {
         this.getUserInfo()
     },
     methods:{
+        mouseOver() {
+            this.isShowImg = !this.isShowImg
+        },
+        out() {
+            this.$router.push('/home')
+        },
         changeSeccessOn(){
             let oAudio = document.querySelector("#success");
             if(this.isOff){
@@ -307,7 +319,7 @@ export default {
             }
         },
         typeTen() {
-            if (this.type5_1.trim() == 'readObject') {
+            if (this.type5_1.trim() == '(Student1)') {
                 this.score10 = 5
                 this.check10 = true
             } else {
@@ -316,7 +328,7 @@ export default {
             }
         },
         typeEleven() {
-            if (this.type5_2.trim() == 'Serializable') {
+            if (this.type5_2.trim() == 'readObject()') {
                 this.score11 = 5
                 this.check11 = true
             } else {
@@ -694,6 +706,29 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.go-back {
+    position: relative;
+    // float: right;
+    // margin-top: -90px;
+    // margin-right: 70px;
+    // width: 120px;
+    width:120px;float:right;margin-top:20px;margin-right:70px;
+    .shadow {
+        position: absolute;
+        top: 2px;
+        left: 10px;
+        border-radius: 25%;
+        box-shadow: 1px 1px 15px rgba(10, 13, 13, 0.9);
+        width: 100px;
+        height: 28px;
+    }
+    .img1 {
+        cursor: pointer;
+        position: absolute;
+        width: 100%;
+        top: 0;
+    }
+}
     .background{
         min-width:1200px;
         background: url('../io/images/login6.png') no-repeat center center;
@@ -719,6 +754,27 @@ export default {
             }
             .answerAction{
                 position:absolute;top:68%;left:25%;
+            }
+            .answerAction1{
+                width:95px;margin-left:250px
+            }
+            .answerAction1:hover{
+                cursor: pointer;
+                width:97px;margin-left:249px
+            }
+            .answerAction2{
+                width:108px;margin-left:350px
+            }
+            .answerAction2:hover{
+                cursor: pointer;
+                width:110px;margin-left:349px
+            }
+            .answerAction3{
+                width:109px;margin-left:350px;margin-top:8px
+            }
+            .answerAction3:hover{
+                cursor: pointer;
+                width:111px;margin-left:349px
             }
         }
     }

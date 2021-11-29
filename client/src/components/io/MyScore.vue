@@ -1,7 +1,7 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <img src="../io/images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
+        <img src="../io/images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px;cursor: pointer;" alt="" @click="up">
         <div class="welcome"></div>
         <div class="background1">
             <div class="around">
@@ -10,7 +10,7 @@
                     <ul style="list-style:none;overflow:scroll;width:1200px;height:450px;overflow-y:scroll;overflow-x:hidden;">
                         <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
                             <div style="margin-left:-10px">{{ index + 1 }}</div>
-                            <div style="margin-left:47px">{{item.elapsed}}</div>
+                            <div style="margin-left:47px">{{item.elapsed?item.elapsed: 0}}</div>
                             <div style="margin-left:185px">{{item.io_score?item.io_score:0}}</div>
                             <div style="margin-left:100px">{{(myIoNo < 101&&myIoNo)? myIoNo: '100+'}}</div>
                         </li>

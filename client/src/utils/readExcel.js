@@ -23,6 +23,7 @@ function readExcel(e, callback) {
   }
 
   const fileReader = new FileReader();
+  let isTrue = true
   fileReader.onload = ev => {
     try {
       const data = ev.target.result;
@@ -33,19 +34,23 @@ function readExcel(e, callback) {
       const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); //生成json表格内容
       // 从解析出来的数据中提取相应的数据
       ws.forEach(item => {
+        if (!(item["学号"] && (item["名字"] || item["姓名"]) && item["密码"] && (item["身份"] || item["类型"]))) {
+          isTrue = false
+        }
         lists.push({
           id: item["学号"],
           username: item["名字"] || item["姓名"],
           password: item["密码"],
-          type:item["身份"]|| item["类型"]
+          type: item["身份"] || item["类型"]
         });
+
       });
     } catch (e) {
       console.error(e)
       return false;
     }
     //当回调函数不为空时调用: 不用回调函数需要将这个文件读取转为同步函数,需进一步封装
-    callback && callback(lists)
+    callback && callback(lists,isTrue)
   };
   fileReader.readAsBinaryString(files[0]);
   return {

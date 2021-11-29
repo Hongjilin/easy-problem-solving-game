@@ -1,7 +1,7 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <img src="../io/images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
+        <img src="../io/images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px;cursor:pointer;" alt="" @click="up">
         <div class="homeImg">
             <img style="width:180px" class="img1" src="../io/images/gamehome7.png" alt="" @click="goToAnswer"><br>
             <img style="width:152px" class="img2" src="../io/images/gamehome11.png" alt="" @click="goToRankList">
@@ -63,13 +63,13 @@ export default {
         background:url('../io/images/gamehome2.png') no-repeat center center;
         background-size:100%;
         .img1{
-            height:80px;position:absolute;top:82%;left:50%;transform: translate(-63%,0%);
+            height:80px;position:absolute;top:82%;left:50%;transform: translate(-63%,0%);cursor:pointer;
         }
         .img2{
-            height:70px;position:absolute;top:90%;left:35%;transform: translate(-63%,0%);
+            height:70px;position:absolute;top:90%;left:35%;transform: translate(-63%,0%);cursor:pointer;
         }
         .img3{
-            height:70px;position:absolute;top:90%;left:65%;transform: translate(-63%,0%);
+            height:70px;position:absolute;top:90%;left:65%;transform: translate(-63%,0%);cursor:pointer;
         }
     }
 </style>

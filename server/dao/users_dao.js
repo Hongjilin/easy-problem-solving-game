@@ -55,7 +55,8 @@ module.exports=class users_dao extends  require('../model/users_mod'){
       resp.send(res)
     }
     static async getAllUsersInfo(req,resp){
-      let res= await  this.getAllUsersInfoMod()
+      const {userType}= req.query
+      let res= await  this.getAllUsersInfoMod(userType)
       resp.send(res)
     }
     /**
@@ -69,6 +70,25 @@ module.exports=class users_dao extends  require('../model/users_mod'){
       let totals = await  this.getUsersTotalMod(type, value, userType)
       res.total = totals[0].count
       resp.send(res)
+    }
+    /**
+     * 根据ID删除某用户
+     * @param {*} req 
+     * @param {*} resp 
+     */
+    static async deleteUserByID(req,resp){
+      const { uid } = req.body;
+      if(!uid) {
+        resp.send({code:500,msg:'必须传id'})
+        return
+      }
+      let res=''
+      res+= await  this.deleteUserByIDMod(uid)
+      res+= await  this.delIOPointsMod(uid)
+      res+= await  this.delIOScorecardMod(uid)
+      res+= await  this.delThreadPointsMod(uid)
+      res+= await  this.delThreadScorecardMod(uid)
+      resp.send({code:200,msg:res})
     }
 
   /**

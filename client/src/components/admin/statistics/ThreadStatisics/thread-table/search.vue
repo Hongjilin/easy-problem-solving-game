@@ -1,9 +1,17 @@
+<!--
+ * @Description: 描述
+ * @Version: 版本
+ * @Autor: Zhu Song
+ * @Date: 2021-11-20 14:58:24
+ * @LastEditors: Zhu Song
+ * @LastEditTime: 2021-11-22 22:00:56
+-->
 <template>
   <div>
     
     <el-select class="search-select" v-model="selectLabel" placeholder="请选择查询字段" >
       <el-option label="学号" value="id"></el-option>
-      <el-option label="姓名" value="username"></el-option>
+      <!-- <el-option label="姓名" value="username"></el-option> -->
       <!-- <el-option label="籍贯" value="address"></el-option> -->
       <!-- <el-option label="班级" value="classes"></el-option> -->
     </el-select>
@@ -49,7 +57,7 @@ export default {
         value: this.searchValue,
         type: this.selectLabel,
         userType: this.selectType,
-        page_number: 10,
+        page_number: 5,
         current_page: 0
       };
       // this.$emit("search", params, true);
@@ -60,7 +68,7 @@ export default {
       this.selectLabel = 'id';
       this.selectType = '';
       const params = {
-        page_number: 10,
+        page_number: 5,
         current_page: 0
       };
       this.$emit("clearvalue", params);

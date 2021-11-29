@@ -1,7 +1,7 @@
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <div @click="up"  style="width:150px;position:absolute;right:0%;top:20px">
+        <div @click="up"  style="cursor: pointer;width:150px;position:absolute;right:0%;top:20px">
             <img src="./images/up.png" width="80%" style="" alt="" >
         </div>
         <!-- <img src="./images/up.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt="" @click="up"> -->
@@ -14,7 +14,7 @@
                     <ul style="list-style:none;overflow:scroll;width:1200px;height:370px;overflow-y:scroll;overflow-x:hidden;">
                         <li class="rankList" style="margin-bottom:30px;display:flex" v-for="(item, index) in list" :key="index">
                             <div >{{ index + 1 }}</div>
-                            <div >{{item.elapsed}}</div>
+                            <div >{{item.thelapsed?item.thelapsed: 0}}</div>
                             <div style="margin-left:48px">{{item.thread_score?item.thread_score:0}}</div>
                             <div style="margin-left:33px">{{(myThreadNo < 101&&myThreadNo)? myThreadNo: '100+'}}</div>
                         </li>

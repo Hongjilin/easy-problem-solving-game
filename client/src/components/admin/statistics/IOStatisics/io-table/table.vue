@@ -64,7 +64,7 @@ export default {
       type1: "",
       // tableTotal: 0,
       currentPage: 0,
-      pageSize: 10,
+      pageSize: 5,
       pageNo: 1,
       user: ""
     };

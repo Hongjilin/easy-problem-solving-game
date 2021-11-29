@@ -41,7 +41,7 @@ export default {
     return {
       selectLabel: "id",
       searchValue: "",
-      selectType : '1',
+      selectType : '2',
     };
   },
   created() {},
@@ -68,7 +68,7 @@ export default {
     spuerClearvalue() {
       this.searchValue='';
       this.selectLabel = 'id';
-      this.selectType = '1';
+      this.selectType = '2';
       const params = {
         page_number: 5,
         current_page: 0

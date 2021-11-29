@@ -3,8 +3,14 @@
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
         <div class="background1">
             <div class="around">
-                <img style="width:200px" src="../thread/images/login2.png" alt="" @click="student">
-                <img style="width:197px" src="../thread/images/login3.png" alt="" @click="teacher">
+                <div class="login-tab-left">
+                    <div class="boxShadow" v-if="type == 1"/>
+                    <img :style="type == 1?'top:-1px':'top:0px'" src="../thread/images/login2.png" alt="" @click="student">
+                </div>
+                <div class="login-tab-right">
+                    <div class="boxShadow" v-if="type == 2 || type == 3"/>
+                    <img :style="(type == 2 || type == 3)?'top:-1px':'top:0px'" src="../thread/images/login3.png" alt="" @click="teacher">
+                </div>
             </div>
             <div class="around1">
                 <div class="input1" v-if="type == 1">
@@ -13,20 +19,20 @@
                 <div class="input2" v-if="type == 1">
                     <input type="password" v-model="input_pwd" placeholder="请输入密码">
                 </div>
-                <div class="input1" v-if="type == 2">
+                <div class="input1" v-if="type == 2 || type == 3">
                     <input type="text" v-model="input_user" placeholder="请输入教师账号">
                 </div>
-                <div class="input2" v-if="type == 2">
+                <div class="input2" v-if="type == 2 || type == 3">
                     <input type="password" v-model="input_pwd" placeholder="请输入密码">
                 </div>
             </div>
-            <div class="around2">
-                <!-- <input type="checkbox" style="margin-top:6px">
-                <img src="../thread/images/login5.png" style="width:80px" alt="">
+            <div class="around2" v-if="type == 2 || type == 3">
+                <input type="checkbox" @click="checkYes"><div style="margin-left:24px;color: rgb(254,153,1);font-size:14px">超级权限</div>
+                <!-- <img src="../thread/images/login5.png" style="width:80px" alt="">
                 <img src="../thread/images/login6.png" style="width:80px;margin-left:80px" alt=""> -->
             </div>
             <div class="around3">
-                <img src="../thread/images/login7.png" style="width:200px" alt="" @click="login">
+                <img class="img1" src="../thread/images/login7.png" style="width:200px" alt="" @click="login">
             </div>
         </div>
     </div>
@@ -40,10 +46,20 @@ export default {
             type: 1,
             input_user: '',
             input_pwd:'',
+            check: false,
         }
     },
     methods:{
+        checkYes() {
+            this.check = !this.check
+            if (this.check) {
+                this.type = 3
+            } else {
+                this.type = 2
+            }
+        },
         student() {
+            this.check = false
             this.type = 1
         },
         teacher() {
@@ -99,9 +115,52 @@ export default {
         .around{
             width:400px;height:50px;position:absolute;top:25%;left:50%;transform: translate(-45%,-50%);
             // background:rgba(255,255,255,0.5)
+            .login-tab-left {
+                width: 200px;
+                position: relative;
+                .boxShadow {
+                    position: absolute;
+                    left: 6%;
+                    top: 10px;
+                    box-shadow: 1px 1px 15px rgba(10, 13, 13, 0.9);
+                    width: 190px;
+                    height: 48px;
+                    border-radius: 1px;
+                    // z-index: 1;
+                }
+
+                img {
+                    cursor:pointer;
+                    position: absolute;
+                    // z-index: 99;
+                    width: 100%;
+                }
+            }
+            .login-tab-right {
+                left: 50%;
+                width: 197px;
+                position: relative;
+                .boxShadow {
+                    position: absolute;
+                    left: 0%;
+                    top: 10px;
+                    box-shadow: 1px 1px 15px rgba(14, 13, 13, 0.9);
+                    width: 190px;
+                    height: 48px;
+                    border-radius: 1px;
+                    z-index: 1;
+                }
+
+                img {
+                    cursor:pointer;
+                    position: absolute;
+                    z-index: 99;
+                    width: 100%;
+                }
+            }
         }
         .around1{
-            width:400px;height:100px;position:absolute;top:45%;left:50%;transform: translate(-46%,-30%);
+            width:400px;height:100px;position:absolute;top:43%;left:50%;transform: translate(-46%,-30%);
             background: url('../thread/images/login4.png') no-repeat;
             background-size:100%;
             .input1{
@@ -120,7 +179,7 @@ export default {
             }
         }
         .around2{
-            width:300px;position:absolute;top:50%;left:50%;transform: translate(-38%,70%);
+            width:300px;position:absolute;top:57%;left:50%;transform: translate(-38%,0%);
             input{
                 position:absolute;top:3%;left:1.5%;border:none;outline:none;font-size:20px;color:rgb(254,153,1);
             }
@@ -162,6 +221,10 @@ export default {
         }
         .around3{
             position:absolute;top:70%;left:50%;transform: translate(-45%,-50%);
+            .img1:hover{
+                cursor: pointer;
+                margin-top: -2px;
+            }
         }
     }
     input::-webkit-input-placeholder{

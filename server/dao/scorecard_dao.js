@@ -47,8 +47,8 @@ module.exports=class ScorecardDao extends  require('../model/scorecard_mod'){
      * @param {*} resp 
      */
     static  async getAveragePoints(req,resp){
-        let { type = GAMETYPE.IO} = req.query
-        let res= await  this.getAveragePointsMod(type)
+        let { type = GAMETYPE.IO, uid} = req.query
+        let res= await  this.getAveragePointsMod(type,uid)
         resp.send(res)
     }
     /**

@@ -1,7 +1,15 @@
+<!--
+ * @Description: 描述
+ * @Version: 版本
+ * @Autor: Zhu Song
+ * @Date: 2021-11-20 14:58:24
+ * @LastEditors: Zhu Song
+ * @LastEditTime: 2021-11-25 23:18:49
+-->
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <div @click="up"  style="width:150px;position:absolute;right:0%;top:30px">
+        <div @click="up"  style="cursor: pointer;width:150px;position:absolute;right:0%;top:30px">
             <img src="./images/up.png" width="80%" style="" alt="" >
         </div>
         <!-- <img src="./images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up"> -->

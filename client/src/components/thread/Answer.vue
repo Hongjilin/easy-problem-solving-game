@@ -22,12 +22,12 @@
             <img src="../thread/images/answer2.png" style="width:100px;margin-left:-11px" alt="" v-if="type == 5">
             <img src="../thread/images/answer3.png" style="width:106px;margin-left:-14px;" alt="" v-if="type < 5">
         </div>
-        <!-- <img src="./images/up.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt="">
-        <img src="../thread/images/home4.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt=""> -->
+        <!-- <img src="./images/up.png" style="width:150px;float:right;margin-top:10px;margin-right:70px" alt=""> -->
+        <img src="../thread/images/tuichudati.png" @click="out" style="cursor:pointer;width:120px;float:right;margin-top:10px;margin-right:70px" alt="">
         <div>
-            <div style="position:absolute;top:62px;left:70%">{{elapsed}}秒</div><br>
-            <div style="position:absolute;top:83px;left:70%">{{score1+score2+score3+score4+score5+score6+score7+score8+score9+score10}}分</div>
-            <img src="../thread/images/answer1.png" style="width:300px;float:right;margin-top:10px;margin-right:290px" alt="">
+            <div style="position:absolute;top:62px;left:70%;z-index:1000">{{elapsed}}秒</div><br>
+            <div style="position:absolute;top:83px;left:70%;z-index:1000">{{score1+score2+score3+score4+score5+score6+score7+score8+score9+score10}}分</div>
+            <img src="../thread/images/answer1.png" style="width:300px;position:absolute;top:30px;left:62%" alt="">
         </div>
 
         <div class="background1">
@@ -56,66 +56,66 @@
                 <div style="margin-top:40px" v-if="type == 3">
                     <img style="width:150px;margin-left:-18px" class="answerImg" src="../thread/images/answer7.png" alt="">
                     <div style="position:absolute;">
-                        <input @input="typeOne" type="text" @blur="checkOne('线程需要继承Thread')" v-model="type1" style="width:99px;height:28px;font-size:18px;margin-top:15px">
+                        <input @input="typeOne" type="text" @blur="checkOne('线程需要继承Thread')" placeholder="第一空" v-model="type1" style="width:99px;height:28px;font-size:18px;margin-top:15px">
                     </div>
                 </div>
                 <div style="margin-top:40px" v-if="type == 4">
                     <img style="width:160px;margin-left:-18px;height:66px" class="answerImg" src="../thread/images/answer7.png" alt="">
                     <div style="position:absolute;">
-                        <input @input="typeTwo" @blur="checkTwo('使用synchronized设置同步代码块')" placeholder="第1空" v-model="type2" type="text" style="width:109px;height:28px;font-size:18px;margin-top:15px">
+                        <input @input="typeTwo" @blur="checkTwo('使用synchronized设置同步代码块')" placeholder="第一空" v-model="type2" type="text" style="width:109px;height:28px;font-size:18px;margin-top:15px">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:145px" v-if="type == 4">
                     <img style="width:150px;margin-left:-18px" class="answerImg" src="../thread/images/answer7.png" alt="" >
                     <div style="position:absolute;">
-                        <input @input="typeThree" @blur="checkThree('设置没有存货标记')" placeholder="第2空" v-model="type3" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
+                        <input @input="typeThree" @blur="checkThree('设置没有存货标记')" placeholder="第二空" v-model="type3" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:280px" v-if="type == 4">
                     <img style="width:150px;margin-left:-18px" class="answerImg" src="../thread/images/answer7.png" alt="" >
                     <div style="position:absolute;">
-                        <input @input="typeFour" @blur="checkFour('唤醒线程')" placeholder="第3空" v-model="type4" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
+                        <input @input="typeFour" @blur="checkFour('唤醒线程')" placeholder="第三空" v-model="type4" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
                     </div>
                 </div>
                 <div style="margin-top:90px;" v-if="type == 4">
                     <img style="width:160px;margin-left:-18px;height:66px" class="answerImg" src="../thread/images/answer7.png" alt="" >
                     <div style="position:absolute;">
-                        <input @input="typeFive" @blur="checkFive('线程等待')" placeholder="第4空" v-model="type5" type="text" style="width:109px;height:28px;font-size:18px;margin-top:15px">
+                        <input @input="typeFive" @blur="checkFive('线程等待')" placeholder="第四空" v-model="type5" type="text" style="width:109px;height:28px;font-size:18px;margin-top:15px">
                     </div>
                 </div>
                 <div style="margin-top:40px" v-if="type == 5">
                     <img style="width:150px;margin-left:-18px;height:66px" class="answerImg" src="../thread/images/answer7.png" alt="" >
                     <div style="position:absolute;">
-                        <input @input="typeSix" @blur="checkSix('线程需要继承Thread')" placeholder="第1空" v-model="type6" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
+                        <input @input="typeSix" @blur="checkSix('线程需要继承Thread')" placeholder="第一空" v-model="type6" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:140px" v-if="type == 5">
                     <img style="width:150px;margin-left:-18px" class="answerImg" src="../thread/images/answer7.png" alt="" >
                     <div style="position:absolute;">
-                        <input @input="typeSeven" @blur="checkSeven('设置有存货标记')" placeholder="第2空" v-model="type7" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
+                        <input @input="typeSeven" @blur="checkSeven('设置有存货标记')" placeholder="第二空" v-model="type7" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
                     </div>
                 </div>
                 <div style="margin-top:40px;margin-left:280px" v-if="type == 5">
                     <img style="width:150px;margin-left:-18px" class="answerImg" src="../thread/images/answer7.png" alt="" >
                     <div style="position:absolute;">
-                        <input @input="typeEight" @blur="checkEight('设置没有存货标记')" placeholder="第3空" v-model="type8" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
+                        <input @input="typeEight" @blur="checkEight('设置没有存货标记')" placeholder="第三空" v-model="type8" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
                     </div>
                 </div>
                 <div style="margin-top:90px;" v-if="type == 5">
                     <img style="width:150px;margin-left:-18px;height:66px" class="answerImg" src="../thread/images/answer7.png" alt="" >
                     <div style="position:absolute;">
-                        <input @input="typeNine" @blur="checkNine('唤醒线程')" placeholder="第4空" v-model="type9" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
+                        <input @input="typeNine" @blur="checkNine('唤醒线程')" placeholder="第四空" v-model="type9" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
                     </div>
                 </div>
                 <div style="margin-top:90px;margin-left:140px" v-if="type == 5">
                     <img style="width:150px;margin-left:-18px" class="answerImg" src="../thread/images/answer7.png" alt="" >
                     <div style="position:absolute;">
-                        <input @input="typeTen" @blur="checkTen('线程等待')" placeholder="第5空" v-model="type10" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
+                        <input @input="typeTen" @blur="checkTen('线程等待')" placeholder="第五空" v-model="type10" type="text" style="width:99px;height:28px;font-size:18px;margin-top:15px">
                     </div>
                 </div>
-                <img style="width:120px;margin-left:200px;margin-top:20px" class="answerAction" src="../thread/images/answer8.png" v-if="type != 1" alt="" @click="up">
-                <img style="width:130px;margin-left:310px;margin-top:20px" class="answerAction" src="../thread/images/answer9.png" v-if="type != 5" alt="" @click="next">
-                <img style="width:110px;margin-left:320px;margin-top:28px" class="answerAction" src="../thread/images/submit.png" v-if="type == 5" alt="" @click="submit">
+                <img class="answerAction answerAction1" src="../thread/images/answer8.png" v-if="type != 1" alt="" @click="up">
+                <img class="answerAction answerAction2" src="../thread/images/answer9.png" v-if="type != 5" alt="" @click="next">
+                <img class="answerAction answerAction3" src="../thread/images/submit.png" v-if="type == 5" alt="" @click="submit">
             </div>
         </div>
     </div>
@@ -180,6 +180,9 @@ export default {
         this.getUserInfo()
     },
   methods:{
+      out() {
+          this.$router.push('/thhome')
+      },
       changeSeccessOn(){
             let oAudio = document.querySelector("#success");
             if(this.isOff){
@@ -668,6 +671,24 @@ export default {
             }
             .answerAction{
                 position:absolute;top:68%;left:25%;
+            }
+            .answerAction1{
+                cursor:pointer;width:120px;margin-left:200px;margin-top:20px
+            }
+            .answerAction:hover{
+                margin-top:19px
+            }
+            .answerAction2{
+                cursor:pointer;width:130px;margin-left:310px;margin-top:20px
+            }
+            .answerAction2:hover{
+                margin-top:19px
+            }
+            .answerAction3{
+                cursor:pointer;width:110px;margin-left:320px;margin-top:28px
+            }
+            .answerAction3:hover{
+                margin-top:29px
             }
         }
         .yes{

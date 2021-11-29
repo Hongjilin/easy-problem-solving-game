@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card style="margin-top:20px;margin-bottom: 5rem" v-if="editShow==false">
+    <el-card style="margin-top: 20px; margin-bottom: 5rem" v-if="editShow == false">
       <el-table :data="tableSource" border style="width: 100%">
         <el-table-column prop="id" label="学号"></el-table-column>
         <el-table-column prop="username" label="姓名"></el-table-column>
@@ -8,7 +8,7 @@
         <el-table-column prop="io_score" sortable :sort-method="sortChange" label="IO流成绩">
           <!-- <template slot-scope="scope">
             <span>{{ !scope.row.io_score ? 0 : scope.row.io_score }}</span>
-          </template> -->
+          </template>-->
         </el-table-column>
         <el-table-column prop="type" sortable label="类型">
           <template slot-scope="scope">
@@ -23,15 +23,20 @@
               type="text"
               @click="editUser(scope.$index, scope.row)"
             >编辑</el-button>
+            <el-button
+              style="padding: 3px 0"
+              type="text"
+              @click="deleteUser(scope.$index, scope.row)"
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <div class="block" style="text-align:center;margin-top:20px">
+      <div class="block" style="text-align: center; margin-top: 20px">
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="tableCurrpage"
-          :page-sizes="[10, 20, 30, 40,50]"
+          :page-sizes="[10, 20, 30, 40, 50]"
           :page-size="10"
           layout="total, sizes, prev, pager, next, jumper"
           :total="tableTotal"
@@ -39,24 +44,20 @@
       </div>
     </el-card>
     <!--  用户详情部分组件   -->
-    <el-card style="margin-top:20px" v-else-if="editShow==true">
+    <el-card style="margin-top: 20px" v-else-if="editShow == true">
       <el-page-header @back="goBack" :content="user.type != 2 ? '编辑学生信息' : '编辑教师信息'"></el-page-header>
       <br />
-      <el-form ref="form" v-model="form" label-width="80px" style="width:50%">
-        <el-form-item :label = "user.type != 2 ? '学号:' : '职工号:'">
-          {{user.id}}
-        </el-form-item>
-        <el-form-item label = "用户类型:">
-          {{user.type != 2 ? '学生' : '教师'}}
-        </el-form-item>
+      <el-form ref="form" v-model="form" label-width="80px" style="width: 50%">
+        <el-form-item :label="user.type != 2 ? '学号:' : '职工号:'">{{ user.id }}</el-form-item>
+        <el-form-item label="用户类型:">{{ user.type != 2 ? "学生" : "教师" }}</el-form-item>
         <el-form-item label="姓名:">
-          <el-input v-model="form.name" style="width:200px" :placeholder="user.username"></el-input>
+          <el-input v-model="form.name" style="width: 200px" :placeholder="user.username"></el-input>
         </el-form-item>
         <el-form-item label="新密码:">
           <el-input
             v-model="form.password"
             type="password"
-            style="width:200px"
+            style="width: 200px"
             placeholder="请输入要重置的密码"
           ></el-input>
         </el-form-item>
@@ -64,7 +65,7 @@
           <el-input
             v-model="form.newpassword"
             type="password"
-            style="width:200px"
+            style="width: 200px"
             placeholder="再次输入重置的密码"
           ></el-input>
         </el-form-item>
@@ -76,140 +77,174 @@
   </div>
 </template>
 <script>
-import { CONSTANT } from "@/utils";
-const { USERTYPE } = CONSTANT;
-import bus from "@/store/bus";
+import { CONSTANT } from "@/utils"
+const { USERTYPE } = CONSTANT
+import bus from "@/store/bus"
 const IMITFROM = {
-  name: "",
-  password: "",
-  newpassword: ""
-};
+    name: "",
+    password: "",
+    newpassword: "",
+}
 
 export default {
-  props: ["tableSource", "tableTotal", "tableCurrpage","getUsersInfoByTypeToChilds"],
-  data() {
-    return {
-      form: {
-        name: "",
-        password: "",
-        newpassword: ""
-      },
-      USERTYPE,
-      editShow: false,
-      input: "",
-      type1: "",
-      // tableTotal: 0,
-      currentPage: 0,
-      pageSize: 10,
-      pageNo: 1,
-      user: ""
-    };
-  },
-
-  mounted() {
-    console.log(this.testData);
-  },
-  methods: {
-    // 显示修改页面
-    editUser(index, row) {
-      this.editShow = true;
-      this.user = row;
-      this.from.name = "";
+    props: ["tableSource", "tableTotal", "tableCurrpage", "getUsersInfoByTypeToChilds"],
+    data() {
+        return {
+            form: {
+                name: "",
+                password: "",
+                newpassword: "",
+            },
+            USERTYPE,
+            editShow: false,
+            input: "",
+            type1: "",
+            // tableTotal: 0,
+            currentPage: 0,
+            pageSize: 10,
+            pageNo: 1,
+            user: "",
+        }
     },
 
-    //显示修改页面
-    goBack() {
-      this.editShow = false;
-      this.form = IMITFROM;
+    mounted() {
+        console.log(this.testData)
     },
-    /**
-     * 给父类参数赋值
-     */
-    superSetTableConfig() {
-      const config = {
-        currentPage: this.currentPage,
-        pageSize: this.pageSize,
-        pageNo: this.pageNo
-      };
-      this.$emit("setTableConfig", config);
-    },
-    /**
-     * 管理员更改用户信息
-     * */
-    async updata(uid) {
-      console.log(uid);
-      if (!this.form.password && !this.form.newpassword && !this.form.name) {
-        this.warnAlert("无任何修改");
-        return;
-      }
-      if (this.form.password != this.form.newpassword) {
-        this.warnAlert("两次密码输入不一致");
-        return;
-      }
+    methods: {
+        // 显示修改页面
+        editUser(index, row) {
+            this.editShow = true
+            this.user = row
+            this.from.name = ""
+        },
+        deleteUser(index,row){
+            console.log(row?.id,"xxxxxxxxxxxx")
+          this.$confirm("此操作将删除用户数据, 是否继续?", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    this.delete(row?.id)
+                })
+                .catch(() => {
+                    this.$message({
+                        type: "info",
+                        message: "已取消修改",
+                    })
+                })
+        },
+       async delete(uid){
+              const res = await this.$Http.post("/users/deleteUserByID", {
+                uid
+            })
+            if (res.code == 200) {
+                this.editShow = false
+                this.$emit("getUsersInfoByTypeToChilds")
+                this.$message({
+                    type: "success",
+                    message: "删除成功!",
+                })
+            }
+        },
 
-      const res = await this.$Http.post("/users/editUser", {
-        uid,
-        password: this.form.password,
-        username: this.form.name
-      });
-      if (res.code == 200) {
-        this.editShow = false;
-        this.$emit("getUsersInfoByTypeToChilds")
-      }
-    },
+        //显示修改页面
+        goBack() {
+            this.editShow = false
+            this.form = {...IMITFROM}
+        },
+        /**
+         * 给父类参数赋值
+         */
+        superSetTableConfig() {
+            const config = {
+                currentPage: this.currentPage,
+                pageSize: this.pageSize,
+                pageNo: this.pageNo,
+            }
+            this.$emit("setTableConfig", config)
+        },
+        /**
+         * 管理员更改用户信息
+         * */
+        async updata(uid) {
+            console.log(uid)
+            if (!this.form.password && !this.form.newpassword && !this.form.name) {
+                this.warnAlert("无任何修改")
+                return
+            }
+            if (this.form.password != this.form.newpassword) {
+                this.warnAlert("两次密码输入不一致")
+                return
+            }
 
-    //******************************  提示 **************************************** */
+            const res = await this.$Http.post("/users/editUser", {
+                uid,
+                password: this.form.password,
+                username: this.form.name,
+            })
+            if (res.code == 200) {
+                this.editShow = false
+                this.$emit("getUsersInfoByTypeToChilds")
+                this.$message({
+                    type: "success",
+                    message: "修改成功!",
+                })
+            }
+        },
 
-    /**
-     * 修改确认提示
-     */
-    editAffirm(uid) {
-      this.$confirm("此操作将继续, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.updata(uid);
-          this.$message({
-            type: "success",
-            message: "修改成功!"
-          });
-          //修改成功后重置from表格
-          this.form = IMITFROM;
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消修改"
-          });
-        });
-    },
+        //******************************  提示 **************************************** */
 
-    /**
-     * 当每页数量或者当前页数改变时重新获取数字
-     * @param val
-     */
-    handleSizeChange(val) {
-      this.pageSize = val;
-      this.superSetTableConfig();
-      this.$emit("search");
+        /**
+         * 修改确认提示
+         */
+        editAffirm(uid) {
+            this.$confirm("此操作将修改用户数据, 是否继续?", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    this.updata(uid)
+                    //   this.$message({
+                    //     type: "success",
+                    //     message: "修改成功!"
+                    //   });
+                    //修改成功后重置from表格
+                    this.form = IMITFROM
+                })
+                .catch(() => {
+                    this.$message({
+                        type: "info",
+                        message: "已取消修改",
+                    })
+                })
+        },
+
+        /**
+         * 当每页数量或者当前页数改变时重新获取数字
+         * @param val
+         */
+        handleSizeChange(val) {
+            this.pageSize = val
+            this.superSetTableConfig()
+            this.$emit("search")
+        },
+        handleCurrentChange(val) {
+            this.currentPage = val
+            this.superSetTableConfig()
+            this.$emit("search")
+        },
+        //警告提示
+        warnAlert(v) {
+            this.$message({
+                message: v,
+                type: "warning",
+            })
+        },
+        sortChange(a, b) {
+            return a - b
+        },
     },
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.superSetTableConfig();
-      this.$emit("search");
-    },
-    //警告提示
-    warnAlert(v) {
-      this.$message({
-        message: v,
-        type: "warning"
-      });
-    },
-    sortChange(a, b) {
-      return a - b;
-    }
-  }
-};
+}
 </script>

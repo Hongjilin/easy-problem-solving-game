@@ -87,13 +87,14 @@ module.exports = class ScorecardMod extends require('./model') {
    * 获取某游戏平均得分
    * @param {*} type 
    */
-  static getAveragePointsMod(type) {
+  static getAveragePointsMod(type,uid) {
+    
     //根据游戏类型选择
     return new Promise((resolve, reject) => {
       let sql = GAMETYPE.IO == type ? `SELECT avg(array) as array,avg(keyboard) as keyboard, avg(methodcall) as methodcall,avg(io_stream) as io_stream,avg(rw_object) as rw_object,avg(conversion) as conversion FROM ${TABLENAME.IO_POINTS} ` :
         `SELECT avg(thread) as thread,avg(async) as async, avg(judgment) as judgment,avg(change_state) as change_state FROM ${TABLENAME.THREAD_POINTS} `
       // sql+=' where thread!=""'
-      console.log(sql)
+      if(uid) sql+=` WHERE uid like '%${uid}%'`
         this.query(sql).then(result => {
         resolve(result)
       }).catch(err => {

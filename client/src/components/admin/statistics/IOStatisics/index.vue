@@ -1,7 +1,7 @@
 <template>
   <div class="statisics-box">
     <RadarMap :scores="scores" :pointsof="pointsof" />
-    <SuperTable />
+    <SuperTable @getAveragePoints="getAveragePoints" />
   </div>
 </template>
 
@@ -37,10 +37,11 @@ export default {
     this.getAveragePoints();
   },
   methods: {
-    async getAveragePoints() {
+    async getAveragePoints(uid) {
       const res = await this.$Http.get("/scorecard/getAveragePoints", {
         params: {
-          type: GAMETYPE.IO
+          type: GAMETYPE.IO,
+          uid
         }
       });
       if (res?.code == 200) {

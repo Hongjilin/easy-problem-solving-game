@@ -1,15 +1,7 @@
-<!--
- * @Description: 描述
- * @Version: 版本
- * @Autor: Zhu Song
- * @Date: 2021-11-16 21:42:37
- * @LastEditors: Zhu Song
- * @LastEditTime: 2021-11-19 20:42:48
--->
 <template>
 
     <div style="width:100%;position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);" class="background">
-        <img src="./images/up.png" style="width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
+        <img src="./images/up.png" style="cursor:pointer;width:150px;float:right;margin-top:20px;margin-right:70px" alt="" @click="up">
         <div class="background1">
             <div class="around1">
                 <!-- <img src="./images/changepwd1.png" style="width:380px" alt=""><br> -->

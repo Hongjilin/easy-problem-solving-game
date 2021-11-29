@@ -7,7 +7,7 @@
             <img src="../thread/images/home3.png" style="width:200px" alt="" @click="goToRankList">
             <img src="../thread/images/pwd.png" style="width:200px" alt="" @click="goToPwd">
         </div>
-            <img src="../thread/images/home4.png" @click="out" style="width:150px;float:right;margin-top:-100px;margin-right:70px" alt="">
+            <img class="img2" src="../thread/images/home4.png" @click="out" alt="">
 
         <div class="background1">
             <div class="around">
@@ -16,8 +16,8 @@
                 <!-- <img style="width:230px" src="../thread/images/home12.png" alt=""> -->
             </div>
             <div class="around1">
-                <img style="width:200px" src="../thread/images/home7.png" alt="" @click="goToGameHome"><br>
-                <img style="width:200px" src="../thread/images/home8.png" alt="" @click="goToGameHome">
+                <img style="width:200px;cursor: pointer;" src="../thread/images/home7.png" alt="" @click="goToGameHome"><br>
+                <img class="img1" src="../thread/images/home8.png" alt="" @click="goToGameHome">
             </div>
         </div>
     </div>
@@ -71,6 +71,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+    .img2{
+        width:150px;float:right;margin-top:-100px;margin-right:70px
+    }
+    .img2:hover{
+        cursor: pointer;
+        margin-top: -99px;
+    }
     .background{
         min-width:1200px;
         background: url('../thread/images/login8.png') no-repeat center center;
@@ -92,6 +99,13 @@ export default {
         }
         .around1{
             width:400px;height:100px;position:absolute;top:32%;left:40%;transform: translate(-50%,-50%);
+            .img1{
+                width:200px
+            }
+            .img1:hover{
+                cursor: pointer;
+                margin-top: -1px;
+            }
         }
     }
     .hometap{

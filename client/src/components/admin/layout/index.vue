@@ -6,7 +6,10 @@
         <template slot="title"><i class="el-icon-s-custom"></i>用户管理</template>
         <el-menu-item-group>
           <!-- <template slot="title">分组一</template> -->
-          <el-menu-item index="1-1"> <router-link tag="a" to="/admin/userControl" class="nav-link">用户管理</router-link></el-menu-item>
+          <el-menu-item index="1-1"> <router-link tag="a" to="/admin/userControl" class="nav-link">学生管理</router-link></el-menu-item>
+          <el-menu-item index="1-2" v-if="userInfo.type==3"> <router-link tag="a" to="/admin/adminControl" class="nav-link">教师管理</router-link></el-menu-item>
+          
+          <el-menu-item index="1-3" @click="out">退出登录</el-menu-item>
         </el-menu-item-group>
 
       </el-submenu>
@@ -65,20 +68,21 @@
 <script>
   export default {
     data() {
-      const item = {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      };
-      return {
-        tableData: Array(20).fill(item)
+      return{
+        userInfo: JSON.parse(localStorage.getItem('userInfo'))
       }
     },
     mounted() {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-        if (!userInfo || userInfo.type != 2) {
+        if (!userInfo || (userInfo.type != 2 && userInfo.type != 3)) {
             this.$router.go(-1)
         }
+    },
+    methods:{
+        out() {
+        localStorage.removeItem("userInfo")
+        this.$router.push('/login')
+    },
     }
   };
 </script>
